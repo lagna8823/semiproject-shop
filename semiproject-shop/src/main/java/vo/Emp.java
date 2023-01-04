@@ -1,6 +1,6 @@
 package vo;
 
-public class Employee {
+public class Emp {
 
 	private int empCode;
 	private String empId;
@@ -10,12 +10,12 @@ public class Employee {
 	private int authCode;
 	private String createdate;
 	
-	public Employee() {
+	public Emp() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Employee(int empCode, String empId, String empPw, String empName, String active, int authCode,
+	public Emp(int empCode, String empId, String empPw, String empName, String active, int authCode,
 			String createdate) {
 		super();
 		this.empCode = empCode;
