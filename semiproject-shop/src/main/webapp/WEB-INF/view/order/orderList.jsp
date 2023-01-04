@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h1>주문목록</h1>
-	<table class="table">
+	<table class="table" border="1">
 		<tr>
 			<th>주문번호</th>
 			<th>상품번호</th>

@@ -1,6 +1,6 @@
 package vo;
 
-public class Oders {
+public class Orders {
 	private int goodsCode;
 	private String customerId;
 	private int addressCode;
@@ -9,7 +9,7 @@ public class Oders {
 	private String orderState;
 	private String createdate;
 	
-	public Oders(int goodsCode, String customerId, int addressCode, int orderQuantity, int orderPrice,
+	public Orders(int goodsCode, String customerId, int addressCode, int orderQuantity, int orderPrice,
 			String orderState, String createdate) {
 		super();
 		this.goodsCode = goodsCode;
@@ -21,7 +21,7 @@ public class Oders {
 		this.createdate = createdate;
 	}
 
-	public Oders() {
+	public Orders() {
 		super();
 	}
 
