@@ -54,19 +54,18 @@ public class LoginController extends HttpServlet {
 		String empId = null;
 		String empPw = null;
 		Emp emp = null; // 메서드 호출시 매개변수
-		response.sendRedirect(request.getContextPath() + "/goodsList");
-		/*디버깅
+		
 		System.out.println(request.getParameter("customerId"));
 		System.out.println(request.getParameter("customerPw"));
 		System.out.println(request.getParameter("empId"));
 		System.out.println(request.getParameter("empPw"));
-		*/
+		
 		// 로그인 시도된 값이 고객인지 사원인지 구분
 		if((request.getParameter("customerId") != null) && (request.getParameter("customerPw") != null)) {
-			customer = new Customer(); // 
+			customer = new Customer(); 
 			customer.setCustomerId(request.getParameter("customerId"));
 			customer.setCustomerPw(request.getParameter("customerPw"));
-			System.out.println(customerId+"님의 아이디로 로그인이 시도되었습니다."); // 디버깅
+			System.out.println(customer.getCustomerId()+"님의 고객 아이디로 로그인이 시도되었습니다."); // 디버깅
 			// 모델 호출
 			this.customerService = new CustomerService();			
 			Customer returnCustomer = customerService.login(customer);
@@ -79,11 +78,12 @@ public class LoginController extends HttpServlet {
 			// 결과값 있다면
 			session.setAttribute("loginCustomer", returnCustomer);
 		    response.sendRedirect(request.getContextPath() + "/goodsList");
-			
-	     } 	else if((request.getParameter("empId") != null) && (request.getParameter("empPw") != null)) {
+		    return;
+	     } else if((request.getParameter("empId") != null) && (request.getParameter("empPw") != null)) {
+	    	emp = new Emp(); //  
 			emp.setEmpId(request.getParameter("empId"));
 			emp.setEmpPw(request.getParameter("empPw"));
-			System.out.println(empId+"님의 아이디로 로그인이 시도되었습니다."); // 디버깅
+			System.out.println(emp.getEmpId()+"님의 사원아이디로 로그인이 시도되었습니다."); // 디버깅
 			// 모델 호출
 			this.empService = new EmpService();						 
 			Emp returnEmp = empService.login(emp);
@@ -93,7 +93,7 @@ public class LoginController extends HttpServlet {
 				response.sendRedirect(request.getContextPath()+"/login?msg="+msg);
 				return;
 			    }
-			// 결과값이 없다면
+			// 결과값이 있다면
 			session.setAttribute("loginEmp", returnEmp);
 		    response.sendRedirect(request.getContextPath() + "/goodsList");
 	     } 

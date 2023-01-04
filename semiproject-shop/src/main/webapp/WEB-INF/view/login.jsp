@@ -25,7 +25,7 @@
 				<label>Password</label>
 			</div>
 			<div>
-		    	<button type="submit">로그인<button>
+		    	<button type="submit">로그인</button>
 		    </div>
 	    </form>
 			<div>
@@ -43,7 +43,7 @@
 				<label>Password</label>
 			</div>
 			<div>
-		    	<button type="submit">로그인<button>
+		    	<button type="submit">로그인</button>
 		    </div>
 	    </form>
 			<div>

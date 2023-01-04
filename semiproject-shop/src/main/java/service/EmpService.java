@@ -4,14 +4,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import dao.CustomerDao;
 import dao.EmpDao;
 import util.DBUtil;
+import vo.Customer;
 import vo.Emp;
 
 public class EmpService {
-	
 	private EmpDao empDao;
-
+	
 	// EmpList 출력
 	// 사용하는 곳 : EmpListController
 	public ArrayList<Emp> getEmpList() {
@@ -72,5 +73,4 @@ public class EmpService {
 		}
 		return returnEmp;	
 		}
-	
 }
