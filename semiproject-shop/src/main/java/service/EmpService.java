@@ -51,5 +51,26 @@ public class EmpService {
 		
 	}
 	
+	// Login
+	// 사용하는곳 LoginController
+	public Emp login(Emp emp) {
+		this.empDao = new EmpDao();
+		Emp returnEmp= new Emp();
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			empDao= new EmpDao();
+			returnEmp = empDao.selectEmpLogin(conn, emp);
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return returnEmp;	
+		}
 	
 }

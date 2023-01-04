@@ -46,4 +46,26 @@ public class EmpDao {
 		
 	}
 	
+	// Login
+	// 사용하는 곳: LoginController
+	public Emp selectEmpLogin(Connection conn, Emp emp) throws Exception {
+		Emp retrunEmp = null;
+		String sql = "SELECT emp_code empCode, emp_id empId, emp_pw empPw, emp_name empName"
+				+ "FROM emp WHERE emp_id =? AND emp_pw = password(?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, emp.getEmpId());
+		stmt.setString(2, emp.getEmpPw());
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			retrunEmp= new Emp();
+			retrunEmp.setEmpCode(rs.getInt("empCode"));
+			retrunEmp.setEmpId(rs.getString("empId"));
+			retrunEmp.setEmpPw(rs.getString("empPw"));
+			retrunEmp.setEmpName(rs.getString("empName"));
+		}
+		rs.close();
+		stmt.close();
+		return retrunEmp;
+	}
+	
 }
