@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	hyosang test2-1
+
 </body>
 </html>
