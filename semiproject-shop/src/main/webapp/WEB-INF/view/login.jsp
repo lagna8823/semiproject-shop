@@ -17,12 +17,12 @@
 		<!--Customer 로그인-->
 		<form action="${pageContext.request.contextPath}/login" method="post">
 			<div>
-				<input type="text"  name="customerId">
 				<label>Customer ID</label>
+				<input type="text"  name="customerId">
 			</div>
 			<div>
-				<input type="password" name="customerPw">
 				<label>Password</label>
+				<input type="password" name="customerPw">
 			</div>
 			<div>
 		    	<button type="submit">로그인</button>
@@ -35,12 +35,12 @@
 		<!--Emp 로그인-->
 		<form action="${pageContext.request.contextPath}/login" method="post">
 			<div>
-				<input type="text"  name="empId">
 				<label>Emp ID</label>
+				<input type="text"  name="empId">
 			</div>
 			<div>
-				<input type="password" name="empPw">
 				<label>Password</label>
+				<input type="password" name="empPw">
 			</div>
 			<div>
 		    	<button type="submit">로그인</button>
