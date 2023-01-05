@@ -16,12 +16,12 @@ import vo.Customer;
 import vo.Emp;
 import vo.Question;
 
-@WebServlet("/addQuestion")
+@WebServlet("/question/addQuestion")
 public class AddQuestionController extends HttpServlet {
 	private QuestionService questionService;
 	// 고객센터 문의추가
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// VIEW -> /WEB-INF/view/addQuestion.jsp
+		// VIEW -> /WEB-INF/view/question/addQuestion.jsp
 		// 로그인 후에만 진입가능(세션값 request)
 		HttpSession session = request.getSession(); 
 		
@@ -45,7 +45,7 @@ public class AddQuestionController extends HttpServlet {
 		request.setAttribute("msg", msg);
 		
 		// 글작성 폼 View
-		request.getRequestDispatcher("/WEB-INF/view/addQuestion.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/question/addQuestion.jsp").forward(request, response);
 	}
 	
 	// 고객센터 문의추가 액션
@@ -57,8 +57,8 @@ public class AddQuestionController extends HttpServlet {
 		// 로그인 값 체크
 		Customer loginCustomer = (Customer)session.getAttribute("loginCustomer");
 		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
-		if(loginCustomer != null || loginEmp != null) {
-			response.sendRedirect(request.getContextPath()+"/goodsList");
+		if(loginCustomer == null && loginEmp == null) {
+			response.sendRedirect(request.getContextPath()+"/login");
 			return;
 		}	
 		
@@ -67,6 +67,10 @@ public class AddQuestionController extends HttpServlet {
 		int ordersCode = Integer.parseInt(request.getParameter("ordersCode"));
 		String category = request.getParameter("category"); 
 		String questionMemo= request.getParameter("questionMemo"); 
+		
+		System.out.println(ordersCode);
+		System.out.println(category);
+		System.out.println(questionMemo);
 		
 		// 메서드 호출시 매개변수
 		Question addQuestion = new Question(); 
@@ -80,11 +84,11 @@ public class AddQuestionController extends HttpServlet {
 				
 		// 글작성 성공
 		if(resultRow !=0) {
-			response.sendRedirect(request.getContextPath()+"/questionList");
+			response.sendRedirect(request.getContextPath()+"/question/questionList");
 			return;
 		}
 		// 작성실패(입력값 확인)
 		String msg = URLEncoder.encode("입력되지 않은 값이 있습니다.", "utf-8");
-		response.sendRedirect(request.getContextPath() + "/addQuestion?msg="+msg); 
+		response.sendRedirect(request.getContextPath() + "/question/addQuestion?msg="+msg); 
 	}
 }

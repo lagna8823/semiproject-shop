@@ -28,7 +28,7 @@ public class LoginController extends HttpServlet {
 		Customer loginCustomer = (Customer)session.getAttribute("loginCustomer");
 		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
 		if(loginCustomer != null || loginEmp != null) {
-			response.sendRedirect(request.getContextPath()+"/goodsList");
+			response.sendRedirect(request.getContextPath()+"/goods/goodsList");
 			return;
 		}
 		
@@ -50,7 +50,7 @@ public class LoginController extends HttpServlet {
 		Customer loginCustomer = (Customer)session.getAttribute("loginCustomer");
 		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
 		if(loginCustomer != null || loginEmp != null) {
-			response.sendRedirect(request.getContextPath()+"/goodsList");
+			response.sendRedirect(request.getContextPath()+"/goods/goodsList");
 			return;
 		}
 				
@@ -85,7 +85,7 @@ public class LoginController extends HttpServlet {
 			    }
 			// 결과값 있다면
 			session.setAttribute("loginCustomer", returnCustomer);
-		    response.sendRedirect(request.getContextPath() + "/goodsList");
+		    response.sendRedirect(request.getContextPath() + "/goods/goodsList");
 		    return;
 	     } else if((request.getParameter("empId") != null) && (request.getParameter("empPw") != null)) {
 	    	emp = new Emp(); //  
@@ -103,7 +103,7 @@ public class LoginController extends HttpServlet {
 			    }
 			// 결과값이 있다면
 			session.setAttribute("loginEmp", returnEmp);
-		    response.sendRedirect(request.getContextPath() + "/goodsList");
+		    response.sendRedirect(request.getContextPath() + "/goods/goodsList");
 	     } 
 	}
 }

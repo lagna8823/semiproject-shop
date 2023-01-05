@@ -9,14 +9,14 @@
 <body>
 	<header>
 		<a href="${pageContext.request.contextPath}/logout">로그아웃</a>
-		<a href="${pageContext.request.contextPath}/questionList">고객센터</a>
-		<a href="${pageContext.request.contextPath}/questionCommentList">문의사항</a>
+		<a href="${pageContext.request.contextPath}/question/questionList">고객센터</a>
+		<a href="${pageContext.request.contextPath}/question/questionCommentList">commnet</a>
 	</header>
 	<h2>문의글 작성</h2>
 	<div>
 		<!-- 문의글 작성 페이지-->
 		<div>
-		<form action="${pageContext.request.contextPath}/addQuestion" method="post">
+		<form action="${pageContext.request.contextPath}/question/addQuestion" method="post">
 			<table border="1">
 				<tr>
 					<th>주문번호</th>

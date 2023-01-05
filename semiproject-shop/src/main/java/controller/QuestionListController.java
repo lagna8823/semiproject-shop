@@ -15,13 +15,13 @@ import service.QuestionService;
 import vo.Customer;
 import vo.Emp;
 import vo.Question;
-@WebServlet("/questionList")
+@WebServlet("/question/questionList")
 public class QuestionListController extends HttpServlet {
 	private QuestionService questionService;
 	
 	// 고객센터
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// VIEW -> /WEB-INF/view/question.jsp
+		// VIEW -> /WEB-INF/view/question/question.jsp
 		// 로그인 후에만 진입가능(세션값 request)
 		HttpSession session = request.getSession(); 
 		
@@ -53,6 +53,6 @@ public class QuestionListController extends HttpServlet {
 		request.setAttribute("lastPage", lastPage);
 		
 		// 고객센터 폼 View
-		request.getRequestDispatcher("/WEB-INF/view/questionList.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/question/questionList.jsp").forward(request, response);
 	}
 }

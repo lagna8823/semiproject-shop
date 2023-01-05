@@ -29,7 +29,7 @@
 		    </div>
 	    </form>
 			<div>
-			 <a href="${pageContext.request.contextPath}/addCustomer">회원가입</a>  
+			 <a href="${pageContext.request.contextPath}/customer/addCustomer">회원가입</a>  
 		    </div>
 		
 		<!--Emp 로그인-->
@@ -47,7 +47,7 @@
 		    </div>
 	    </form>
 			<div>
-			 <a href="${pageContext.request.contextPath}/addEmp">사원가입</a>  
+			 <a href="${pageContext.request.contextPath}/emp/addEmp">사원가입</a>  
 		    </div>
 		</div>
 	</body>
