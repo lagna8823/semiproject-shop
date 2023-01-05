@@ -12,7 +12,13 @@ import vo.Orders;
 
 @WebServlet("/order/addOrder")
 public class AddOrderController extends HttpServlet {
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int goodsCode = 0;
+		String customerId = null; //id에 해당하는 주소 가져옴 + 폼에서 선택
+		goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
+		goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
+		goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
+		
 		request.getRequestDispatcher("/WEB-INF/view/addOrderForm.jsp").forward(request, response);
 	}
 
@@ -40,10 +46,11 @@ public class AddOrderController extends HttpServlet {
 		orders.setOrderPrice(orderPrice);
 		orders.setOrderState(orderState);
 		orders.setCreatedate(createdate);
+		// 주문상태는 일단 결제
 		
 		// 모델호출
 		OrdersService ordersService = new OrdersService();
-		ordersService.insertOrderService(orders);
+		ordersService.addOrderService(orders);
 		
 		// view
 		response.sendRedirect(request.getContextPath()+"/order/ordeList");

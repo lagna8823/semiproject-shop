@@ -11,8 +11,8 @@
 		<tr>
 			<c:forEach var="m" items="${list}" varStatus="s">
 				<c:if test="${s.index != 0 && s.index % 5 == 0}">
-					</tr><tr>
-				</c:if>			 
+					</tr><tr>				
+				</c:if>
 				<td>
 					<div><img src="${pageContext.request.contextPath}/upload/${m.filename}" width="200" height="200"></div>
 					<div>${m.goodsName}</div>

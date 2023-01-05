@@ -19,20 +19,26 @@
 				<td><input type="hidden" id="customerId" name="customerId"></td>
 			</tr>
 			<tr>
-				<th>배송지</th>
-				<td><input type="text" id="address" name="address"></td> <!-- addresscode로 변환? select?-->
+				<th>배송지</th> <!-- customerAddress에서 받아옴 -->
+				<td>
+					<select>
+						<c:forEach var="ad" items="${address}">
+							<option value="${ad.addressCode}">${ad.address}</option> <!-- 실제주소 text를 보여주고 주소코드로 값 처리 -->
+						</c:forEach>
+					</select>
+				</td>
 			</tr>
 			<tr>
-				<th>주문수량</th>
-				<td><input type="text" id="orderQuantity" name="orderQuantity"></td>
+				<th>주문수량</th><!-- 추후 최대 수량 재고로 제한 -->
+				<td><input type="number" id="orderQuantity" name="orderQuantity"></td>
 			</tr>
 			<tr>
 				<th>상품가격</th>
-				<td><input type="text" id="orderPrice" name="orderPrice"></td>
+				<td><input type="text" id="orderPrice" name="orderPrice"></td> <!-- goods에서 받아옴 -->
 			</tr>
 			<tr>
 				<th>주문상태</th>
-				<td><input type="hidden" id="orderState" name="orderState"></td> <!-- 일단 결제 -->
+				<td><input type="hidden" id="orderState" name="orderState" value="결제"></td> <!-- 일단 결제 -->
 			</tr>
 			<tr>
 				<th>주문일</th>

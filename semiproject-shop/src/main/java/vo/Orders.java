@@ -1,6 +1,7 @@
 package vo;
 
 public class Orders {
+	private int orderCode;
 	private int goodsCode;
 	private String customerId;
 	private int addressCode;
@@ -9,9 +10,10 @@ public class Orders {
 	private String orderState;
 	private String createdate;
 	
-	public Orders(int goodsCode, String customerId, int addressCode, int orderQuantity, int orderPrice,
+	public Orders(int orderCode, int goodsCode, String customerId, int addressCode, int orderQuantity, int orderPrice,
 			String orderState, String createdate) {
 		super();
+		this.orderCode = orderCode;
 		this.goodsCode = goodsCode;
 		this.customerId = customerId;
 		this.addressCode = addressCode;
@@ -27,9 +29,17 @@ public class Orders {
 
 	@Override
 	public String toString() {
-		return "Oders [goodsCode=" + goodsCode + ", customerId=" + customerId + ", addressCode=" + addressCode
-				+ ", orderQuantity=" + orderQuantity + ", orderPrice=" + orderPrice + ", orderState=" + orderState
-				+ ", createdate=" + createdate + "]";
+		return "Orders [orderCode=" + orderCode + ", goodsCode=" + goodsCode + ", customerId=" + customerId
+				+ ", addressCode=" + addressCode + ", orderQuantity=" + orderQuantity + ", orderPrice=" + orderPrice
+				+ ", orderState=" + orderState + ", createdate=" + createdate + "]";
+	}
+
+	public int getOrderCode() {
+		return orderCode;
+	}
+
+	public void setOrderCode(int orderCode) {
+		this.orderCode = orderCode;
 	}
 
 	public int getGoodsCode() {
@@ -86,6 +96,6 @@ public class Orders {
 
 	public void setCreatedate(String createdate) {
 		this.createdate = createdate;
-	}
+	}	
 }
 
