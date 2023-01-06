@@ -15,7 +15,7 @@ import service.GoodsService;
 import vo.Goods;
 import vo.GoodsImg;
 
-@WebServlet("/AddGoodsController")
+@WebServlet("/goods/addGoods")
 public class AddGoodsController extends HttpServlet {
  
 
