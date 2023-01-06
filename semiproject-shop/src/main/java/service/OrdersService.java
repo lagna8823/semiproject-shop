@@ -4,10 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import dao.BoardDao;
 import dao.OrderDao;
 import util.DBUtil;
-import vo.Board;
 import vo.Orders;
 
 public class OrdersService {
@@ -19,14 +17,14 @@ public class OrdersService {
 		 	1) connection 생성 <- DBUtil.class
 		 	2) beginRow, endRow 생성 <- currentPage,rowPerPage를 가공
 		 */
-		ArrayList<Orders> orders = null;
+		ArrayList<Orders> list = null;
 		Connection conn = null;
 		try {
 			int beginRow = (currentPage-1)*rowPerPage+1;
 			int endRow = beginRow + rowPerPage - 1;			
 			conn = DBUtil.getConnection();
 			orderDao = new OrderDao();
-			orders = orderDao.selectOrderListByPage(conn, beginRow, endRow);
+			list = orderDao.selectOrderListByPage(conn, beginRow, endRow);
 			conn.commit(); // DBUtil.class에서 conn.setAutoCommit(false);
 		} catch (Exception e) {
 			try {
@@ -42,23 +40,23 @@ public class OrdersService {
 				e.printStackTrace();
 			}
 		}
-		return orders;
+		return list;
 	}
 	
 	// 주문목록 검색추가
-	public ArrayList<Board> getBoardListByPage(int currentPage, int rowPerPage, String word) {
+	public ArrayList<Orders> getOrderListByPage(int currentPage, int rowPerPage, String word) {
 		/*
 		 	1) connection 생성 <- DBUtil.class
 		 	2) beginRow, endRow 생성 <- currentPage,rowPerPage를 가공
 		 */
-		ArrayList<Board> list = null;
+		ArrayList<Orders> list = null;
 		Connection conn = null;
 		try {
 			int beginRow = (currentPage-1)*rowPerPage+1;
 			int endRow = beginRow + rowPerPage - 1;
 			conn = DBUtil.getConnection();
-			boardDao = new BoardDao();
-			list = boardDao.selectBoardListByPage(conn, beginRow, endRow, word);
+			orderDao = new OrderDao();
+			list = orderDao.selectOrderListByPage(conn, beginRow, endRow, word);
 			conn.commit(); // DBUtil.class에서 conn.setAutoCommit(false);
 		} catch (Exception e) {
 			try {
@@ -78,14 +76,14 @@ public class OrdersService {
 	}
 	
 	// 페이징을 위한 BoardList 수 수하기
-	public int cntBoardListServie() {
+	public int cntOrderListServie() {
 		int resultCnt = 0;
-		boardDao = new BoardDao();
+		orderDao = new OrderDao();
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
-			resultCnt = boardDao.cntBoardList(conn);
+			resultCnt = orderDao.cntOrderList(conn);
 			conn.commit();
 		} catch (Exception e) {
 			try {
@@ -105,14 +103,14 @@ public class OrdersService {
 	}
 	
 	// 페이징+검색을 위한 BoardList 수 수하기
-	public int cntBoardListServie(String word) {
+	public int cntOrderListServie(String word) {
 		int resultCnt = 0;
-		boardDao = new BoardDao();
+		orderDao = new OrderDao();
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
-			resultCnt = boardDao.cntBoardList(conn, word);
+			resultCnt = orderDao.cntOrderList(conn, word);
 			conn.commit();
 		} catch (Exception e) {
 			try {
@@ -185,15 +183,15 @@ public class OrdersService {
 		return row;
 	}
 	
-	// 주문수정(배송 전까지만 가능) - 작업중
-	public int updateBoardService(Board board) {
-		boardDao = new BoardDao();
+	// 주문수정(배송 전까지만 가능)
+	public int updateOrderService(Orders orders) {
+		orderDao = new OrderDao();
 		Connection conn = null;
 		int row = 0;
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
-			row = boardDao.updateBoardList(conn, board);
+			row = orderDao.updateOrderList(conn, orders);
 			conn.commit();
 		} catch (Exception e) {
 			try {
@@ -212,15 +210,15 @@ public class OrdersService {
 		return row;
 	}
 	
-	// 주문취소(배송 전까지만 가능) - 작업중
-	public int deleteBoardService(Board board) {
-		boardDao = new BoardDao();
+	// 주문취소(배송 전까지만 가능)
+	public int deleteOrderService(Orders orders) {
+		orderDao = new OrderDao();
 		Connection conn = null;
 		int row = 0;
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
-			row = boardDao.deleteBoardList(conn, board);
+			row = orderDao.deleteOrderList(conn, orders);
 			conn.commit();
 		} catch (Exception e) {
 			try {

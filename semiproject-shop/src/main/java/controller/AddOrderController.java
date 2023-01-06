@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import service.CustomerAddressService;
 import service.OrdersService;
 import vo.Customer;
 import vo.CustomerAddress;
 import vo.Emp;
-import vo.Member;
 import vo.Orders;
 
 @WebServlet("/order/addOrder")
@@ -31,24 +31,30 @@ public class AddOrderController extends HttpServlet {
 			return;
 		}
 		System.out.println(loginCustomer+"loginCustomer");
+		
+		*/
 		// 상품번호 ,고객아이디, 배송지 필요
-		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
-		String loginId = loginCustomer.getCustomerId();
-		String addressCode = request.getParameter("addressCode");
+		int goodsCode = 1; //Integer.parseInt(request.getParameter("goodsCode"));
+		String loginId = "test"; //loginCustomer.getCustomerId();
+		int addressCode = 1; //request.getParameter("addressCode");
 
-		CustomerAddress address= new CustomerAddress();
+		//CustomerAddress address= new CustomerAddress();
 		CustomerAddressService customerAddressService = new CustomerAddressService();
-		address = customerAddressService.getCustomerAddress(loginCustomer); // customerId
+		int address = addressCode; //customerAddressService.getCustomerAddress(loginId); // customerId
 
+		System.out.println("goodsCode : " + goodsCode);
+		System.out.println("customerId : " + loginId);
+		System.out.println("addressCode : " + addressCode);
+		
 		// view와 공유할 모델데이터 설정
 		request.setAttribute("goodsCode", goodsCode);
 		request.setAttribute("loginId", loginId);
 		request.setAttribute("address", address);
-		*/
 		request.getRequestDispatcher("/WEB-INF/view/order/addOrderForm.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		/*
 		// 로그인 여부확인
 		HttpSession session = request.getSession();
 		// 로그인 값 체크  - 비 로그인 시 로그인 창으로
@@ -58,15 +64,15 @@ public class AddOrderController extends HttpServlet {
 			System.out.println("로그인 값 없음");
 			return;
 		}
+		*/
 		
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
-		String customerId = loginCustomer.getCustomerId();
+		String customerId = "test"; //loginCustomer.getCustomerId();
 		int addressCode = Integer.parseInt(request.getParameter("addressCode"));
 		int orderQuantity = Integer.parseInt(request.getParameter("orderQuantity"));		
 		int orderPrice = Integer.parseInt(request.getParameter("orderPrice"));
 		String orderState = request.getParameter("orderState");
 		String createdate = request.getParameter("createdate");
-
 		
 		Orders orders = new Orders();
 		orders.setGoodsCode(goodsCode);

@@ -25,7 +25,7 @@
 		<table class="table" border="1">
 			<tr>
 				<th>상품번호</th>	<!-- goods에서 받아옴 -->
-				<td><input type="text" id="goodsCode" name="goodsCode" value="${pram.goodsCode}" readonly></td>				
+				<td><input type="text" id="goodsCode" name="goodsCode" value="${goodsCode}" readonly></td>				
 			</tr>
 				<!-- 고객아이디 : 로그인 후 받아옴  -->
 				<input type="hidden" id="loginId" name="loginId" value="${pram.loginId}">
@@ -33,7 +33,7 @@
 				<th>배송지</th> <!-- customerAddress에서 받아옴 -->
 				<td>
 					<select id="addressCode" name="addressCode">
-						<c:forEach var="ad" items="${pram.address}">
+						<c:forEach var="ad" items="${address}">
 							<option value="${ad.addressCode}">${ad.address}</option> <!-- 실제주소 text를 보여주고 주소코드로 값 처리 -->
 						</c:forEach>
 					</select>
