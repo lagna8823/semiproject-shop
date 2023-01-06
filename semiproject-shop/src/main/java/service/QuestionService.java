@@ -12,6 +12,32 @@ import vo.Question;
 public class QuestionService {
 	private QuestionDao questionDao;
 	
+	// removeQuestion (문의글 삭제)
+	// 사용하는 곳 : removeQuestionController	
+	public int removeQuestion(Customer customerId, int questionCode) {
+		int resultRow=0;
+		this.questionDao = new QuestionDao();
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			resultRow = questionDao.removeQuestion(conn, customerId, questionCode);
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch(SQLException e1) {
+				e.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return resultRow;
+	}
+	
 	// addQuestion (문의글 추가)
 	// 사용하는 곳 : addQuestionController	
 	public int addQuestion(Question addQuestion) {

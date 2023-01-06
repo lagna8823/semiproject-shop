@@ -10,7 +10,7 @@
 	<header>
 		<a href="${pageContext.request.contextPath}/logout">로그아웃</a>
 		<a href="${pageContext.request.contextPath}/question/questionList">고객센터</a>
-		<a href="${pageContext.request.contextPath}/question/questionCommentList">commnet</a>
+		<a href="${pageContext.request.contextPath}/question/questionCommentList">comment</a>
 	</header>
 	<h2>고객센터</h2>
 	<div>
@@ -21,13 +21,31 @@
 		
 		<!-- 고객센터 내용 -->
 		<div>
-			<table boreder="1">
+			<table border="0">
 			<thead>
 			<tr>
-				<th>주문번호</th>
-				<th>분류</th>
-				<th>답변 내용</th>
-				<th>작성일</th>
+				<th>orderCode</th>
+				<th>category</th>
+				<th>questionMemo</th>
+				<th>createdate</th>
+				<th>답변</th>
+				<th>답변일</th>
+				<td>
+					<c:if test="${loginCustomer == CustomerId}">
+						<span>수정</span> 
+					</c:if>
+					<c:if test="${loginCustomer != CustomerId}">
+						<span>&nbsp;</span>
+					</c:if>
+				</td>
+				<td>
+					<c:if test="${loginCustomer == CustomerId}">
+						<span>삭제</span> 
+					</c:if>
+					<c:if test="${loginCustomer != CustomerId}">
+						<span>&nbsp;</span>
+					</c:if>
+				</td>
 			</tr>
 			</thead>
 			<tbody>
@@ -37,13 +55,45 @@
 						<td>${q.category}</td>
 						<td>${q.questionMemo}</td>
 						<td>${q.createdate}</td>
+						<td>
+							<c:if test="${commentMemo == null}">답변전</c:if> 
+							<c:if test="${commentMemo != null}">답변완료</c:if> 	
+						</td>
+						<td>
+							<c:if test="${createdate == null}">답변전</c:if> 
+							<c:if test="${createdate != null}">답변시간</c:if> 
+						</td>
+						<td>
+							<c:if test="${loginCustomer == CustomerId}">
+								<a href="${pageContext.request.contextPath}/question/questionModify"?questionCode=${questionCode}">
+									수정 
+								</a>
+							</c:if>
+							<c:if test="${loginCustomer != CustomerId}">
+								<span>&nbsp;</span>
+							</c:if>
+						</td>
+						<td>
+							<c:if test="${loginCustomer == CustomerId}">
+								<a href="${pageContext.request.contextPath}/question/questionRemove"?questionCode=${questionCode}">
+									삭제
+								</a>
+							</c:if>
+							<c:if test="${loginCustomer != CustomerId}">
+								<span>&nbsp;</span>
+							</c:if>
+						</td>
 					</tr>	
 				</c:forEach>
 			</tbody>
 			</table>
 		</div>
+		<div>
+			<span style="color:red">${msg}</span>
+		</div>
+		<br>
 		<!-- 페이징 -->
-		<div align="center";>
+		<div>
 			<!-- 첫 페이지 -->
 			<a href="${pageContext.request.contextPath}/question/questionList?rowPerPage=${rowPerPage}&currentPage=1">처음</a>
 			
