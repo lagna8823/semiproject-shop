@@ -32,10 +32,6 @@ public class LoginController extends HttpServlet {
 			return;
 		}
 		
-		// 메세지 값
-		String msg = request.getParameter("msg");
-	    request.setAttribute("msg", msg);
-
 		// 로그인 폼 View
 		request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
 	}
@@ -77,12 +73,6 @@ public class LoginController extends HttpServlet {
 			// 모델 호출
 			this.customerService = new CustomerService();			
 			Customer returnCustomer = customerService.login(customer);
-			// Result
-			if(returnCustomer == null){ // 결과값이 없다면
-				String msg = URLEncoder.encode("로그인 실패", "utf-8");
-				response.sendRedirect(request.getContextPath()+"/login?msg="+msg);
-				return;
-			    }
 			// 결과값 있다면
 			session.setAttribute("loginCustomer", returnCustomer);
 		    response.sendRedirect(request.getContextPath() + "/goods/goodsList");
@@ -97,8 +87,7 @@ public class LoginController extends HttpServlet {
 			Emp returnEmp = empService.login(emp);
 			// Result
 			if(returnEmp == null){ // 결과값이 없다면
-				String msg = URLEncoder.encode("로그인 실패", "utf-8");
-				response.sendRedirect(request.getContextPath()+"/login?msg="+msg);
+				response.sendRedirect(request.getContextPath()+"/login");
 				return;
 			    }
 			// 결과값이 있다면

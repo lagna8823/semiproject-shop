@@ -2,7 +2,6 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +20,7 @@ public class QuestionListController extends HttpServlet {
 	
 	// 고객센터
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// VIEW -> /WEB-INF/view/question/question.jsp
+		// VIEW -> /WEB-INF/view/question/questionList.jsp
 		// 로그인 후에만 진입가능(세션값 request)
 		HttpSession session = request.getSession(); 
 		
@@ -32,7 +31,11 @@ public class QuestionListController extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/login");
 			return;
 		}
-	
+		
+		// 세션의 ID 매개값으로 세팅
+		Customer customer = new Customer(); 
+		customer.setCustomerId("loginCustomer");
+		
 		// 페이징에 쓸 값 세팅
 		int cnt = 0;
 		int currentPage = 1;
@@ -44,15 +47,24 @@ public class QuestionListController extends HttpServlet {
 		
 		// 모델 호출
 		this.questionService = new QuestionService();
-		cnt = questionService.count(); 
+		cnt = questionService.count();  // 카운트
+		// 페이지 리스트
 		ArrayList<Question> list = questionService.getQuestionListByPage(beginRow, rowPerPage);
 		int lastPage = (int)(Math.ceil((double)cnt / (double)rowPerPage));
+		// 삭제
+		
+		request.setCharacterEncoding("UTF-8"); // request 한글코딩	
 		request.setAttribute("questionlist", list);
 		request.setAttribute("currentPage", currentPage); 
 		request.setAttribute("rowPerPage", rowPerPage); 
 		request.setAttribute("lastPage", lastPage);
 		
 		// 고객센터 폼 View
-		request.getRequestDispatcher("/WEB-INF/view/question/questionList.jsp").forward(request, response);
+		if(loginCustomer == null && loginEmp != null) {
+			request.getRequestDispatcher("/WEB-INF/view/question/questionListEmp.jsp").forward(request, response);
+		} else if(loginCustomer != null && loginEmp == null) {
+			request.getRequestDispatcher("/WEB-INF/view/question/questionList.jsp").forward(request, response);
+		}
+		
 	}
 }

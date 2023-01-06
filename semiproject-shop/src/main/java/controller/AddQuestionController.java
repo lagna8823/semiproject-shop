@@ -38,11 +38,8 @@ public class AddQuestionController extends HttpServlet {
 		this.questionService = new QuestionService();
 		list = questionService.selectOrdersCode(loginCustomer);
 		
-		request.setAttribute("ordersCodeList", list);
-		// request 한글코딩	
 		request.setCharacterEncoding("UTF-8");
-		String msg = request.getParameter("msg");
-		request.setAttribute("msg", msg);
+		request.setAttribute("ordersCodeList", list);
 		
 		// 글작성 폼 View
 		request.getRequestDispatcher("/WEB-INF/view/question/addQuestion.jsp").forward(request, response);
@@ -88,7 +85,6 @@ public class AddQuestionController extends HttpServlet {
 			return;
 		}
 		// 작성실패(입력값 확인)
-		String msg = URLEncoder.encode("입력되지 않은 값이 있습니다.", "utf-8");
-		response.sendRedirect(request.getContextPath() + "/question/addQuestion?msg="+msg); 
+		response.sendRedirect(request.getContextPath() + "/question/addQuestion"); 
 	}
 }
