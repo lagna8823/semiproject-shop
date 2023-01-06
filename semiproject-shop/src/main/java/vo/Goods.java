@@ -1,24 +1,33 @@
 package vo;
 
 public class Goods {
+	private int goodsCode;
 	private String goodsName;
 	private int goodsPrice;
 	private String soldout;
 	private String empId;
 	private String hit;
 	private String createdate;
-	public Goods() {
+	public Goods(int goodsCode, String goodsName, int goodsPrice, String soldout, String empId, String hit,
+			String createdate) {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-	public Goods(String goodsName, int goodsPrice, String soldout, String empId, String hit, String createdate) {
-		super();
+		this.goodsCode = goodsCode;
 		this.goodsName = goodsName;
 		this.goodsPrice = goodsPrice;
 		this.soldout = soldout;
 		this.empId = empId;
 		this.hit = hit;
 		this.createdate = createdate;
+	}
+	public Goods() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public int getGoodsCode() {
+		return goodsCode;
+	}
+	public void setGoodsCode(int goodsCode) {
+		this.goodsCode = goodsCode;
 	}
 	public String getGoodsName() {
 		return goodsName;
@@ -58,7 +67,7 @@ public class Goods {
 	}
 	@Override
 	public String toString() {
-		return "Goods [goodsName=" + goodsName + ", goodsPrice=" + goodsPrice + ", soldout=" + soldout + ", empId="
-				+ empId + ", hit=" + hit + ", createdate=" + createdate + "]";
+		return "Goods [goodsCode=" + goodsCode + ", goodsName=" + goodsName + ", goodsPrice=" + goodsPrice
+				+ ", soldout=" + soldout + ", empId=" + empId + ", hit=" + hit + ", createdate=" + createdate + "]";
 	}
 }

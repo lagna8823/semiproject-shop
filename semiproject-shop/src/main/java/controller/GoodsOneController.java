@@ -13,15 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import service.GoodsService;
 
-@WebServlet("/goods/goodsList")
-public class GoodsListController extends HttpServlet {
+@WebServlet("/goods/goodsOne")
+public class GoodsOneController extends HttpServlet {
 	private GoodsService goodsService;
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
+		
 		goodsService = new GoodsService();
-		ArrayList<HashMap<String, Object>> list = goodsService.getItemList();
+		ArrayList<HashMap<String, Object>> list = goodsService.getGoodsOne(goodsCode);
 		
 		request.setAttribute("list", list);
 		
-		request.getRequestDispatcher("/WEB-INF/view/goods/goodsList.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/goods/goodsOne.jsp").forward(request, response);
 	}
 }
