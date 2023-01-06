@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import service.EmpService;
-import vo.Emp;
+import service.CustomerService;
+import vo.Customer;
 
-@WebServlet("/emp/empList")
-public class EmpListController extends HttpServlet {
+@WebServlet("/customer/customerList")
+public class CustomerListController extends HttpServlet {
 	
-	private EmpService empService;
+	private CustomerService customerService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
 		// 인코딩 : UTF-8
 		request.setCharacterEncoding("UTF-8");
 		
@@ -31,9 +31,7 @@ public class EmpListController extends HttpServlet {
 		 */
 		
 		
-		
-		
-		String searchCategory = "emp_code";
+		String searchCategory = "customer_code";
 		if(request.getParameter("searchCategory") != null) {
 			searchCategory = request.getParameter("searchCategory");
 		}
@@ -53,16 +51,15 @@ public class EmpListController extends HttpServlet {
 			rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
 		}
 		
+		this.customerService = new CustomerService();
 		
-		this.empService = new EmpService();
+		ArrayList<Customer> customerList = new ArrayList<Customer>();
 		
-		ArrayList<Emp> empList = new ArrayList<Emp>();
-		
-		// empList
-		empList = this.empService.getEmpList(searchCategory, searchText, currentPage, rowPerPage);
+		// customerList
+		customerList = this.customerService.getCustomerList(searchCategory, searchText, currentPage, rowPerPage);
 		
 		// 페이징 처리
-		ArrayList<HashMap<String, Object>> pageList = this.empService.getPage(searchCategory, searchText, currentPage, rowPerPage); 
+		ArrayList<HashMap<String, Object>> pageList = this.customerService.getPage(searchCategory, searchText, currentPage, rowPerPage); 
 		
 		for(HashMap<String, Object> hm : pageList) {
 			
@@ -72,14 +69,13 @@ public class EmpListController extends HttpServlet {
 			request.setAttribute("pageList", (ArrayList<Integer>) hm.get("pageList"));
 		}
 		
-		request.setAttribute("empList", empList);
+		request.setAttribute("customerList", customerList);
 		request.setAttribute("searchText", searchText);	// view에서 필요
 		request.setAttribute("searchCategory", searchCategory);	// view에서 필요
 		request.setAttribute("currentPage", currentPage);	// view에서 필요
 		request.setAttribute("rowPerPage", rowPerPage);		// view에서 필요
 	
-		request.getRequestDispatcher("/WEB-INF/view/emp/empList.jsp").forward(request, response);
-		
+		request.getRequestDispatcher("/WEB-INF/view/customer/customerList.jsp").forward(request, response);
 		
 	}
 
