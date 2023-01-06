@@ -18,9 +18,9 @@ import vo.GoodsImg;
 @WebServlet("/goods/addGoods")
 public class AddGoodsController extends HttpServlet {
  
-
+	// 중간 관리자 이상만 이용 가능한 기능
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("WEB-INF/view/goods/addGoods.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/goods/addGoods.jsp").forward(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8"); // 한글 인코딩
