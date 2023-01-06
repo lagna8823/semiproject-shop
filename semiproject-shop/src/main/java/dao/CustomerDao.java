@@ -202,10 +202,10 @@ public class CustomerDao {
 	
 	
 	// customer 회원가입
-	// 1) ID 중복확인
+	// 1) customer ID 중복확인
 	// true : ID가 이미 존재(가입불가) false : ID 사용 가능(가입가능)
-	// 사용하는 곳 : AddCustomerController
-	public boolean selectCustomerIdCk(Connection conn, Customer customer) throws Exception {
+	// 사용하는 곳 : AddCustomerController, AddEmpController
+	public boolean checkCustomerId(Connection conn, Customer customer) throws Exception {
 		
 		boolean result = false;
 		

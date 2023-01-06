@@ -340,6 +340,49 @@ public class CustomerService {
 	
 	
 	
+	// customer ID 중복확인
+	// true : ID가 이미 존재(가입불가) false : ID 사용 가능(가입가능)
+	// 사용하는 곳 : AddCustomerController, AddEmpController
+	public boolean checkCustomerId(Customer customer) {
+		
+		boolean result = false;
+		
+		Connection conn = null;
+		
+		try {
+			
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			
+			this.customerDao = new CustomerDao();
+			result = this.customerDao.checkCustomerId(conn, customer);
+			
+			conn.commit();
+			
+		} catch (Exception e) {
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return result;
+		
+	}	
+	
+	
 	
 	
 	

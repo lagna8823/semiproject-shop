@@ -303,6 +303,52 @@ public class EmpService {
 	
 	
 	
+	// emp ID 중복확인
+	// true : ID가 이미 존재(가입불가) false : ID 사용 가능(가입가능)
+	// 사용하는 곳 : AddCustomerController, AddEmpController
+	public boolean checkEmpId(Emp emp) {
+		
+		boolean result = false;
+		
+		Connection conn = null;
+		
+		try {
+			
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			
+			this.empDao = new EmpDao();
+			result = this.empDao.checkEmpId(conn, emp);
+			
+			conn.commit();
+			
+		} catch (Exception e) {
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return result;
+		
+	}	
+		
+	
+	
+	
+	
 	
 	
 }

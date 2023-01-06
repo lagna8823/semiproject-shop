@@ -201,10 +201,10 @@ public class EmpDao {
 	}
 	
 	// emp 회원가입
-	// 1) ID 중복확인
+	// 1) emp ID 중복확인
 	// true : ID가 이미 존재(가입불가) false : ID 사용 가능(가입가능)
-	// 사용하는 곳 : AddEmpController
-	public boolean selectEmpIdCk(Connection conn, Emp emp) throws Exception {
+	// 사용하는 곳 : AddCustomerController, AddEmpController
+	public boolean checkEmpId(Connection conn, Emp emp) throws Exception {
 		
 		boolean result = false;
 		
