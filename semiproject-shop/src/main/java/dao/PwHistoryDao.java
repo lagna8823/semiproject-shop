@@ -40,4 +40,30 @@ public class PwHistoryDao {
 		
 	}
 	
+	// 비밀번호 이력 전체 삭제(관리자 삭제, 탈퇴)
+	// 사용하는곳 : DeleteCustomerController, 
+	public int deletePwHistory(Connection conn, PwHistory pwHistory) throws Exception {
+		
+		int resultRow = 0;
+		
+		String sql = "DELETE"
+				+ "	 FROM pw_history"
+				+ "	 WHERE customer_id = ?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1, pwHistory.getCustomerId());
+		
+		resultRow = stmt.executeUpdate();
+		
+		if(resultRow == 1) {
+			System.out.println("pw 이력 전체 삭제 성공!");
+		} else {
+			System.out.println("pw 이력 전체 삭제 실패!");
+		}
+		
+		return resultRow;
+		
+	}
+	
 }

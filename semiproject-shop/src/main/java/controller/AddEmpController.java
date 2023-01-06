@@ -6,8 +6,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import service.EmpService;
+import vo.Customer;
 import vo.Emp;
 
 @WebServlet("/emp/addEmp")
@@ -16,17 +18,36 @@ public class AddEmpController extends HttpServlet {
 	private EmpService empService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		// 로그인 전에만 진입가능
+		HttpSession session = request.getSession();
 		
+		// 로그인 값 체크
+		Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
+		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
+		
+		if(loginCustomer != null || loginEmp != null) {
+			response.sendRedirect(request.getContextPath()+"/goods/goodsList");
+			return;
+		}		
+
 		request.getRequestDispatcher("/WEB-INF/view/emp/addEmp.jsp").forward(request, response);
 		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		/*
-		 * 로그인 검사(세션에 로그인 했다면 홈으로)
-		 * 
-		 */
+		// 로그인 전에만 진입가능
+		HttpSession session = request.getSession();
+		
+		// 로그인 값 체크
+		Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
+		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
+		
+		if(loginCustomer != null || loginEmp != null) {
+			response.sendRedirect(request.getContextPath()+"/goods/goodsList");
+			return;
+		}
 		
 		// 인코딩 : UTF-8
 		request.setCharacterEncoding("UTF-8");
@@ -50,8 +71,14 @@ public class AddEmpController extends HttpServlet {
 		this.empService = new EmpService();
 		int resultRow = this.empService.addEmp(emp);
 		
-		// 가입 성공이면 로그인화면으로...
-		response.sendRedirect(request.getContextPath() + "/home");
+		String targetUrl = "/emp/addEmp";
+		if(resultRow == 1) {
+			
+			// 회원가입 성공한다면 로그인화면으로
+			targetUrl = "/login";
+			
+		}
+		response.sendRedirect(request.getContextPath() + targetUrl);
 		
 		
 	}

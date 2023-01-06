@@ -217,7 +217,7 @@ public class CustomerService {
 	
 	// customer 삭제
 	// 사용하는곳 : DeleteCustomerController
-	public int deleteCustomer(int customerCode) {
+	public int deleteCustomer(Customer customer) {
 		
 		int resultRow = 0;
 		
@@ -229,7 +229,7 @@ public class CustomerService {
 			conn.setAutoCommit(false);
 
 			this.customerDao = new CustomerDao();
-			resultRow = this.customerDao.deleteCustomer(conn, customerCode);
+			resultRow = this.customerDao.deleteCustomer(conn, customer);
 			conn.commit();
 			
 		} catch (Exception e) {
@@ -296,6 +296,47 @@ public class CustomerService {
 		
 	}
 	
+	
+	// 비밀번호 확인
+	// 사용하는 곳 : UpdateCustomerPwController
+	public boolean checkPw(Customer customer) {
+		
+		boolean result = false;
+		
+		Connection conn = null;
+		
+		try {
+			
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			
+			this.customerDao = new CustomerDao();
+			result = this.customerDao.checkPw(conn, customer);
+			
+			conn.commit();
+			
+		} catch (Exception e) {
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return result;
+		
+	}
 	
 	
 	

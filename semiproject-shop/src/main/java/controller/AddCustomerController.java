@@ -6,12 +6,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import service.CustomerAddressService;
 import service.CustomerService;
 import service.PwHistoryService;
 import vo.Customer;
 import vo.CustomerAddress;
+import vo.Emp;
 import vo.PwHistory;
 
 @WebServlet("/customer/addCustomer")
@@ -24,11 +26,17 @@ public class AddCustomerController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		// 로그인 전에만 진입가능
+		HttpSession session = request.getSession();
 		
-		/*
-		 * 로그인 검사(세션 로그인 있을시 홈 화면으로
-		 * 
-		 */
+		// 로그인 값 체크
+		Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
+		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
+		
+		if(loginCustomer != null || loginEmp != null) {
+			response.sendRedirect(request.getContextPath()+"/goods/goodsList");
+			return;
+		}
 		
 		request.getRequestDispatcher("/WEB-INF/view/customer/addCustomer.jsp").forward(request, response);
 				
@@ -37,6 +45,18 @@ public class AddCustomerController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		// 로그인 전에만 진입가능
+		HttpSession session = request.getSession();
+		
+		// 로그인 값 체크
+		Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
+		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
+		
+		if(loginCustomer != null || loginEmp != null) {
+			response.sendRedirect(request.getContextPath()+"/goods/goodsList");
+			return;
+		}
 		
 		// 인코딩 : UTF-8
 		request.setCharacterEncoding("UTF-8");
@@ -81,14 +101,14 @@ public class AddCustomerController extends HttpServlet {
 		this.customerAddressService = new CustomerAddressService();
 		int resultRowCA = this.customerAddressService.addAddress(customerAddress);
 		
+		String targetUrl = "/customer/addCustomer";
 		if(resultRowC == 1 && resultRowP == 1 && resultRowCA ==1) {
 			
 			// 회원가입 성공시
-			
+			targetUrl = "/login";
 		}
 		
-		// 실제로는 로그인 화면으로 가야함
-		response.sendRedirect(request.getContextPath() + "/home");
+		response.sendRedirect(request.getContextPath() + targetUrl);
 		
 		
 	}

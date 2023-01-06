@@ -31,6 +31,12 @@
 			</div>
 			
 			<div>
+				<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/updateCustomerPw">
+					<h3>회원 비밀번호 변경</h3>
+				</a>
+			</div>
+			
+			<div>
 				<!-- 검색 -->
 				<form method = "get" action = "${pageContext.request.contextPath }/customer/customerList">
 					<div>
@@ -172,7 +178,7 @@
 								<a href = "${pageContext.request.contextPath }/customer/updateCustomer?customerCode=${customer.customerCode }">수정</a>
 							</td>
 							<td>
-								<a href = "${pageContext.request.contextPath }/customer/deleteCustomer?customerCode=${customer.customerCode }">삭제</a>
+								<a href = "${pageContext.request.contextPath }/customer/deleteCustomer?customerId=${customer.customerId }">삭제</a>
 							</td>
 						</tr>
 					</c:forEach>

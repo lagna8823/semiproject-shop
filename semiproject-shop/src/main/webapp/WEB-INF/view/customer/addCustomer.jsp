@@ -24,7 +24,7 @@
 	<body>
 		<div>
 			<div>
-				<h1>회원가입</h1>
+				<h1>CUSTOMER 회원가입</h1>
 			</div>
 		
 			<div>
