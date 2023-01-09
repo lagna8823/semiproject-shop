@@ -12,6 +12,42 @@ import vo.Question;
 
 public class QuestionDao {
 	
+	// questionListUser 출력
+	// 사용하는 곳 : questionListUserController
+	public ArrayList<HashMap<String, Object>> selectQuestionLisUsertByPage(Connection conn, int beginRow, int rowPerPage, Customer loginCustomer) throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
+		String sql = "SELECT r.rnum rnum, r.questionCode questionCode, r.ordersCode orderCode, r.category category, r.commentCreatedate commentCreatedate"
+				+ "			, r.questionMemo questionMemo, r.createdate createdate, r.commentMemo commentMemo"
+				+ "	FROM "
+				+ "		(SELECT r.rnum rnum, r.question_code questionCode, r.orders_code ordersCode, r.category category"
+				+ "				, r.question_memo questionMemo, r.createdate createdate, qc.comment_memo commentMemo, qc.createdate commentCreatedate "
+				+ "				FROM "
+				+ "					(SELECT ROW_NUMBER() OVER(ORDER BY question_code DESC) rnum"
+				+ "					 		, question_code, orders_Code, category, question_memo, createdate FROM question ) r"
+				+ "							LEFT OUTER JOIN question_comment qc"
+				+ "							ON r.question_code = qc.question_code) r"
+				+ "			LEFT OUTER JOIN orders o"
+				+ "			ON r.ordersCode=o.order_code		"
+				+ " WHERE o.customer_id = ? ORDER BY r.createdate DESC LIMIT ?,?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, loginCustomer.getCustomerId());
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			HashMap<String, Object> q = new HashMap<String, Object>();
+			q.put("questionCode", rs.getInt("questionCode"));
+			q.put("ordersCode", rs.getInt("orderCode"));
+			q.put("category", rs.getString("category"));
+			q.put("questionMemo", rs.getString("questionMemo"));
+			q.put("createdate", rs.getString("createdate"));
+			q.put("commentMemo", rs.getString("commentMemo"));
+			q.put("commentCreatedate", rs.getString("commentCreatedate"));
+			list.add(q);
+		}
+		return list;
+	}
+		
 	// modifyQuestion (문의글 수정) 답변 달리기 전까지만 가능
 	// 사용하는 곳 : modifyQuestionController	
 	public int modifyQuestion(Connection conn, Question question) throws Exception {

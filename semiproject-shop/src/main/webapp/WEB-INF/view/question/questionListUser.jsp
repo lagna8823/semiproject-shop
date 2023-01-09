@@ -12,13 +12,8 @@
 		<a href="${pageContext.request.contextPath}/question/questionList">고객센터</a>
 		<a href="${pageContext.request.contextPath}/question/questionCommentList">comment</a>
 	</header>
-	<h2>고객센터</h2>
+	<h2>나의 문의사항</h2>
 	<div>
-		<!-- 나의 문의 링크-->
-		<div>
-			<a href="${pageContext.request.contextPath}/question/questionListUser">나의 문의</a>
-		</div>
-		
 		<!-- 문의글 작성 링크-->
 		<div>
 			<a href="${pageContext.request.contextPath}/question/addQuestion">문의글 작성</a>
@@ -33,6 +28,7 @@
 				<th>questionMemo</th>
 				<th>createdate</th>
 				<th>답변</th>
+				<th>답변일</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -48,6 +44,10 @@
 						<td>
 							<c:if test="${q.commentMemo == null}">답변전</c:if> 
 							<c:if test="${q.commentMemo != null}">답변완료</c:if> 	
+						</td>
+						<td>
+							<c:if test="${q.commentCreatedate == null}">&nbsp;</c:if> 
+							<c:if test="${q.commentCreatedate != null}">${q.commentCreatedate}</c:if> 	
 						</td>
 					</tr>	
 				</c:forEach>

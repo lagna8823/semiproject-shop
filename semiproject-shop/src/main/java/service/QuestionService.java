@@ -13,6 +13,28 @@ import vo.Question;
 public class QuestionService {
 	private QuestionDao questionDao;
 	
+	// questionListUser 출력
+	// 사용하는 곳 : questionListUserController
+	public ArrayList<HashMap<String, Object>> getQuestionListUserByPage(int beginRow, int rowPerPage, Customer loginCustomer) {
+		this.questionDao = new QuestionDao();
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
+		Connection conn  = null;
+		try {
+			conn = DBUtil.getConnection();
+			questionDao = new QuestionDao();
+			list = questionDao.selectQuestionLisUsertByPage(conn, beginRow, rowPerPage, loginCustomer);
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e1){
+				e1.printStackTrace();
+			}
+		}
+		return list;
+	}
+		
 	// modifyQuestion (문의글 수정)
 	// 사용하는 곳 : modifyQuestionController	
 	public int modifyQuestion(Question modifyQuestion) {
