@@ -50,19 +50,33 @@
 			<tr class = "text-center">
 				<th>주문번호</th>
 				<th>상품번호</th>
-				<th>고객번호</th>
-				<th>주문수량</th>
+				<th>상품이름</th>
 				<th>상품가격</th>
+				
+				<th>고객아이디</th>
+				<th>고객이름</th>
+				<th>휴대폰번호</th>
+				<th>주소 </th>
+				
+				<th>주문수량</th>
 				<th>상품가격</th>
 				<th>주문상태</th>
 				<th>주문일</th>
+				
+				<th>사용 or 적립예정 포인트</th>
 			</tr>		
 			<c:forEach var="o" items="${orderList}">
 				<tr>
 					<td>${o.orderCode}</td>
 					<td>${o.goodsCode}</td>
+					<td>${o.goodsName}</td>
+					<td>${o.goodsPrice}</td>
+					
 					<td>${o.customerId}</td>
-					<td>${o.addressCode}</td>
+					<td>${o.customerName}</td>
+					<td>${o.customerPhone}</td>
+					<td>${o.address}</td>
+					
 					<td>${o.orderQuantity}</td>
 					<td>${o.orderPrice}</td>
 					<td>${o.orderState}</td>

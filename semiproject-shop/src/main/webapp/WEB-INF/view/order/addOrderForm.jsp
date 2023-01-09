@@ -33,12 +33,26 @@
 				<th>배송지</th> <!-- customerAddress에서 받아옴 -->
 				<td>
 					<select id="addressCode" name="addressCode">
-						<c:forEach var="ad" items="${address}">
-							<option value="${ad.addressCode}">${ad.address}</option> <!-- 실제주소 text를 보여주고 주소코드로 값 처리 -->
+						<c:forEach var="ad" items="${pram.address}">
+							<option value="${addressCode}">${address}</option> <!-- 실제주소 text를 보여주고 주소코드로 값 처리 -->
 						</c:forEach>
 					</select>
 				</td>
 			</tr>
+			<tr>
+				<th>보유 포인트</th>
+				<td>
+				    <input type="text" id="earnPoint" name="point">
+				    <label for="earnPoint">적립 포인트</label>
+				</td>
+		    </tr>
+		    <tr>
+				<th>사용 포인트</th>
+				<td>
+				    <input type="text" id="usePoint" name="pointHistory">
+				    <label for="usePoint">사용 포인트</label>
+			    </td>		    
+		    </tr>
 			<tr>
 				<th>주문수량</th><!-- 추후 최대 수량 재고로 제한 -->
 				<td><input type="number" id="orderQuantity" name="orderQuantity"></td>

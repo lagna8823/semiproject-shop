@@ -49,7 +49,7 @@ public class AddOrderController extends HttpServlet {
 		// view와 공유할 모델데이터 설정
 		request.setAttribute("goodsCode", goodsCode);
 		request.setAttribute("loginId", loginId);
-		request.setAttribute("address", address);
+		request.setAttribute("address", addressCode);
 		request.getRequestDispatcher("/WEB-INF/view/order/addOrderForm.jsp").forward(request, response);
 	}
 

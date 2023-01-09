@@ -20,17 +20,17 @@ public class OrderListController extends HttpServlet {
 	private OrdersService ordersService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*
+		
 		// 로그인 여부확인, 로그인 되어있지 않으면 홈으로 이동
 		HttpSession session = request.getSession();		
 		// 로그인 값 체크  - 비 로그인 시 로그인 창으로
-		Customer loginCustomer = (Customer)session.getAttribute("loginCustomer");
-		if(loginCustomer == null) {
+		String customerId = "test"; //(String)session.getAttribute("loginCustomer");
+		if(customerId == null) {
 			response.sendRedirect(request.getContextPath()+"/login");
 			System.out.println("로그인 값 없음");
 			return;
 		}
-		*/
+		
 		int currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -47,15 +47,16 @@ public class OrderListController extends HttpServlet {
 		String word = request.getParameter("word");
 		this.ordersService = new OrdersService();
 
-		if(word != null) { // 검색어가 있을 경우
-			resultCnt = ordersService.cntOrderListServie(word);
-			list = ordersService.getOrderListByPage(currentPage, rowPerPage, word);
-			System.out.println("검색어 있음");
-		} else { // 검색어가 없을 경우
-			resultCnt = ordersService.cntOrderListServie();
-			list = ordersService.getOrderListByPage(currentPage, rowPerPage);
+		// 수정 필요
+		if(word == null || word == "") { // 검색어가 없을 경우
+			resultCnt = ordersService.cntOrderListServie(customerId);
+			list = ordersService.getOrderListByPage(currentPage, rowPerPage, customerId);
 			System.out.println("검색어 없음");
 			System.out.println(list);
+		} else { // 검색어가 있을 경우
+			resultCnt = ordersService.cntOrderListServie(customerId, word);
+			list = ordersService.getOrderListByPage(currentPage, rowPerPage, customerId, word);
+			System.out.println("검색어 있음");
 		}
 		
 		// 마지막 페이지
