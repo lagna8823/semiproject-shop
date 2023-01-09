@@ -42,7 +42,7 @@ public class PwHistoryDao {
 	
 	// 비밀번호 이력 전체 삭제(관리자 삭제, 탈퇴)
 	// 사용하는곳 : DeleteCustomerController, 
-	public int deletePwHistory(Connection conn, PwHistory pwHistory) throws Exception {
+	public int deletePwHistory(Connection conn, String customerId) throws Exception {
 		
 		int resultRow = 0;
 		
@@ -52,7 +52,7 @@ public class PwHistoryDao {
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
-		stmt.setString(1, pwHistory.getCustomerId());
+		stmt.setString(1, customerId);
 		
 		resultRow = stmt.executeUpdate();
 		

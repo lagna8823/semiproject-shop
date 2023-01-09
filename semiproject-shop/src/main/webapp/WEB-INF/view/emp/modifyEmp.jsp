@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>updateEmp.jsp</title>
+		<title>modifyEmp.jsp</title>
 		
 		<!-- jQuery -->
 		<!-- CDN 주소 추가 방식 -->
@@ -20,7 +20,7 @@
 			</div>
 			
 			<div>
-				<form action = "${pageContext.request.contextPath }/emp/updateEmp" method = "post">
+				<form action = "${pageContext.request.contextPath }/emp/modifyEmp" method = "post">
 					<div>
 						<table border = "1">
 							<tr>

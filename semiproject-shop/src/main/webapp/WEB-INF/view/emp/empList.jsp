@@ -169,7 +169,7 @@
 							<td>${emp.authCode }</td>
 							<td>${emp.createdate }</td>
 							<td>
-								<a href = "${pageContext.request.contextPath }/emp/updateEmp?empCode=${emp.empCode }">수정</a>
+								<a href = "${pageContext.request.contextPath }/emp/modifyEmp?empCode=${emp.empCode }">수정</a>
 							</td>
 							<td>
 								<a href = "${pageContext.request.contextPath }/emp/deleteEmp?empCode=${emp.empCode }">삭제</a>

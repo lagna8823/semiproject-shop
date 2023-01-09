@@ -108,7 +108,7 @@ public class EmpDao {
 	}
 	
 	// empOne 한명의 정보 출력
-	// 사용하는 곳 : UpdateEmpController
+	// 사용하는 곳 : ModifyEmpController
 	public Emp selectEmpOne(Connection conn, int empCode) throws Exception {
 		
 		Emp resultEmp = null;
@@ -144,9 +144,9 @@ public class EmpDao {
 	}
 	
 	// emp 수정
-	// 사용하는 곳 : UpdateEmpController
+	// 사용하는 곳 : ModifyEmpController
 	
-	public int updateEmp(Connection conn, Emp emp) throws Exception {
+	public int modifyEmp(Connection conn, Emp emp) throws Exception {
 		int resultRow = 0;
 		
 		String sql = "UPDATE emp"
@@ -204,7 +204,7 @@ public class EmpDao {
 	// 1) emp ID 중복확인
 	// true : ID가 이미 존재(가입불가) false : ID 사용 가능(가입가능)
 	// 사용하는 곳 : AddCustomerController, AddEmpController
-	public boolean checkEmpId(Connection conn, Emp emp) throws Exception {
+	public boolean checkEmpId(Connection conn, String empId) throws Exception {
 		
 		boolean result = false;
 		
@@ -214,7 +214,7 @@ public class EmpDao {
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
-		stmt.setString(1, emp.getEmpId());
+		stmt.setString(1, empId);
 		
 		ResultSet rs = stmt.executeQuery();
 		

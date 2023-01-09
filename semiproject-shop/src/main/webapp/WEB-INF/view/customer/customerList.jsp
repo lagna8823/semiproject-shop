@@ -31,7 +31,7 @@
 			</div>
 			
 			<div>
-				<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/updateCustomerPw">
+				<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/modifyCustomerPw">
 					<h3>회원 비밀번호 변경</h3>
 				</a>
 			</div>
@@ -175,7 +175,7 @@
 							<td>${customer.point }</td>
 							<td>${customer.createdate }</td>
 							<td>
-								<a href = "${pageContext.request.contextPath }/customer/updateCustomer?customerCode=${customer.customerCode }">수정</a>
+								<a href = "${pageContext.request.contextPath }/customer/modifyCustomerByAdmin?customerCode=${customer.customerCode }">수정</a>
 							</td>
 							<td>
 								<a href = "${pageContext.request.contextPath }/customer/deleteCustomer?customerId=${customer.customerId }">삭제</a>

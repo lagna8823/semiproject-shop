@@ -106,7 +106,7 @@ public class CustomerDao {
 	}
 	
 	// customerOne 한명의 정보 출력
-	// 사용하는 곳 : UpdateCustomerController
+	// 사용하는 곳 : ModifyCustomerController
 	public Customer selectCustomerOne(Connection conn, int customerCode) throws Exception {
 		
 		Customer resultCustomer = null;
@@ -143,9 +143,9 @@ public class CustomerDao {
 	
 	
 	// customer 수정
-	// 사용하는 곳 : UpdateCustomerController
+	// 사용하는 곳 : ModifyCustomerController
 	
-	public int updateCustomer(Connection conn, Customer customer) throws Exception {
+	public int modifyCustomer(Connection conn, Customer customer) throws Exception {
 		int resultRow = 0;
 		
 		String sql = "UPDATE customer"
@@ -176,7 +176,7 @@ public class CustomerDao {
 	
 	// customer 삭제
 	// 사용하는 곳 : DeleteCustomerController
-	public int deleteCustomer(Connection conn, Customer customer) throws Exception {
+	public int deleteCustomer(Connection conn, String customerId) throws Exception {
 		
 		int resultRow = 0;
 		
@@ -186,7 +186,7 @@ public class CustomerDao {
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
-		stmt.setString(1, customer.getCustomerId());
+		stmt.setString(1, customerId);
 		
 		resultRow = stmt.executeUpdate();
 		
@@ -205,7 +205,7 @@ public class CustomerDao {
 	// 1) customer ID 중복확인
 	// true : ID가 이미 존재(가입불가) false : ID 사용 가능(가입가능)
 	// 사용하는 곳 : AddCustomerController, AddEmpController
-	public boolean checkCustomerId(Connection conn, Customer customer) throws Exception {
+	public boolean checkCustomerId(Connection conn, String customerId) throws Exception {
 		
 		boolean result = false;
 		
@@ -215,7 +215,7 @@ public class CustomerDao {
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
-		stmt.setString(1, customer.getCustomerId());
+		stmt.setString(1, customerId);
 		
 		ResultSet rs = stmt.executeQuery();
 		

@@ -42,8 +42,8 @@
 					
 					<span>&nbsp;</span>
 					
-					<a href = "${pageContext.request.contextPath }/">
-						내정보(미구현)
+					<a href = "${pageContext.request.contextPath }/customer/modifyCustomer">
+						내정보 수정
 					</a>
 					
 					<span>&nbsp;</span>

@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import service.CustomerAddressService;
 import service.CustomerService;
+import service.OutidService;
 import service.PwHistoryService;
 import vo.Customer;
 import vo.CustomerAddress;
@@ -20,8 +22,6 @@ import vo.PwHistory;
 public class DeleteCustomerController extends HttpServlet {
 	
 	private CustomerService customerService;
-	private PwHistoryService pwHistoryService;
-	private CustomerAddressService customerAddressService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -43,7 +43,7 @@ public class DeleteCustomerController extends HttpServlet {
 		// request
 		String customerId = request.getParameter("customerId");
 		
-		// null, 공백 검사 
+		// request null & 공백 체크 
 		if(customerId == null || customerId.equals("")) {
 			
 			response.sendRedirect(request.getContextPath() + "/customer/customerList");
@@ -54,36 +54,35 @@ public class DeleteCustomerController extends HttpServlet {
 		Customer customer = new Customer();
 		customer.setCustomerId(customerId);
 		
-		PwHistory pwHistory = new PwHistory();
-		pwHistory.setCustomerId(customerId);
-		
-		CustomerAddress customerAddress = new CustomerAddress();
-		customerAddress.setCustomerId(customerId);
-		
-		
-		// 해당 ID 비밀번호 이력 전체 삭제
-		this.pwHistoryService = new PwHistoryService();
-		int resultRowP = this.pwHistoryService.deletePwHistory(pwHistory);
-		
-		// 해당 ID 주소 전체 삭제
-		this.customerAddressService = new CustomerAddressService();
-		int resultRowCA = this.customerAddressService.deleteAddress(customerAddress);
-		
 		// customer 삭제
 		this.customerService = new CustomerService();
-		int resultRowC = this.customerService.deleteCustomer(customer);
+		int resultRow = this.customerService.deleteCustomer(customer);
+
 		
-		// 삭제 실패하면 회원 탈퇴 누르기 전 화면 or 관리자가 삭제 누르기 전 화면
-		String targetUrl = "/customer/customerList";
+		String targetUrl = null;
 		
-		if(resultRowC == 1 && resultRowP == 1 && resultRowCA == 1) {
-			
-			// 삭제성공하면
-			
-			request.getSession().invalidate();  // 받아온 세션값을 완전히 삭제.
-			
-			targetUrl = "/login";
-			
+		// 삭제 실패시
+		if(loginEmp.getAuthCode() == 0) {
+			// 관리자라면
+			targetUrl = "/customer/customerList";
+		} else {
+			// customer 라면
+			targetUrl = "/home";
+		}
+		
+		
+		// 삭제 성공시
+		if(resultRow == 1) {
+			if(loginEmp.getAuthCode() == 0) {
+				// 관리자라면
+				targetUrl = "/customer/customerList";
+			} else {
+				// customer 라면
+				// 받아온 세션값을 완전히 삭제.
+				request.getSession().invalidate();
+				
+				targetUrl = "/login";
+			}
 		}
 		
 		response.sendRedirect(request.getContextPath() + targetUrl);

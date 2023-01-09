@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>updateCustomer.jsp</title>
+		<title>modifyCustomer.jsp</title>
 		
 		<!-- jQuery -->
 		<!-- CDN 주소 추가 방식 -->
@@ -20,16 +20,13 @@
 			</div>
 			
 			<div>
-				<form action = "${pageContext.request.contextPath }/customer/updateCustomer" method = "post">
+				<form action = "${pageContext.request.contextPath }/customer/modifyCustomer" method = "post">
+					<div>
+						<input type = "hidden" name = "customerCode" id = "customerCode" value = "${customer.customerCode }" readonly = "readonly">
+					</div>
+				
 					<div>
 						<table border = "1">
-							<tr>
-								<th>CustomerCode</th>
-								<td>
-									<input type = "text" name = "customerCode" id = "customerCode" value = "${param.customerCode }" readonly = "readonly">
-								</td>
-							</tr>
-							
 							<tr>
 								<th>customerId</th>
 								<td>
@@ -54,7 +51,7 @@
 							<tr>
 								<th>point</th>
 								<td>
-									<input type = "text" name = "point" value = "${customer.point }" id = "point">
+									<input type = "text" name = "point" value = "${customer.point }" id = "point" readonly = "readonly">
 								</td>
 							</tr>
 							
