@@ -1,19 +1,21 @@
 package service;
 
-import java.sql.Connection;
+import java.sql.Connection;	
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import dao.CustomerDao;
 import dao.EmpDao;
+import dao.OutidDao;
 import util.DBUtil;
 import util.Page;
-import vo.Customer;
 import vo.Emp;
 
 public class EmpService {
 	private EmpDao empDao;
+	private CustomerDao customerDao;
+	private OutidDao outidDao;
 	
 	// Login
 	// 사용하는곳 LoginController
@@ -140,7 +142,7 @@ public class EmpService {
 	}
 	
 	// empOne emp 한명의 정보를 출력
-	// 사용하는 곳 : UpdateEmpController
+	// 사용하는 곳 : ModifyEmpController
 	public Emp getEmpOne(int empCode) {
 
 		Emp resultEmp = null;
@@ -181,8 +183,8 @@ public class EmpService {
 	
 	
 	// emp 수정
-	// 사용하는 곳 : UpdateEmpController
-	public int updateEmp(Emp emp) {
+	// 사용하는 곳 : ModifyEmpController
+	public int modifyEmp(Emp emp) {
 
 		int resultRow = 0;
 		
@@ -194,7 +196,7 @@ public class EmpService {
 			conn.setAutoCommit(false);
 
 			this.empDao = new EmpDao();
-			resultRow = this.empDao.updateEmp(conn, emp);
+			resultRow = this.empDao.modifyEmp(conn, emp);
 			conn.commit();
 			
 		} catch (Exception e) {
@@ -221,6 +223,8 @@ public class EmpService {
 	
 	
 	// emp 삭제
+	// 탈퇴 or 관리자 삭제 시 
+	// 1) emp 삭제
 	// 사용하는곳 : DeleteEmpController
 	public int deleteEmp(int empCode) {
 		
@@ -235,7 +239,11 @@ public class EmpService {
 
 			this.empDao = new EmpDao();
 			resultRow = this.empDao.deleteEmp(conn, empCode);
-			conn.commit();
+			
+			if(resultRow == 1) {
+				// 삭제 성공하면
+				conn.commit();
+			}
 			
 		} catch (Exception e) {
 			
@@ -259,11 +267,22 @@ public class EmpService {
 		
 	}
 	
+	
+	
+	
+	
 	// emp 추가 -> 회원 가입
+	// 1) customerId, empId, outid ID 중복확인
+	// 2) emp 추가
+	// 3) 모두 성공하면 commit
 	// 사용하는 곳 : AddEmpController
 	public int addEmp(Emp emp) {
 		
 		int resultRow = 0;
+		
+		boolean checkEId = false;
+		boolean checkCId = false;
+		boolean checkOId = false;
 		
 		Connection conn = null;
 		
@@ -272,11 +291,31 @@ public class EmpService {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
 
-			this.empDao = new EmpDao();
+			this.empDao = new EmpDao();		// ID 중복확인 및 회원가입 
+			this.customerDao = new CustomerDao();	// ID 중복확인
+			this.outidDao = new OutidDao();		// ID 중복확인
+			
+			// checkCId, checkEId, checkOId
+			// true : ID가 이미 존재(가입불가) false : ID 사용 가능(가입가능)
+			checkEId = this.empDao.checkEmpId(conn, emp.getEmpId());
+			checkCId = this.customerDao.checkCustomerId(conn, emp.getEmpId());
+			checkOId = this.outidDao.checkOutid(conn, emp.getEmpId());
+			
+			if(checkCId || checkEId || checkOId) {
+				// 셋중 하나라도 중복(true)되면 가입 불가
+				
+				System.out.println("EmpService ID 중복입니다.");
+				return resultRow;
+				
+			}
 			
 			resultRow = this.empDao.addEmp(conn, emp);
 			
-			conn.commit();
+			if(resultRow == 1) {
+				
+				// 회원 가입 성공하면
+				conn.commit();
+			}
 			
 		} catch (Exception e) {
 			
@@ -303,47 +342,6 @@ public class EmpService {
 	
 	
 	
-	// emp ID 중복확인
-	// true : ID가 이미 존재(가입불가) false : ID 사용 가능(가입가능)
-	// 사용하는 곳 : AddCustomerController, AddEmpController
-	public boolean checkEmpId(Emp emp) {
-		
-		boolean result = false;
-		
-		Connection conn = null;
-		
-		try {
-			
-			conn = DBUtil.getConnection();
-			conn.setAutoCommit(false);
-			
-			this.empDao = new EmpDao();
-			result = this.empDao.checkEmpId(conn, emp);
-			
-			conn.commit();
-			
-		} catch (Exception e) {
-			
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			
-			e.printStackTrace();
-			
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		
-		return result;
-		
-	}	
 		
 	
 	

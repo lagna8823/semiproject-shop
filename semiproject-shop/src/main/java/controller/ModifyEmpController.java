@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import service.EmpService;
 import vo.Emp;
 
-@WebServlet("/emp/updateEmp")
-public class UpdateEmpController extends HttpServlet {
+@WebServlet("/emp/modifyEmp")
+public class ModifyEmpController extends HttpServlet {
 
 	private EmpService empService;
 	
@@ -42,7 +42,7 @@ public class UpdateEmpController extends HttpServlet {
 		
 		request.setAttribute("emp", emp);
 		
-		request.getRequestDispatcher("/WEB-INF/view/emp/updateEmp.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/emp/modifyEmp.jsp").forward(request, response);
 		
 		
 	}
@@ -77,7 +77,7 @@ public class UpdateEmpController extends HttpServlet {
 		emp.setAuthCode(Integer.parseInt(authCode));
 		
 		this.empService = new EmpService();
-		int resultRow = this.empService.updateEmp(emp);
+		int resultRow = this.empService.modifyEmp(emp);
 		
 				
 		if(resultRow == 1) {

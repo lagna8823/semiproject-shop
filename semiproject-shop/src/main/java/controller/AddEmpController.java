@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,9 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import service.CustomerService;
 import service.EmpService;
+import service.OutidService;
 import vo.Customer;
 import vo.Emp;
+import vo.Outid;
 
 @WebServlet("/emp/addEmp")
 public class AddEmpController extends HttpServlet {
@@ -56,6 +60,7 @@ public class AddEmpController extends HttpServlet {
 		String empPw = request.getParameter("empPw");
 		String empName = request.getParameter("empName");
 		
+		// request null & 공백 체크
 		if(empId == null || empPw == null || empName == null || empId.equals("") || empPw.equals("") || empName.equals("")) {
 			
 			response.sendRedirect(request.getContextPath() + "/emp/addEmp");
@@ -68,6 +73,7 @@ public class AddEmpController extends HttpServlet {
 		emp.setEmpPw(empPw);
 		emp.setEmpName(empName);
 		
+		// 회원 가입
 		this.empService = new EmpService();
 		int resultRow = this.empService.addEmp(emp);
 		
@@ -78,6 +84,7 @@ public class AddEmpController extends HttpServlet {
 			targetUrl = "/login";
 			
 		}
+		
 		response.sendRedirect(request.getContextPath() + targetUrl);
 		
 		
