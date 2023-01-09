@@ -14,6 +14,9 @@
 	</header>
 	<h2>문의글 작성</h2>
 	<div>
+		<a href="${pageContext.request.contextPath}/question/questionList">뒤로가기</a>
+	</div>
+	<div>
 		<!-- 문의글 작성 페이지-->
 		<div>
 		<form action="${pageContext.request.contextPath}/question/addQuestion" method="post">

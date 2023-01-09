@@ -28,7 +28,7 @@ public class LoginController extends HttpServlet {
 		Customer loginCustomer = (Customer)session.getAttribute("loginCustomer");
 		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
 		if(loginCustomer != null || loginEmp != null) {
-			response.sendRedirect(request.getContextPath()+"/goods/goodsList");
+			response.sendRedirect(request.getContextPath()+"/home");
 			return;
 		}
 		

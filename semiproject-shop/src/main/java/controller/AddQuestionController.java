@@ -65,10 +65,6 @@ public class AddQuestionController extends HttpServlet {
 		String category = request.getParameter("category"); 
 		String questionMemo= request.getParameter("questionMemo"); 
 		
-		System.out.println(ordersCode);
-		System.out.println(category);
-		System.out.println(questionMemo);
-		
 		// 메서드 호출시 매개변수
 		Question addQuestion = new Question(); 
 		addQuestion.setOrderCode(ordersCode);
