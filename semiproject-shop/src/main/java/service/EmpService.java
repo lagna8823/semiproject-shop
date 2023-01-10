@@ -142,8 +142,8 @@ public class EmpService {
 	}
 	
 	// empOne emp 한명의 정보를 출력
-	// 사용하는 곳 : ModifyEmpController
-	public Emp getEmpOne(int empCode) {
+	// 사용하는 곳 : EmpOneController, ModifyEmpController, ModifyEmpByAdminController
+	public Emp getEmpOne(String empId) {
 
 		Emp resultEmp = null;
 		
@@ -155,7 +155,7 @@ public class EmpService {
 			conn.setAutoCommit(false);
 
 			this.empDao = new EmpDao();
-			resultEmp = this.empDao.selectEmpOne(conn, empCode);
+			resultEmp = this.empDao.selectEmpOne(conn, empId);
 			conn.commit();
 			
 		} catch (Exception e) {
@@ -179,6 +179,55 @@ public class EmpService {
 		return resultEmp;
 		
 	}
+	
+	
+
+	
+	
+	// 관리자가 emp 수정
+	// 사용하는 곳 : ModifyEmpByAdminController
+	public int modifyEmpByAdmin(Emp emp) {
+
+		int resultRow = 0;
+		
+		Connection conn = null;
+		
+		try {
+			
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+
+			this.empDao = new EmpDao();
+			resultRow = this.empDao.modifyEmpByAdmin(conn, emp);
+
+			if(resultRow == 1) {
+				conn.commit();
+			}
+				
+			
+		} catch (Exception e) {
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return resultRow;
+		
+	}	
+		
+	
 	
 	
 	
@@ -340,8 +389,48 @@ public class EmpService {
 		
 	}
 	
-	
-	
+	// 비밀번호 확인
+	// 사용하는 곳 : DeleteEmpController, UpdateEmpPwController
+	public boolean checkPw(Emp emp) {
+		
+		boolean result = false;
+		
+		Connection conn = null;
+		
+		try {
+			
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			
+			this.empDao = new EmpDao();
+			result = this.empDao.checkPw(conn, emp);
+			
+			conn.commit();
+			
+		} catch (Exception e) {
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return result;
+		
+	}
+		
+
 		
 	
 	

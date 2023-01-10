@@ -14,7 +14,7 @@
 			</div>
 			
 			<div>
-				<form action = "${pageContext.request.contextPath }/customer/checkPw" method = "post" >
+				<form action = "${pageContext.request.contextPath }/emp/checkPw" method = "post" >
 					<div>
 						<input type = "hidden" name = "targetUrl" id = "targetUrl" value = "${targetUrl }">
 					</div>
@@ -24,7 +24,7 @@
 							<tr>
 								<th>Password</th>
 								<td>
-									<input type = "password" name = "customerPw" id = "customerPw">
+									<input type = "password" name = "empPw" id = "empPw">
 								</td>
 							</tr>
 						</table>

@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,14 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import service.CustomerService;
-import vo.Customer;
+import service.EmpService;
 import vo.Emp;
 
-@WebServlet("/customer/modifyCustomerByAdmin")
-public class ModifyCustomerByAdminController extends HttpServlet {
+@WebServlet("/emp/modifyEmpByAdmin")
+public class ModifyEmpByAdminController extends HttpServlet {
 	
-	private CustomerService customerService;
+	private EmpService empService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -38,24 +38,24 @@ public class ModifyCustomerByAdminController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		// request
-		String customerId = request.getParameter("customerId");
+		String empId = request.getParameter("empId");
 		
 		// null, 공백 검사 
-		if(customerId == null || customerId.equals("")) {
+		if(empId == null || empId.equals("")) {
 			
-			response.sendRedirect(request.getContextPath() + "/customer/customerList");
+			response.sendRedirect(request.getContextPath() + "/emp/empList");
 			return;
 			
 		}
 		
-		Customer customer = new Customer();
+		Emp emp = new Emp();
 		
-		this.customerService = new CustomerService();
-		customer = this.customerService.getCustomerOne(customerId);
+		this.empService = new EmpService();
+		emp = this.empService.getEmpOne(empId);
 		
-		request.setAttribute("customer", customer);
+		request.setAttribute("emp", emp);
 		
-		request.getRequestDispatcher("/WEB-INF/view/customer/modifyCustomerByAdmin.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/emp/modifyEmpByAdmin.jsp").forward(request, response);
 		
 		
 	}
@@ -82,37 +82,37 @@ public class ModifyCustomerByAdminController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		// request
-		String customerCode = request.getParameter("customerCode");
-		String customerId = request.getParameter("customerId");
-		String customerName = request.getParameter("customerName");
-		String customerPhone = request.getParameter("customerPhone");
-		String point = request.getParameter("point");
+		String empCode = request.getParameter("empCode");
+		String empId = request.getParameter("empId");
+		String empName = request.getParameter("empName");
+		String active = request.getParameter("active");
+		String authCode = request.getParameter("authCode");
 		
 		// null, 공백 검사
-		if(customerCode == null || customerId == null || customerName == null || customerPhone == null || point == null
-				 || customerCode.equals("") || customerId.equals("") || customerName.equals("") || customerPhone.equals("") || point.equals("")) {
+		if(empCode == null || empId == null || empName == null || active == null || authCode == null
+				 || empCode.equals("") || empId.equals("") || empName.equals("") || active.equals("") || authCode.equals("")) {
 			
-			response.sendRedirect(request.getContextPath() + "/customer/customerList");
+			response.sendRedirect(request.getContextPath() + "/emp/empList");
 			return;
 			
 		}
 		
-		Customer customer = new Customer();
-		customer.setCustomerCode(Integer.parseInt(customerCode));
-		customer.setCustomerName(customerName);
-		customer.setCustomerPhone(customerPhone);
-		customer.setPoint(Integer.parseInt(point));
+		Emp emp = new Emp();
+		emp.setEmpCode(Integer.parseInt(empCode));
+		emp.setEmpName(empName);
+		emp.setActive(active);
+		emp.setAuthCode(Integer.parseInt(authCode));
 		
-		this.customerService = new CustomerService();
-		int resultRow = this.customerService.modifyCustomerByAdmin(customer);
+		this.empService = new EmpService();
+		int resultRow = this.empService.modifyEmpByAdmin(emp);
 		
 		// 수정 실패 시
-		String targetUrl = "/customer/customerList";
+		String targetUrl = "/emp/empList";
 		
 		if(resultRow == 1) {
 
 			// 수정 성공하면
-			targetUrl = "/customer/customerOne?customerId=" + customerId;
+			targetUrl = "/emp/empOne?empId=" + empId;
 			
 		}
 		

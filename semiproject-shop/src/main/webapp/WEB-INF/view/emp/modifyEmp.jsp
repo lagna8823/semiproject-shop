@@ -24,13 +24,6 @@
 					<div>
 						<table border = "1">
 							<tr>
-								<th>empCode</th>
-								<td>
-									<input type = "text" name = "empCode" id = "empCode" value = "${param.empCode }" readonly = "readonly">
-								</td>
-							</tr>
-							
-							<tr>
 								<th>empId</th>
 								<td>
 									<input type = "text" name = "empId" id = "empId" value = "${emp.empId }" readonly = "readonly">
@@ -41,45 +34,6 @@
 								<th>empName</th>
 								<td>
 									<input type = "text" name = "empName" value = "${emp.empName }" id = "empName">
-								</td>
-							</tr>
-							
-							<tr>
-								<th>active</th>
-								<td>
-									<c:if test="${emp.active == 'Y' }">
-										<input type = "radio" name = "active" value = "Y" checked>Y
-										<input type = "radio" name = "active" value = "N">N
-									</c:if>
-									
-									<c:if test="${emp.active == 'N' }">
-										<input type = "radio" name = "active" value = "Y">Y
-										<input type = "radio" name = "active" value = "N" checked>N
-									</c:if>
-								</td>
-							</tr>
-							
-							<tr>
-								<th>authCode</th>
-								<td>
-									<select name = "authCode">
-										<c:if test="${emp.authCode == 0}">
-											<option value = "0" selected>0대기</option>
-											<option value = "1">1고객</option>
-											<option value = "2">2관리자</option>
-										</c:if>
-										<c:if test="${emp.authCode == 1}">
-											<option value = "0">0대기</option>
-											<option value = "1" selected>1고객</option>
-											<option value = "2">2관리자</option>
-										</c:if>
-										<c:if test="${emp.authCode == 2}">
-											<option value = "0">0대기</option>
-											<option value = "1">1고객</option>
-											<option value = "2"selected>2관리자</option>
-										</c:if>
-										
-									</select>
 								</td>
 							</tr>
 							

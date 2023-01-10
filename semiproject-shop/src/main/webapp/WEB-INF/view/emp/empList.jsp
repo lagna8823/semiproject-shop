@@ -35,16 +35,7 @@
 				<form method = "get" action = "${pageContext.request.contextPath }/emp/empList">
 					<div>
 						<select name = "searchCategory" id = "searchCategory">
-							<c:if test="${param.searchCategory == null || param.searchCategory == 'emp_code' }">
-								<option value = "emp_code" selected>empCode</option>
-								<option value = "emp_id">empId</option>
-								<option value = "emp_name">empName</option>
-								<option value = "active">active</option>
-								<option value = "auth_code">authCode</option>
-							</c:if>
-							
-							<c:if test="${param.searchCategory == 'emp_id'}">
-								<option value = "emp_code">empCode</option>
+							<c:if test="${param.searchCategory == null || param.searchCategory == 'emp_id'}">
 								<option value = "emp_id" selected>empId</option>
 								<option value = "emp_name">empName</option>
 								<option value = "active">active</option>
@@ -52,7 +43,6 @@
 							</c:if>
 							
 							<c:if test="${param.searchCategory == 'emp_name' }">
-								<option value = "emp_code">empCode</option>
 								<option value = "emp_id">empId</option>
 								<option value = "emp_name" selected>empName</option>
 								<option value = "active">active</option>
@@ -60,7 +50,6 @@
 							</c:if>
 							
 							<c:if test="${param.searchCategory == 'active' }">
-								<option value = "emp_code">empCode</option>
 								<option value = "emp_id">empId</option>
 								<option value = "emp_name">empName</option>
 								<option value = "active" selected>active</option>
@@ -68,7 +57,6 @@
 							</c:if>
 							
 							<c:if test="${param.searchCategory == 'auth_code' }">
-								<option value = "emp_code">empCode</option>
 								<option value = "emp_id">empId</option>
 								<option value = "emp_name">empName</option>
 								<option value = "active">active</option>
@@ -150,24 +138,24 @@
 			<div>
 				<table border = "1">
 					<tr>
-						<th>empCode</th>
 						<th>empId</th>
 						<th>empName</th>
 						<th>active</th>
 						<th>authCode</th>
-						<th>createdate</th>
 						<th>수정</th>
 						<th>삭제</th>
 					</tr>
 					
 					<c:forEach var="emp" items="${empList }">
 						<tr>
-							<td>${emp.empCode }</td>
-							<td>${emp.empId }</td>
+							<td>
+								<a href = "${pageContext.request.contextPath }/emp/empOne?empId=${emp.empId }">
+									${emp.empId }
+								</a>
+							</td>
 							<td>${emp.empName }</td>
 							<td>${emp.active }</td>
 							<td>${emp.authCode }</td>
-							<td>${emp.createdate }</td>
 							<td>
 								<a href = "${pageContext.request.contextPath }/emp/modifyEmp?empCode=${emp.empCode }">수정</a>
 							</td>

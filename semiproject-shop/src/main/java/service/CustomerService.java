@@ -148,8 +148,8 @@ public class CustomerService {
 	}
 	
 	// customerOne customer 한명의 정보를 출력
-	// 사용하는 곳 : UpdateCustomerController
-	public Customer getCustomerOne(int customerCode) {
+	// 사용하는 곳 : CustomerOneController, ModifyCustomerController, ModifyCustomerByAdminController
+	public Customer getCustomerOne(String customerId) {
 
 		Customer resultCustomer = null;
 		
@@ -161,7 +161,7 @@ public class CustomerService {
 			conn.setAutoCommit(false);
 
 			this.customerDao = new CustomerDao();
-			resultCustomer = this.customerDao.selectCustomerOne(conn, customerCode);
+			resultCustomer = this.customerDao.selectCustomerOne(conn, customerId);
 			conn.commit();
 			
 		} catch (Exception e) {
@@ -187,9 +187,9 @@ public class CustomerService {
 	}
 
 	
-	// customer 수정
-	// 사용하는 곳 : ModifyCustomerController
-	public int modifyCustomer(Customer customer) {
+	// 관리자가 customer 수정
+	// 사용하는 곳 : ModifyCustomerByAdminController
+	public int modifyCustomerByAdmin(Customer customer) {
 
 		int resultRow = 0;
 		
@@ -201,8 +201,12 @@ public class CustomerService {
 			conn.setAutoCommit(false);
 
 			this.customerDao = new CustomerDao();
-			resultRow = this.customerDao.modifyCustomer(conn, customer);
-			conn.commit();
+			resultRow = this.customerDao.modifyCustomerByAdmin(conn, customer);
+
+			if(resultRow == 1) {
+				conn.commit();
+			}
+				
 			
 		} catch (Exception e) {
 			
@@ -225,6 +229,55 @@ public class CustomerService {
 		return resultRow;
 		
 	}	
+	
+	
+	
+	
+	// customer 수정
+	// 사용하는 곳 : ModifyCustomerController
+	public int modifyCustomer(Customer customer) {
+
+		int resultRow = 0;
+		
+		Connection conn = null;
+		
+		try {
+			
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+
+			this.customerDao = new CustomerDao();
+			resultRow = this.customerDao.modifyCustomer(conn, customer);
+
+			if(resultRow == 1) {
+				conn.commit();
+			}
+				
+			
+		} catch (Exception e) {
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return resultRow;
+		
+	}		
+	
+	
+	
 	
 	// customer 삭제
 	// 탈퇴 or 관리자 삭제 시 
@@ -385,7 +438,8 @@ public class CustomerService {
 	
 	
 	// 비밀번호 확인
-	// 사용하는 곳 : UpdateCustomerPwController
+	// 사용하는 곳 : DeleteCustomerController, ModifyCustomerController
+	// true : 비밀번호 일치(메뉴사용가능) / false : 불일치(메뉴사용불가)
 	public boolean checkPw(Customer customer) {
 		
 		boolean result = false;
@@ -400,7 +454,10 @@ public class CustomerService {
 			this.customerDao = new CustomerDao();
 			result = this.customerDao.checkPw(conn, customer);
 			
-			conn.commit();
+			if(result) {
+				conn.commit();
+			}
+			
 			
 		} catch (Exception e) {
 			

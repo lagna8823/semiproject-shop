@@ -106,22 +106,23 @@ public class CustomerDao {
 	}
 	
 	// customerOne 한명의 정보 출력
-	// 사용하는 곳 : ModifyCustomerController
-	public Customer selectCustomerOne(Connection conn, int customerCode) throws Exception {
+	// 사용하는 곳 : CustomerOneController, ModifyCustomerController, ModifyCustomerByAdminController
+	public Customer selectCustomerOne(Connection conn, String customerId) throws Exception {
 		
 		Customer resultCustomer = null;
 		
-		String sql = "SELECT customer_id customerId"
+		String sql = "SELECT customer_code customerCode"
+				+ "			, customer_id customerId"
 				+ "			, customer_name customerName"
 				+ "			, customer_phone customerPhone"
 				+ "			, point"
 				+ "			, createdate"
 				+ "	 FROM customer"
-				+ "	 WHERE customer_Code = ?";
+				+ "	 WHERE customer_id = ?";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
-		stmt.setInt(1, customerCode);
+		stmt.setString(1, customerId);
 		
 		ResultSet rs = stmt.executeQuery();
 		
@@ -129,6 +130,7 @@ public class CustomerDao {
 			
 			resultCustomer = new Customer();
 			
+			resultCustomer.setCustomerCode(rs.getInt("customerCode"));
 			resultCustomer.setCustomerId(rs.getString("customerId"));
 			resultCustomer.setCustomerName(rs.getString("customerName"));
 			resultCustomer.setCustomerPhone(rs.getString("customerPhone"));
@@ -142,10 +144,10 @@ public class CustomerDao {
 	}
 	
 	
-	// customer 수정
-	// 사용하는 곳 : ModifyCustomerController
+	// 관리자가 customer 수정
+	// 사용하는 곳 : ModifyCustomerByAdminController
 	
-	public int modifyCustomer(Connection conn, Customer customer) throws Exception {
+	public int modifyCustomerByAdmin(Connection conn, Customer customer) throws Exception {
 		int resultRow = 0;
 		
 		String sql = "UPDATE customer"
@@ -164,6 +166,37 @@ public class CustomerDao {
 		resultRow = stmt.executeUpdate();
 		
 		if(resultRow == 1) {
+			System.out.println("customerByAdmin 수정 성공!");
+		} else {
+			System.out.println("customerByAdmin 수정 실패!");
+		}
+		
+		return resultRow;
+		
+	}
+	
+	
+
+	// customer 내정보수정
+	// 사용하는 곳 : ModifyCustomerController
+	
+	public int modifyCustomer(Connection conn, Customer customer) throws Exception {
+		int resultRow = 0;
+		
+		String sql = "UPDATE customer"
+				+ "	 SET customer_name = ?"
+				+ "		, customer_phone = ?"
+				+ "	 WHERE customer_id = ?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1, customer.getCustomerName());
+		stmt.setString(2, customer.getCustomerPhone());
+		stmt.setString(3, customer.getCustomerId());
+		
+		resultRow = stmt.executeUpdate();
+		
+		if(resultRow == 1) {
 			System.out.println("customer 수정 성공!");
 		} else {
 			System.out.println("customer 수정 실패!");
@@ -172,6 +205,7 @@ public class CustomerDao {
 		return resultRow;
 		
 	}
+	
 	
 	
 	// customer 삭제
@@ -273,7 +307,7 @@ public class CustomerDao {
 		
 	
 	// 비밀번호 확인
-	// 사용하는 곳 : UpdateCustomerPwController,
+	// 사용하는 곳 : DeleteCustomerController, UpdateCustomerController,
 	// true : 비밀번호 일치(메뉴사용가능) / false : 불일치(메뉴사용불가)
 	public boolean checkPw(Connection conn, Customer customer) throws Exception {
 		

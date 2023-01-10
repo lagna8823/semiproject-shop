@@ -30,38 +30,8 @@
 					
 					<span>&nbsp;</span>
 					
-					<a href = "${pageContext.request.contextPath }/emp/addEmp">
-						emp회원가입
-					</a>
-					
-					<span>&nbsp;</span>
-					
-					<a href = "${pageContext.request.contextPath }/customer/addCustomer">
-						customer회원가입
-					</a>
-					
-					<span>&nbsp;</span>
-					
-					<a href = "${pageContext.request.contextPath }/customer/modifyCustomer">
-						내정보 수정
-					</a>
-					
-					<span>&nbsp;</span>
-					
 					<a href = "${pageContext.request.contextPath }/order/orderList">
 						내주문
-					</a>
-					
-					<span>&nbsp;</span>
-					
-					<a href = "${pageContext.request.contextPath }/emp/empList">
-						emp회원관리
-					</a>
-					
-					<span>&nbsp;</span>
-					
-					<a href = "${pageContext.request.contextPath }/customer/customerList">
-						customer회원관리
 					</a>
 					
 					<span>&nbsp;</span>
@@ -92,17 +62,69 @@
 			
 			<div>
 				<h3>
-					<a href = "${pageContext.request.contextPath }/customer/updateCustomerPw">
-						customer 비밀번호 변경
+					<a href = "${pageContext.request.contextPath }/customer/customerList">
+						customer회원관리
+					</a>
+					
+					<span>&nbsp;</span>					
+				
+					<a href = "${pageContext.request.contextPath }/customer/addCustomer">
+						customer회원가입
+					</a>
+				
+					<span>&nbsp;</span>
+					
+					<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/modifyCustomer">
+						customer 정보 수정
 					</a>
 					
 					<span>&nbsp;</span>
 				
-					<a href = "${pageContext.request.contextPath }/emp/updateEmpPw">
-						emp 비밀번호 변경
+					<a href = "${pageContext.request.contextPath }/customer/updateCustomerPw">
+						customer 비밀번호 변경(X)
 					</a>
+					
+					<span>&nbsp;</span>
+					
+					<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/deleteCustomer?customerId=${loginCustomer.customerId }">
+						customer 회원 탈퇴
+					</a>
+
 				</h3>
 			
+			</div>
+			
+			<div>
+				<h3>
+					<a href = "${pageContext.request.contextPath }/emp/empList">
+						emp회원관리
+					</a>
+					
+					<span>&nbsp;</span>				
+				
+					<a href = "${pageContext.request.contextPath }/emp/addEmp">
+						emp회원가입
+					</a>
+					
+					<span>&nbsp;</span>
+					
+					<a href = "${pageContext.request.contextPath }/emp/checkPw?targetUrl=/emp/modifyEmp">
+						emp 정보 수정
+					</a>
+					
+					<span>&nbsp;</span>					
+
+					<a href = "${pageContext.request.contextPath }/emp/updateEmpPw">
+						emp 비밀번호 변경(X)
+					</a>				
+				
+					<span>&nbsp;</span>
+					
+					<a href = "${pageContext.request.contextPath }/emp/checkPw?targetUrl=/emp/deleteEmp?empCode=${loginEmp.empCode }">
+						emp 회원 탈퇴
+					</a>					
+										
+				</h3>
 			</div>
 		
 		

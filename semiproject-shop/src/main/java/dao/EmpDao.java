@@ -108,22 +108,23 @@ public class EmpDao {
 	}
 	
 	// empOne 한명의 정보 출력
-	// 사용하는 곳 : ModifyEmpController
-	public Emp selectEmpOne(Connection conn, int empCode) throws Exception {
+	// 사용하는 곳 : EmpOneController, ModifyEmpController, ModifyEmpByAdminController
+	public Emp selectEmpOne(Connection conn, String empId) throws Exception {
 		
 		Emp resultEmp = null;
 		
-		String sql = "SELECT emp_id empId"
+		String sql = "SELECT emp_code empCode"
+				+ "			, emp_id empId"
 				+ "			, emp_name empName"
 				+ "			, active"
 				+ "			, auth_code authCode"
 				+ "			, createdate"
 				+ "	 FROM emp"
-				+ "	 WHERE emp_Code = ?";
+				+ "	 WHERE emp_id = ?";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
-		stmt.setInt(1, empCode);
+		stmt.setString(1, empId);
 		
 		ResultSet rs = stmt.executeQuery();
 		
@@ -131,6 +132,7 @@ public class EmpDao {
 			
 			resultEmp = new Emp();
 			
+			resultEmp.setEmpCode(rs.getInt("empCode"));
 			resultEmp.setEmpId(rs.getString("empId"));
 			resultEmp.setEmpName(rs.getString("empName"));
 			resultEmp.setActive(rs.getString("active"));
@@ -143,10 +145,12 @@ public class EmpDao {
 		
 	}
 	
-	// emp 수정
-	// 사용하는 곳 : ModifyEmpController
 	
-	public int modifyEmp(Connection conn, Emp emp) throws Exception {
+	
+	
+	// 관리자가 emp 수정
+	// 사용하는 곳 : ModifyEmpByAdminController
+	public int modifyEmpByAdmin(Connection conn, Emp emp) throws Exception {
 		int resultRow = 0;
 		
 		String sql = "UPDATE emp"
@@ -165,6 +169,37 @@ public class EmpDao {
 		resultRow = stmt.executeUpdate();
 		
 		if(resultRow == 1) {
+			System.out.println("empByAdmin 수정 성공!");
+		} else {
+			System.out.println("empByAdmin 수정 실패!");
+		}
+		
+		return resultRow;
+		
+	}
+	
+	
+	
+	
+	
+	// emp 내정보수정
+	// 사용하는 곳 : ModifyEmpController
+	
+	public int modifyEmp(Connection conn, Emp emp) throws Exception {
+		int resultRow = 0;
+		
+		String sql = "UPDATE emp"
+				+ "	 SET emp_name = ?"
+				+ "	 WHERE emp_id = ?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1, emp.getEmpName());
+		stmt.setString(2, emp.getEmpId());
+		
+		resultRow = stmt.executeUpdate();
+		
+		if(resultRow == 1) {
 			System.out.println("emp 수정 성공!");
 		} else {
 			System.out.println("emp 수정 실패!");
@@ -173,6 +208,16 @@ public class EmpDao {
 		return resultRow;
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// emp 삭제
 	// 사용하는 곳 : DeleteEmpController
@@ -270,7 +315,33 @@ public class EmpDao {
 		
 	}
 	
-	
+
+	// 비밀번호 확인
+	// 사용하는 곳 : DeleteEmpController, UpdateEmpController
+	// true : 비밀번호 일치(메뉴사용가능) / false : 불일치(메뉴사용불가)
+	public boolean checkPw(Connection conn, Emp emp) throws Exception {
+		
+		boolean result = false;
+		
+		String sql = "SELECT emp_id"
+				+ "	 FROM emp"
+				+ "	 WHERE emp_id = ?"
+				+ "		 AND emp_pw = PASSWORD(?)";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1, emp.getEmpId());
+		stmt.setString(2, emp.getEmpPw());
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			result = true;
+		}
+		
+		return result;
+		
+	}
 	
 	
 	

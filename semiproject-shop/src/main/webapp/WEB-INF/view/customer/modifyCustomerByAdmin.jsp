@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>modifyCustomer.jsp</title>
+		<title>modifyCustomerByAdmin.jsp</title>
 		
 		<!-- jQuery -->
 		<!-- CDN 주소 추가 방식 -->
@@ -16,7 +16,7 @@
 	<body>
 		<div>
 			<div>
-				<h1>CUSTOMER 수정</h1>
+				<h1>CUSTOMER BY ADMIN 수정</h1>
 			</div>
 			
 			<div>
@@ -26,7 +26,7 @@
 							<tr>
 								<th>CustomerCode</th>
 								<td>
-									<input type = "text" name = "customerCode" id = "customerCode" value = "${param.customerCode }" readonly = "readonly">
+									<input type = "text" name = "customerCode" id = "customerCode" value = "${customer.customerCode }" readonly = "readonly">
 								</td>
 							</tr>
 							
@@ -40,21 +40,21 @@
 							<tr>
 								<th>customerName</th>
 								<td>
-									<input type = "text" name = "customerName" value = "${customer.customerName }" id = "customerName">
+									<input type = "text" name = "customerName" value = "${customer.customerName }">
 								</td>
 							</tr>
 							
 							<tr>
 								<th>customerPhone</th>
 								<td>
-									<input type = "text" name = "customerPhone" value = "${customer.customerPhone }" id = "customerPhone">
+									<input type = "text" name = "customerPhone" value = "${customer.customerPhone }">
 								</td>
 							</tr>
 							
 							<tr>
 								<th>point</th>
 								<td>
-									<input type = "text" name = "point" value = "${customer.point }" id = "point">
+									<input type = "text" name = "point" value = "${customer.point }">
 								</td>
 							</tr>
 							

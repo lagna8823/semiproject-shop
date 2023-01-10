@@ -13,7 +13,7 @@ import vo.Customer;
 import vo.Emp;
 
 @WebServlet("/customer/checkPw")
-public class CheckPwController extends HttpServlet {
+public class CheckCustomerPwController extends HttpServlet {
 	
 	private CustomerService customerService;
 	
@@ -70,6 +70,10 @@ public class CheckPwController extends HttpServlet {
 		
 		String targetUrl = request.getParameter("targetUrl");
 		String customerPw = request.getParameter("customerPw");
+		
+		// 디버깅
+		System.out.println(targetUrl + " <-- targetUrl");
+		
 		if(targetUrl == null || customerPw == null || targetUrl.equals("") || customerPw.equals("")) {
 			
 			response.sendRedirect(request.getContextPath() + "/home");

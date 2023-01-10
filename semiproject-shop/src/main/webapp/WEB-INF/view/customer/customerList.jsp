@@ -41,44 +41,22 @@
 				<form method = "get" action = "${pageContext.request.contextPath }/customer/customerList">
 					<div>
 						<select name = "searchCategory" id = "searchCategory">
-							<c:if test="${param.searchCategory == null || param.searchCategory == 'customer_code' }">
-								<option value = "customer_code" selected>customerCode</option>
-								<option value = "customer_id">customerId</option>
-								<option value = "customer_name">customerName</option>
-								<option value = "customer_phone">customerPhone</option>
-								<option value = "point">point</option>
-							</c:if>
-							
-							<c:if test="${param.searchCategory == 'customer_id' }">
-								<option value = "customer_code">customerCode</option>
+							<c:if test="${param.searchCategory == null || param.searchCategory == 'customer_id' }">
 								<option value = "customer_id" selected>customerId</option>
 								<option value = "customer_name">customerName</option>
 								<option value = "customer_phone">customerPhone</option>
-								<option value = "point">point</option>
 							</c:if>
 							
 							<c:if test="${param.searchCategory == 'customer_name' }">
-								<option value = "customer_code">customerCode</option>
 								<option value = "customer_id">customerId</option>
 								<option value = "customer_name" selected>customerName</option>
 								<option value = "customer_phone">customerPhone</option>
-								<option value = "point">point</option>
 							</c:if>
 							
 							<c:if test="${param.searchCategory == 'customer_phone' }">
-								<option value = "customer_code">customerCode</option>
 								<option value = "customer_id">customerId</option>
 								<option value = "customer_name">customerName</option>
 								<option value = "customer_phone" selected>customerPhone</option>
-								<option value = "point">point</option>
-							</c:if>
-							
-							<c:if test="${param.searchCategory == 'point' }">
-								<option value = "customer_code">customerCode</option>
-								<option value = "customer_id">customerId</option>
-								<option value = "customer_name">customerName</option>
-								<option value = "customer_phone">customerPhone</option>
-								<option value = "point" selected>point</option>
 							</c:if>
 							
 						</select>
@@ -156,30 +134,22 @@
 			<div>
 				<table border = "1">
 					<tr>
-						<th>customerCode</th>
 						<th>customerId</th>
 						<th>customerName</th>
 						<th>customerPhone</th>
 						<th>point</th>
-						<th>createdate</th>
-						<th>수정</th>
-						<th>삭제</th>
 					</tr>
 					
 					<c:forEach var="customer" items="${customerList }">
 						<tr>
-							<td>${customer.customerCode }</td>
-							<td>${customer.customerId }</td>
+							<td>
+								<a href = "${pageContext.request.contextPath }/customer/customerOne?customerId=${customer.customerId }">
+									${customer.customerId }
+								</a>
+							</td>
 							<td>${customer.customerName }</td>
 							<td>${customer.customerPhone }</td>
 							<td>${customer.point }</td>
-							<td>${customer.createdate }</td>
-							<td>
-								<a href = "${pageContext.request.contextPath }/customer/modifyCustomerByAdmin?customerCode=${customer.customerCode }">수정</a>
-							</td>
-							<td>
-								<a href = "${pageContext.request.contextPath }/customer/deleteCustomer?customerId=${customer.customerId }">삭제</a>
-							</td>
 						</tr>
 					</c:forEach>
 				</table>

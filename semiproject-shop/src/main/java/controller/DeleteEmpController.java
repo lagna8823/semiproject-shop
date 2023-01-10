@@ -37,6 +37,7 @@ public class DeleteEmpController extends HttpServlet {
 		// request
 		String empCode = request.getParameter("empCode");
 		
+		System.out.println(empCode + " <-- empCode");
 		// null, 공백 검사 
 		if(empCode == null || empCode.equals("")) {
 			
@@ -53,26 +54,38 @@ public class DeleteEmpController extends HttpServlet {
 		String targetUrl = null;
 		
 		// 삭제 실패시
-		if(loginEmp.getEmpCode() == Integer.parseInt(empCode)) {
-			// 세션 empCode 와 삭제할 empCode가 같다면 자기 탈퇴
+		if(loginEmp != null && loginEmp.getAuthCode() == 0 && Integer.parseInt(empCode) == loginEmp.getEmpCode()) {
+			// 관리자 자기 탈퇴
 			targetUrl = "/home";
-		} else {
+		} else if(loginEmp != null && loginEmp.getAuthCode() == 0 ){
 			// 관리자가 다른 emp 삭제
 			targetUrl = "/emp/empList";
+		} else {
+			// emp 탈퇴
+			targetUrl = "/home";
 		}
-		
 		
 		// 삭제 성공시
 		if(resultRow == 1) {
-			if(loginEmp.getEmpCode() == Integer.parseInt(empCode)) {
-				// 세션 empCode 와 삭제할 empCode가 같다면 자기 탈퇴
+			
+			if(loginEmp != null && loginEmp.getAuthCode() == 0 && Integer.parseInt(empCode) == loginEmp.getEmpCode()) {
+				// 관리자 자기 탈퇴
+
+				// 받아온 세션값을 완전히 삭제.
 				request.getSession().invalidate();
+				targetUrl = "/home";
 				
-				targetUrl = "/login";
-			} else {
-				
+			} else if(loginEmp != null && loginEmp.getAuthCode() == 0 ){
 				// 관리자가 다른 emp 삭제
+				
 				targetUrl = "/emp/empList";
+				
+			} else {
+				// emp 탈퇴
+				
+				// 받아온 세션값을 완전히 삭제.
+				request.getSession().invalidate();			
+				targetUrl = "/home";
 			}
 				
 		}

@@ -10,13 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import service.CustomerService;
+import service.EmpService;
 import vo.Customer;
 import vo.Emp;
 
-@WebServlet("/customer/modifyCustomer")
-public class ModifyCustomerController extends HttpServlet {
+@WebServlet("/emp/checkPw")
+public class CheckEmpPwController extends HttpServlet {
 	
-	private CustomerService customerService;
+	private EmpService empService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -32,29 +33,24 @@ public class ModifyCustomerController extends HttpServlet {
 			return;
 		}
 		
-		// 인코딩 : UTF-8
-		request.setCharacterEncoding("UTF-8");
+		String targetUrl = request.getParameter("targetUrl");
 		
-		// request
-		String customerId = loginCustomer.getCustomerId();
+		// 디버깅
+		System.out.println(targetUrl + " <-- targetUrl");
 		
-		// request null & 공백 검사
-		if(customerId == null || customerId.equals("")) {
+		if(targetUrl == null || targetUrl.equals("")) {
+			
 			response.sendRedirect(request.getContextPath() + "/home");
 			return;
+			
 		}
 		
-		Customer customer = new Customer();
+		request.setAttribute("targetUrl", targetUrl);
 		
-		this.customerService = new CustomerService();
-		customer = this.customerService.getCustomerOne(customerId);
 		
-		request.setAttribute("customer", customer);
-		
-		request.getRequestDispatcher("/WEB-INF/view/customer/modifyCustomer.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/emp/checkPw.jsp").forward(request, response);
 		
 	}
-	
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -69,47 +65,49 @@ public class ModifyCustomerController extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/login");
 			return;
 		}
+
 		
 		// 인코딩 : UTF-8
 		request.setCharacterEncoding("UTF-8");
 		
-		// request
-		String customerId = request.getParameter("customerId");
-		String customerName = request.getParameter("customerName");
-		String customerPhone = request.getParameter("customerPhone");
+		String targetUrl = request.getParameter("targetUrl");
+		String empPw = request.getParameter("empPw");
 		
-		Customer customer = new Customer();
-		customer.setCustomerId(customerId);
-		customer.setCustomerName(customerName);
-		customer.setCustomerPhone(customerPhone);
+		// 디버깅
+		System.out.println(targetUrl + " <-- targetUrl");
+		System.out.println(empPw + " <-- empPw");
 		
-		customer.toString();
-		// null, 공백 검사
-		if(customerId == null || customerName == null || customerPhone == null
-				 || customerId.equals("") || customerName.equals("") || customerPhone.equals("")) {
+		if(targetUrl == null || empPw == null || targetUrl.equals("") || empPw.equals("")) {
 			
 			response.sendRedirect(request.getContextPath() + "/home");
 			return;
 			
 		}
 		
+		Emp emp = new Emp();
+		emp.setEmpId(loginEmp.getEmpId());
+		emp.setEmpPw(empPw);
+				
+		this.empService = new EmpService();
 		
-		this.customerService = new CustomerService();
-		int resultRow = this.customerService.modifyCustomer(customer);
+		// 비밀번호 일치하면 true, 틀리면 false
+		boolean checkPw = this.empService.checkPw(emp);
 		
-		// 수정 실패하면
-		String targetUrl = "/customer/modifyCustomer";
+		// 디버깅
+		System.out.println(checkPw + " <-- checkPw");
 		
-		if(resultRow == 1) {
+		if(checkPw) {
 			
-			// 수정 성공하면
-			// msg : 내정보가 수정되었습니다.
-			System.out.println("customer 내정보가 수정되었습니다.");
-			targetUrl = "/home";
+			response.sendRedirect(request.getContextPath() + targetUrl);
+			
+		} else {
+			
+			response.sendRedirect(request.getContextPath() + "/emp/checkPw?targetUrl=" + targetUrl);
+			
 		}
 		
-		response.sendRedirect(request.getContextPath() + targetUrl);
 		
 	}
+
 
 }

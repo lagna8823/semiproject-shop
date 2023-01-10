@@ -22,10 +22,6 @@
 			<div>
 				<form action = "${pageContext.request.contextPath }/customer/modifyCustomer" method = "post">
 					<div>
-						<input type = "hidden" name = "customerCode" id = "customerCode" value = "${customer.customerCode }" readonly = "readonly">
-					</div>
-				
-					<div>
 						<table border = "1">
 							<tr>
 								<th>customerId</th>

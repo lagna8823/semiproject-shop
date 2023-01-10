@@ -62,7 +62,7 @@ public class DeleteCustomerController extends HttpServlet {
 		String targetUrl = null;
 		
 		// 삭제 실패시
-		if(loginEmp.getAuthCode() == 0) {
+		if(loginEmp != null && loginEmp.getAuthCode() == 0) {
 			// 관리자라면
 			targetUrl = "/customer/customerList";
 		} else {
@@ -73,7 +73,7 @@ public class DeleteCustomerController extends HttpServlet {
 		
 		// 삭제 성공시
 		if(resultRow == 1) {
-			if(loginEmp.getAuthCode() == 0) {
+			if(loginEmp != null && loginEmp.getAuthCode() == 0) {
 				// 관리자라면
 				targetUrl = "/customer/customerList";
 			} else {
