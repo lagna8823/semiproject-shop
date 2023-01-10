@@ -38,12 +38,10 @@
 						<td>${q.createdate}</td>
 						<td>
 							<c:if test="${q.commentMemo == null}">
-								<a href="${pageContext.request.contextPath}/question/questionCommentOne?questionCode=${q.questionCode}">
 									답변전
-								</a>
 							</c:if> 
 							<c:if test="${q.commentMemo != null}">
-								<a href="${pageContext.request.contextPath}/question/questionCemmentOne?questionCode=${q.questionCode}">
+								<a href="${pageContext.request.contextPath}/questionComment/questionCommentOne?questionCode=${q.questionCode}">
 									답변완료
 								</a>
 							</c:if> 
@@ -66,7 +64,7 @@
 						</td>
 						<td>
 							<c:if test="${q.empId == null}">
-								<a href="${pageContext.request.contextPath}/questionComment/addQuestioncomment?questionCode=${q.questionCode}">
+								<a href="${pageContext.request.contextPath}/questionComment/addQuestionComment?questionCode=${q.questionCode}">
 									작성하기
 								</a>
 							</c:if> 

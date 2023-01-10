@@ -32,7 +32,6 @@ private QuestionCommentService questionCommentService;
 			response.sendRedirect(request.getContextPath()+"/login");
 			return;
 		}
-		System.out.print("loginEmp");
 		// 세션값으로 세팅
 		Emp emp = new Emp(); 
 		emp.setEmpId(loginEmp.getEmpId());

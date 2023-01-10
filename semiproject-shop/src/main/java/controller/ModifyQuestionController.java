@@ -71,9 +71,6 @@ public class ModifyQuestionController extends HttpServlet {
 		int questionCode = Integer.parseInt(request.getParameter("questionCode"));
 		String category = request.getParameter("category"); 
 		String questionMemo= request.getParameter("questionMemo");
-		System.out.println(questionCode);
-		System.out.println(category);
-		System.out.println(questionMemo);
 		
 		Question modifyQuestion = new Question();
 		modifyQuestion.setQuestionCode(questionCode);
@@ -90,7 +87,7 @@ public class ModifyQuestionController extends HttpServlet {
 			return;
 		}
 		// 작성실패(입력값 확인)
-		response.sendRedirect(request.getContextPath() + "/question/modfiyQuestion?questionCode=${q.questionCode}"); 
+		response.sendRedirect(request.getContextPath() + "/question/modfiyQuestion?questionCode="+questionCode); 
 		
 		
 	}

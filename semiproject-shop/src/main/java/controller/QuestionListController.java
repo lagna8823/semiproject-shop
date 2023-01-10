@@ -63,11 +63,6 @@ public class QuestionListController extends HttpServlet {
 		request.setAttribute("lastPage", lastPage);
 		
 		// 고객센터 폼 View
-		if(loginCustomer == null && loginEmp != null) {
-			request.getRequestDispatcher("/WEB-INF/view/question/questionListEmp.jsp").forward(request, response);
-		} else if(loginCustomer != null && loginEmp == null) {
-			request.getRequestDispatcher("/WEB-INF/view/question/questionList.jsp").forward(request, response);
-		}
-		
+		request.getRequestDispatcher("/WEB-INF/view/question/questionList.jsp").forward(request, response);
 	}
 }
