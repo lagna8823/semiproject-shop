@@ -22,19 +22,27 @@
 <body>
 	<h1>주문</h1>
 	<form method="post" action="${pageContext.request.contextPath}/order/addOrder">
-		<table class="table" border="1">
+		<table class="table" border="1">		
+			<!-- 고객아이디 : 로그인 후 받아옴  -->
+			<input type="hidden" id="loginId" name="loginId" value="${loginId}">
+			<!-- 주문상태 -->
+			<input type="hidden" id="orderState" name="orderState" value="결제"> <!-- 일단 결제 -->
+			<!-- 상품번호 -->
+			<input type="hidden" id="goodsCode" name="goodsCode" value="${goodsCode}" readonly>
 			<tr>
-				<th>상품번호</th>	<!-- goods에서 받아옴 -->
-				<td><input type="text" id="goodsCode" name="goodsCode" value="${goodsCode}" readonly></td>				
+				<th>상품이름</th>
+				<td><input type="text" id="goodsCode" name="goodsName" value="${goodsName}" readonly></td>				
 			</tr>
-				<!-- 고객아이디 : 로그인 후 받아옴  -->
-				<input type="hidden" id="loginId" name="loginId" value="${pram.loginId}">
+			<tr>
+				<th>상품가격</th>
+				<td><input type="text" id="goodsCode" name="goodsPrice" value="${goodsPrice}" readonly></td>				
+			</tr>
 			<tr>
 				<th>배송지</th> <!-- customerAddress에서 받아옴 -->
 				<td>
-					<select id="addressCode" name="addressCode">
-						<c:forEach var="ad" items="${pram.address}">
-							<option value="${addressCode}">${address}</option> <!-- 실제주소 text를 보여주고 주소코드로 값 처리 -->
+					<select id="customerAddress" name="customerAddress">
+						<c:forEach var="ad" items="${customerAddress}">
+							<option value="${ad.addressCode}">${ad.address}</option> <!-- 실제주소 text를 보여주고 주소코드로 값 처리 -->
 						</c:forEach>
 					</select>
 				</td>
@@ -42,14 +50,14 @@
 			<tr>
 				<th>보유 포인트</th>
 				<td>
-				    <input type="text" id="earnPoint" name="point">
+				    <input type="number" id="earnPoint" name="point" value="${point}" readonly>
 				    <label for="earnPoint">적립 포인트</label>
 				</td>
 		    </tr>
 		    <tr>
 				<th>사용 포인트</th>
 				<td>
-				    <input type="text" id="usePoint" name="pointHistory">
+				    <input type="number" id="usePoint" name="pointHistory">
 				    <label for="usePoint">사용 포인트</label>
 			    </td>		    
 		    </tr>
@@ -61,8 +69,6 @@
 				<th>상품가격</th>
 				<td><input type="number" id="orderPrice" name="orderPrice"></td> <!-- goods에서 받아옴 -->
 			</tr>
-				<!-- 주문상태 -->
-				<input type="hidden" id="orderState" name="orderState" value="결제"><!-- 일단 결제 -->
 			<tr>
 				<th>주문일</th>
 				<td><input type="text" id="createdate" name="createdate" readonly></td>

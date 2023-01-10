@@ -5,6 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import vo.Customer;
+import vo.CustomerAddress;
+import vo.Goods;
+import vo.Goods;
 import vo.Orders;
 
 public class OrderDao {
@@ -20,9 +24,8 @@ public class OrderDao {
 	 */
 	// 주문목록
 	public ArrayList<Orders> selectOrderListByPage(Connection conn, int beginRow, int endRow, String customerId) throws Exception {
-		Orders o = null;
-		
-		ArrayList<Orders> list = new ArrayList<Orders>();
+		Orders o = null;		
+		ArrayList<Orders> list = null;
 		String sql = "SELECT o.order_code orderCode"
 				+ ", g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.soldout soldout"
 				+ ", c.customer_id customerID, c.customer_name customerName, c.customer_phone customerPhone, c.point point"
@@ -42,6 +45,7 @@ public class OrderDao {
 		
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
+			list = new ArrayList<Orders>();
 			o = new Orders();
 			o.setOrderCode(rs.getInt("orderCode"));
 			o.setGoodsCode(rs.getInt("goodsCode"));
@@ -137,9 +141,68 @@ public class OrderDao {
 		return cnt;
 	}
 	
+	// 주문 시 필요 : 고객정보
+	public Customer selectCustomerInfoForOrder (Connection conn, String customerId) throws Exception {
+		Customer customer = null;
+		System.out.println("customerId : "+customerId);
+		String sql = "SELECT customer_id customerId, customer_name customerName, customer_phone customerPhone, point FROM customer c WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);
+		
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			customer = new Customer();
+			customer.setCustomerId(rs.getString("customerId"));
+			customer.setCustomerName(rs.getString("customerName"));
+			customer.setCustomerPhone(rs.getString("customerPhone"));
+			customer.setPoint(rs.getInt("point"));
+		}		
+		return customer;
+	}
+	
+	// 주문 시 필요 : 고객주소
+	public ArrayList<CustomerAddress> selectCustomerAddressForOrder (Connection conn, String customerId) throws Exception {
+		CustomerAddress customerAddress = null;
+		ArrayList<CustomerAddress> list = null;
+		
+		String sql = "SELECT address_code addressCode, address FROM customer_address WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);
+
+		list = new ArrayList<CustomerAddress>();
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			customerAddress = new CustomerAddress();
+			customerAddress.setAddressCode(rs.getInt("addressCode"));
+			customerAddress.setAddress(rs.getString("address"));
+			list.add(customerAddress);
+			System.out.println(customerAddress.getAddressCode() + "code");
+		}		
+		return list;
+	}
+	
+	// 주문 시 필요 : 상품정보
+	public Goods selectGoodsForOrder (Connection conn, int goodsCode) throws Exception {
+		Goods goods= null;
+		
+		String sql = " SELECT goods_code goodsCode, goods_name goodsName, goods_price goodsPrice, soldout FROM goods WHERE goods_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, goodsCode);
+		
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			goods = new Goods();
+			goods.setGoodsCode(rs.getInt("goodsCode"));
+			goods.setGoodsName(rs.getString("goodsName"));
+			goods.setGoodsPrice(rs.getInt("goodsPrice"));
+			goods.setSoldout(rs.getString("soldout"));
+		}		
+		return goods;
+	}
+	
 	// 주문상세보기
 	public Orders selectOrderOne (Connection conn, int orderCode, String customerId) throws Exception {
-		Orders o = null;
+		Orders orders = null;
 		
 		String sql = "SELECT o.order_code orderCode"
 				+ ", g.goods_code, g.goods_name, g.goods_price, g.soldout"
@@ -158,26 +221,26 @@ public class OrderDao {
 		
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {
-			o = new Orders();
-			o.setOrderCode(rs.getInt("orderCode"));
-			o.setGoodsCode(rs.getInt("goodsCode"));
-			o.setGoodsName(rs.getString("goodsName"));
-			o.setGoodsPrice(rs.getInt("goodsPrice"));
-			o.setSoldout(rs.getString("soldout"));
-			o.setCustomerId(rs.getString("customerID"));
-			o.setCustomerName(rs.getString("customerName"));
-			o.setCustomerPhone(rs.getString("customerPhone"));
-			o.setPoint(rs.getInt("point"));
-			o.setAddressCode(rs.getInt("addressCode"));
-			o.setAddress(rs.getString("address"));
-			o.setOrderQuantity(rs.getInt("orderQuantity"));
-			o.setOrderPrice(rs.getInt("orderPrice"));
-			o.setOrderState(rs.getString("orderState"));
-			o.setCreatedate(rs.getString("createdate"));
-			o.setPointKind(rs.getString("pointKind"));
-			o.setPoint(rs.getInt("pointHistory"));
+			orders = new Orders();
+			orders.setOrderCode(rs.getInt("orderCode"));
+			orders.setGoodsCode(rs.getInt("goodsCode"));
+			orders.setGoodsName(rs.getString("goodsName"));
+			orders.setGoodsPrice(rs.getInt("goodsPrice"));
+			orders.setSoldout(rs.getString("soldout"));
+			orders.setCustomerId(rs.getString("customerID"));
+			orders.setCustomerName(rs.getString("customerName"));
+			orders.setCustomerPhone(rs.getString("customerPhone"));
+			orders.setPoint(rs.getInt("point"));
+			orders.setAddressCode(rs.getInt("addressCode"));
+			orders.setAddress(rs.getString("address"));
+			orders.setOrderQuantity(rs.getInt("orderQuantity"));
+			orders.setOrderPrice(rs.getInt("orderPrice"));
+			orders.setOrderState(rs.getString("orderState"));
+			orders.setCreatedate(rs.getString("createdate"));
+			orders.setPointKind(rs.getString("pointKind"));
+			orders.setPoint(rs.getInt("pointHistory"));
 		}		
-		return o;
+		return orders;
 	}
 	
 	// 주문하기

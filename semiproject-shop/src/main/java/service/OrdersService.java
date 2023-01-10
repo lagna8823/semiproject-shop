@@ -6,6 +6,10 @@ import java.util.ArrayList;
 
 import dao.OrderDao;
 import util.DBUtil;
+import vo.Customer;
+import vo.CustomerAddress;
+import vo.Goods;
+import vo.Goods;
 import vo.Orders;
 
 public class OrdersService {
@@ -127,6 +131,88 @@ public class OrdersService {
 			}
 		}
 		return resultCnt;
+	}
+	
+	// 주문 시 필요 : 고객정보
+	public Customer getCustomerInfoForOrderService(String customerId) {
+		orderDao = new OrderDao();
+		Connection conn = null;
+		Customer customer = null;
+		try {
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			customer = orderDao.selectCustomerInfoForOrder(conn, customerId);
+			System.out.println("customer service : " + customer);
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return customer;
+	}
+	// 주문 시 필요 : 고객주소
+	public ArrayList<CustomerAddress> getCustomerAddressForOrderService(String customerId) {
+		orderDao = new OrderDao();
+		Connection conn = null;
+		ArrayList<CustomerAddress> list = null;
+		try {
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			list = orderDao.selectCustomerAddressForOrder(conn, customerId);
+			System.out.println("customerAddress service : " + list);
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	// 주문 시 필요 : 주문할 상품 정보 조회
+	public Goods getGoodsForOrderService(int goodsCode) {
+		orderDao = new OrderDao();
+		Connection conn = null;
+		Goods goods = null;
+		try {
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			goods = orderDao.selectGoodsForOrder(conn, goodsCode);
+			System.out.println("goods service : " + goods);
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return goods;
 	}
 	
 	// 주문상세보기
