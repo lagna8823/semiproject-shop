@@ -39,7 +39,7 @@ public class ModifyQuestionCommentController extends HttpServlet {
 		// 모델 호출
 		HashMap<String, Object> q = new HashMap<String, Object>();
 		this.questionCommentService = new QuestionCommentService();
-		q = questionCommentService.getQuestionOne(commentCode);
+		q = questionCommentService.getCommentCodeByComment(commentCode);
 		
 		request.setAttribute("q", q);
 		request.setAttribute("commentCode", commentCode);
