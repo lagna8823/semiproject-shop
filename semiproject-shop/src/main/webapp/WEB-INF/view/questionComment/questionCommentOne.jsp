@@ -24,7 +24,8 @@
 		<header>
 			<a href="${pageContext.request.contextPath}/logout">로그아웃</a>
 			<a href="${pageContext.request.contextPath}/question/questionList">고객센터</a>
-			<a href="${pageContext.request.contextPath}/questionCommnet/questionCommentList">comment</a>
+			<a href="${pageContext.request.contextPath}/question/questionList">나의문의</a>
+			<a href="${pageContext.request.contextPath}/questionComment/questionCommentList">고객센터(관리자 페이지)</a>
 		</header>
 		<div>
 			<h2>상세보기</h2>
