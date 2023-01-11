@@ -57,6 +57,16 @@
 					<a href = "${pageContext.request.contextPath }/question/questionList">
 						고객센터
 					</a>
+					<a href = "${pageContext.request.contextPath }/question/questionListUser">
+						나의문의보기
+					</a>
+					<a href = "${pageContext.request.contextPath }/question/addQuestion">
+						고객센터 문의글작성
+					</a>
+					<a href = "${pageContext.request.contextPath }/questionComment/questionCommentList">
+						고객센터(관리자)
+					</a>
+					
 				</h3>
 			</div>
 			
