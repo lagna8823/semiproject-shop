@@ -1,7 +1,7 @@
 package vo;
 
 public class PointHistory {
-	private String orderCode;
+	private int orderCode;
 	private String pointKind;
 	private int point;
 	private String createdate;
@@ -10,7 +10,7 @@ public class PointHistory {
 		super();
 	}
 
-	public PointHistory(String orderCode, String pointKind, int point, String createdate) {
+	public PointHistory(int orderCode, String pointKind, int point, String createdate) {
 		super();
 		this.orderCode = orderCode;
 		this.pointKind = pointKind;
@@ -24,11 +24,11 @@ public class PointHistory {
 				+ ", createdate=" + createdate + "]";
 	}
 
-	public String getOrderCode() {
+	public int getOrderCode() {
 		return orderCode;
 	}
 
-	public void setOrderCode(String orderCode) {
+	public void setOrderCode(int orderCode) {
 		this.orderCode = orderCode;
 	}
 

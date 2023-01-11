@@ -9,14 +9,25 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script>
 	$(document).ready(function(){
+		/* 결제가격 계산 */
+		$( '#goodsPrice, #orderQuantity' ).on("input", function() {
+		    let goodsPrice = $('#goodsPrice').val();
+		    let orderQuantity = $('#orderQuantity').val();
+		    let resultPrice = goodsPrice * parseInt(orderQuantity);
+		    $('#orderPrice').val(resultPrice);
+	    });		
+		
+		/* 주문일 계산 */
 	    let now = new Date();
 	    let year = ('0' + now.getFullYear()).slice(-2);
 	    let month = ('0' + (now.getMonth() + 1)).slice(-2);
 	    let day = ('0' + now.getDate()).slice(-2);
 
 	    let today = year + '/' + month  + '/' + day;
-	    $('#createdate').val(today);
+	    $('#createdate').val(today); 
 	  });	
+</script>
+<script>
 </script>
 </head>
 <body>
@@ -31,16 +42,16 @@
 			<input type="hidden" id="goodsCode" name="goodsCode" value="${goodsCode}" readonly>
 			<tr>
 				<th>상품이름</th>
-				<td><input type="text" id="goodsCode" name="goodsName" value="${goodsName}" readonly></td>				
+				<td><input type="text" id="goodsName" name="goodsName" value="${goodsName}" readonly></td>				
 			</tr>
 			<tr>
 				<th>상품가격</th>
-				<td><input type="text" id="goodsCode" name="goodsPrice" value="${goodsPrice}" readonly></td>				
+				<td><input type="text" id="goodsPrice" name="goodsPrice" value="${goodsPrice}" readonly></td>				
 			</tr>
 			<tr>
 				<th>배송지</th> <!-- customerAddress에서 받아옴 -->
 				<td>
-					<select id="customerAddress" name="customerAddress">
+					<select id="addressCode" name="addressCode">
 						<c:forEach var="ad" items="${customerAddress}">
 							<option value="${ad.addressCode}">${ad.address}</option> <!-- 실제주소 text를 보여주고 주소코드로 값 처리 -->
 						</c:forEach>
@@ -57,17 +68,17 @@
 		    <tr>
 				<th>사용 포인트</th>
 				<td>
-				    <input type="number" id="usePoint" name="pointHistory">
+				    <input type="number" id="usePoint" name="usePoint" min="0">
 				    <label for="usePoint">사용 포인트</label>
 			    </td>		    
 		    </tr>
 			<tr>
 				<th>주문수량</th><!-- 추후 최대 수량 재고로 제한 -->
-				<td><input type="number" id="orderQuantity" name="orderQuantity"></td>
+				<td><input type="number" id="orderQuantity" name="orderQuantity" min="1"></td>
 			</tr>
 			<tr>
-				<th>상품가격</th>
-				<td><input type="number" id="orderPrice" name="orderPrice"></td> <!-- goods에서 받아옴 -->
+				<th>결제가격</th>
+				<td><input type="number" id="orderPrice" name="orderPrice" readonly></td> <!-- goods에서 받아옴 -->
 			</tr>
 			<tr>
 				<th>주문일</th>

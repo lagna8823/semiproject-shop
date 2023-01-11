@@ -5,15 +5,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import dao.OrderDao;
+import dao.PointDao;
 import util.DBUtil;
 import vo.Customer;
 import vo.CustomerAddress;
 import vo.Goods;
 import vo.Goods;
 import vo.Orders;
+import vo.PointHistory;
 
 public class OrdersService {
 	private OrderDao orderDao;
+	private PointDao pointDao;
 	
 	// 주문목록
 	public ArrayList<Orders> getOrderListByPage(int currentPage, int rowPerPage, String customerId) {
@@ -29,6 +32,7 @@ public class OrdersService {
 			conn = DBUtil.getConnection();
 			orderDao = new OrderDao();
 			list = orderDao.selectOrderListByPage(conn, beginRow, endRow, customerId);
+			System.out.println(list + "list 확인");
 			conn.commit(); // DBUtil.class에서 conn.setAutoCommit(false);
 		} catch (Exception e) {
 			try {
@@ -243,14 +247,22 @@ public class OrdersService {
 	}
 	
 	// 주문하기
-	public int addOrderService(Orders orders) {
+	public int addOrderService(Orders orders, PointHistory pointHistory) {
 		orderDao = new OrderDao();
+		pointDao = new PointDao();
+		int orderCode = 0;
 		Connection conn = null;
 		int row = 0;
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
 			row = orderDao.addOrder(conn, orders);
+			System.out.println(row + " : 1차");
+			orderCode = orderDao.selectOrderForPoint(conn, orders.getCustomerId());
+			System.out.println(row + " : 2차");
+			pointHistory.setOrderCode(orderCode);
+			row = pointDao.addPointHistory(conn, pointHistory);
+			System.out.println(row + " : 3차");
 			conn.commit();
 		} catch (Exception e) {
 			try {

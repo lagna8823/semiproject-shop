@@ -15,6 +15,7 @@ import vo.Customer;
 import vo.CustomerAddress;
 import vo.Goods;
 import vo.Orders;
+import vo.PointHistory;
 
 @WebServlet("/order/addOrder")
 public class AddOrderController extends HttpServlet {
@@ -59,6 +60,7 @@ public class AddOrderController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		request.setCharacterEncoding("UTF-8");
 		/*
 		// 로그인 여부확인
 		HttpSession session = request.getSession();
@@ -70,19 +72,20 @@ public class AddOrderController extends HttpServlet {
 			return;
 		}
 		*/
-		
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		String customerId = request.getParameter("loginId");
 		int addressCode = Integer.parseInt(request.getParameter("addressCode"));
-		int orderQuantity = Integer.parseInt(request.getParameter("orderQuantity"));		
+		int orderQuantity = Integer.parseInt(request.getParameter("orderQuantity"));
 		int orderPrice = Integer.parseInt(request.getParameter("orderPrice"));
 		String orderState = request.getParameter("orderState"); // 주문상태는 일단 결제
 		String createdate = request.getParameter("createdate");
+		
 		//포인트 로직 필요
-		String pointKind =  "결제"; // request.getParameter("pointKind");
-		int point = 1000; // Integer.parseInt(request.getParameter("point"));
+		String pointKind = "적립"; // request.getParameter("pointKind");
+		int usePoint = 1000; // Integer.parseInt(request.getParameter("point"));
 		
 		Orders orders = new Orders();
+		PointHistory pointHistory = new PointHistory();
 		orders.setGoodsCode(goodsCode);
 		orders.setCustomerId(customerId);
 		orders.setAddressCode(addressCode);	
@@ -92,15 +95,15 @@ public class AddOrderController extends HttpServlet {
 		orders.setOrderState(orderState);
 		orders.setCreatedate(createdate);
 		
-		orders.setPointKind(pointKind);
-		orders.setPoint(point);
+		pointHistory.setPointKind(pointKind);
+		pointHistory.setPoint(usePoint);
 		
 		// 모델호출
 		ordersService = new OrdersService();
-		ordersService.addOrderService(orders);
+		ordersService.addOrderService(orders, pointHistory);
 		System.out.println("전달"+orders);
 		
 		// view
-		response.sendRedirect(request.getContextPath()+"/order/ordeList");
+		response.sendRedirect(request.getContextPath()+"/order/orderList");
 	}
 }
