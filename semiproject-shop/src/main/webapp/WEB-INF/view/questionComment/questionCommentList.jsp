@@ -17,6 +17,10 @@
 					$('#pageForm').submit();
 					alert('change');
 				})
+				$('#sort').change(function() {
+					$('#pageForm').submit();
+					alert('change');
+				})
 			});
 		</script>
 	</head>
@@ -35,7 +39,25 @@
 		<div>
 			<!--정렬/ 검색 기능 / 페이지당 출력수 / 답변전후 -->
 			<div>
-				<form id="sort" method="get" action="${pageContext.request.contextPath}/questionComment/questionCommentList">
+				<form method="get" id="pageForm" action="${pageContext.request.contextPath}/questionComment/questionCommentList">
+					<!--  정렬 -->
+					<select name="sort" id="sort">
+						<c:if test="${sort == ('sort')}">
+							<option value="sort" selected="selected">-상태-</option>
+							<option value="asc">답변작성</option>
+							<option value="desc">답변완료</option>
+						</c:if>
+						<c:if test="${sort == ('asc')}">
+							<option value="sort">-상태-</option>
+							<option value="asc" selected="selected">답변작성</option>
+							<option value="desc">답변완료</option>
+						</c:if>
+						<c:if test="${sort == ('desc')}">
+							<option value="sort">-상태-</option>
+							<option value="asc">답변작성</option>
+							<option value="desc" selected="selected">답변완료</option>
+						</c:if>
+					</select>
 					
 					<!-- 분류별 -->
 					<select name="category" id="category">
@@ -77,26 +99,26 @@
 					</select>  
 					<!-- 검색 기능(search: 주문번호 / 고객ID / 사원 ID)-->
 					<select name="search" id="search" value="${search}">
-						<c:if test="${search == ('')}">
-							<option value="" selected="selected">-선택-</option>
+						<c:if test="${search == ('search')}">
+							<option value="search" selected="selected">-선택-</option>
 							<option value="ordersCode" >주문번호</option>
 							<option value="customerId">고객ID</option>
 							<option value="empId">사원ID</option>
 						</c:if>
 						<c:if test="${search eq 'ordersCode'}">
-							<option value="" >-선택-</option>
+							<option value="search" >-선택-</option>
 							<option value="ordersCode" selected="selected">주문번호</option>
 							<option value="customerId">고객ID</option>
 							<option value="empId">사원ID</option>
 						</c:if>
 						<c:if test="${search eq 'customerId'}">
-							<option value="" >-선택-</option>
+							<option value="search" >-선택-</option>
 							<option value="ordersCode" >주문번호</option>
 							<option value="customerId" selected="selected">고객ID</option>
 							<option value="empId">사원ID</option>
 						</c:if>
 						<c:if test="${search eq 'empId'}">
-							<option value="" >-선택-</option>
+							<option value="search" >-선택-</option>
 							<option value="ordersCode" >주문번호</option>
 							<option value="customerId">고객ID</option>
 							<option value="empId" selected="selected">사원ID</option>
@@ -201,11 +223,11 @@
 			<!-- 페이징 -->
 			<div>
 				<!-- 첫 페이지 -->
-				<a href="${pageContext.request.contextPath}/questionComment/questionCommentList?currentPage=1&word=${word}&search=${search}&category=${category}&sort=${sort}">처음</a>
+				<a href="${pageContext.request.contextPath}/questionComment/questionCommentList?currentPage=1&rowPerPage=${rowPerPage}&word=${word}&search=${search}&category=${category}&sort=${sort}">처음</a>
 				
 				<!-- 이전 페이지 -->
 				<c:if test="${currentPage>1}">
-					<a href="${pageContext.request.contextPath}/questionComment/questionCommentList?currentPage=${currentPage-1}&word=${word}&search=${search}&category=${category}&sort=${sort}">이전</a>
+					<a href="${pageContext.request.contextPath}/questionComment/questionCommentList?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}&word=${word}&search=${search}&category=${category}&sort=${sort}">이전</a>
 				</c:if>	
 				
 				<!-- 현재 페이지 -->
@@ -213,11 +235,11 @@
 				
 				<!-- 다음 페이지 -->
 				<c:if test="${currentPage<lastPage}">
-					<a href="${pageContext.request.contextPath}/questionComment/questionCommentList?currentPage=${currentPage+1}&word=${word}&search=${search}&category=${category}&sort=${sort}">다음</a>
+					<a href="${pageContext.request.contextPath}/questionComment/questionCommentList?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}&word=${word}&search=${search}&category=${category}&sort=${sort}">다음</a>
 				</c:if>	
 				
 				<!-- 마지막 페이지 -->
-				<a href="${pageContext.request.contextPath}/questionComment/questionCommentList?currentPage=${lastPage}&word=${word}&search=${search}&category=${category}&sort=${sort}">마지막</a>
+				<a href="${pageContext.request.contextPath}/questionComment/questionCommentList?currentPage=${lastPage}&rowPerPage=${rowPerPage}&word=${word}&search=${search}&category=${category}&sort=${sort}">마지막</a>
 			</div>
 		</div>
 	</body>

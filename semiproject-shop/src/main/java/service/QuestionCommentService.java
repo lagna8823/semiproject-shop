@@ -182,7 +182,7 @@ public class QuestionCommentService {
 	
 	// questionList 출력
 	// 사용하는 곳 : questionListController
-	public ArrayList<HashMap<String, Object>> getQuestionListByPage(int beginRow, int rowPerPage, String word, String search, String category) {
+	public ArrayList<HashMap<String, Object>> getQuestionListByPage(int beginRow, int rowPerPage, String word, String search, String category, String sort) {
 		this.questionCommentDao = new QuestionCommentDao();
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
 		ArrayList<HashMap<String, Object>> c = new ArrayList<HashMap<String,Object>>();
@@ -190,7 +190,7 @@ public class QuestionCommentService {
 		try {
 			conn = DBUtil.getConnection();
 			questionCommentDao = new QuestionCommentDao();
-			list = questionCommentDao.selectQuestionListByPage(conn, beginRow, rowPerPage, word, search, category);
+			list = questionCommentDao.selectQuestionListByPage(conn, beginRow, rowPerPage, word, search, category, sort);
 			
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -55,22 +55,20 @@ private QuestionCommentService questionCommentService;
 			   category =request.getParameter("category");
 		   } 
 	   
-		
 	    String word = ("");
 		   if(request.getParameter("word") != null) {
 			   word =request.getParameter("word");
 		   } 
 	   
-	    String search = ("");
-		   if(request.getParameter("search") != null) {
+	    String search = ("search");
+		   if(request.getParameter("search") != null)  {
 			   search =request.getParameter("search");
+		   }
+	   String sort = ("sort");
+		   if(request.getParameter("sort") != null) {
+			   sort =request.getParameter("sort");
 		   } 
 		   
-		   System.out.println(word);
-			System.out.println(search);
-			System.out.println(category);
-			
-			
 		// 모델 호출
 		this.questionCommentService = new QuestionCommentService();
 		request.setCharacterEncoding("UTF-8"); // request 한글코딩	
@@ -80,7 +78,7 @@ private QuestionCommentService questionCommentService;
 		int lastPage = (int)(Math.ceil((double)cnt / (double)rowPerPage));
 		
 		// 모델 리스트 및 페이징
-		ArrayList<HashMap<String, Object>> list = questionCommentService.getQuestionListByPage(beginRow, rowPerPage, word, search, category);
+		ArrayList<HashMap<String, Object>> list = questionCommentService.getQuestionListByPage(beginRow, rowPerPage, word, search, category, sort);
 		request.setAttribute("questionlist", list);
 		request.setAttribute("currentPage", currentPage); 
 		request.setAttribute("rowPerPage", rowPerPage);
@@ -88,6 +86,8 @@ private QuestionCommentService questionCommentService;
 		request.setAttribute("word", word);
 		request.setAttribute("search", search);
 		request.setAttribute("category", category);
+		request.setAttribute("sort", sort);
+		
 		// 고객센터 (관리자 페이지) View
 		request.getRequestDispatcher("/WEB-INF/view/questionComment/questionCommentList.jsp").forward(request, response);
 	}
