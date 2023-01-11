@@ -156,21 +156,109 @@ public class QuestionCommentDao {
 		stmt.close();
 		return returnQuestion;
 	}
-		
+	
 	// questionCommentList 출력
 	// 사용하는 곳 : questionCommentListController
-	public ArrayList<HashMap<String, Object>> selectQuestionListByPage(Connection conn, int beginRow, int rowPerPage) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectQuestionListByPage(Connection conn, int beginRow, int rowPerPage, String word, String search, String category) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
-		String sql = "SELECT r.rnum rnum, r.question_code questionCode, r.orders_code ordersCode, r.category category, r.question_memo questionMemo, r.createdate createdate"
-				+ " , qc.comment_memo commentMemo, qc.createdate commentCreatedate, qc.emp_id empId"
-				+ " 	FROM (SELECT ROW_NUMBER() OVER(ORDER BY question_code DESC) rnum"
-				+ "				, question_code, orders_Code, category, question_memo, createdate FROM question ) r"
-				+ "			LEFT OUTER JOIN question_comment qc"
-				+ "			ON r.question_code = qc.question_code"
-				+ " 	ORDER BY createdate DESC LIMIT ?, ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
+		String sql=null;
+		PreparedStatement stmt=null;
+		if(word.equals("") || word == null) {
+			word=("");
+		} 
+		if(category.equals("") || category == null) {
+			category=("");
+		} 
+		System.out.println(word);
+		System.out.println(search);
+		System.out.println(category);
+		
+		if(search.equals("") || search == null ) {
+			search=("");
+			sql = "SELECT r.rnum rnum, r.question_code questionCode, r.orders_code ordersCode, r.category category, r.question_memo questionMemo"
+					+ "			, r.createdate createdate, r.comment_memo commentMemo, r.commentCreatedate commentCreatedate, r.emp_id empId"
+					+ "			, o.customer_id customerId"
+					+ "		FROM "
+					+ "			(SELECT r.rnum, r.question_code, r.orders_code, r.category, r.question_memo, r.createdate createdate"
+					+ "					, qc.comment_memo, qc.createdate commentCreatedate, qc.emp_id"
+					+ "					FROM "
+					+ "						(SELECT ROW_NUMBER() OVER(ORDER BY question_code DESC) rnum"
+					+ "								, question_code, orders_Code, category, question_memo, createdate FROM question) r"
+					+ "							LEFT OUTER JOIN question_comment qc"
+					+ "							ON r.question_code = qc.question_code) r"
+					+ "				LEFT OUTER JOIN orders o"
+					+ "				ON r.orders_code = o.order_code"
+					+ "		WHERE (r.orders_code LIKE ? OR o.customer_id LIKE ? OR r.emp_id LIKE ?) AND r.category LIKE ?"
+					+ "			 ORDER BY createdate DESC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%"+word+"%");
+			stmt.setString(2, "%"+word+"%");
+			stmt.setString(3, "%"+word+"%");
+			stmt.setString(4, "%"+category+"%");
+			stmt.setInt(5, beginRow);
+			stmt.setInt(6, rowPerPage);
+		}
+		if(search.equals("ordersCode")) {
+			sql = "SELECT r.rnum rnum, r.question_code questionCode, r.orders_code ordersCode, r.category category, r.question_memo questionMemo"
+					+ "			, r.createdate createdate, r.comment_memo commentMemo, r.commentCreatedate commentCreatedate, r.emp_id empId"
+					+ "			, o.customer_id customerId"
+					+ "		FROM "
+					+ "			(SELECT r.rnum, r.question_code, r.orders_code, r.category, r.question_memo, r.createdate createdate"
+					+ "					, qc.comment_memo, qc.createdate commentCreatedate, qc.emp_id"
+					+ "					FROM "
+					+ "						(SELECT ROW_NUMBER() OVER(ORDER BY question_code DESC) rnum"
+					+ "								, question_code, orders_Code, category, question_memo, createdate FROM question) r"
+					+ "							LEFT OUTER JOIN question_comment qc"
+					+ "							ON r.question_code = qc.question_code) r"
+					+ "				LEFT OUTER JOIN orders o"
+					+ "				ON r.orders_code = o.order_code"
+					+ "		WHERE r.orders_code = ? AND r.category LIKE ? ORDER BY createdate DESC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, word);
+			stmt.setString(2, "%"+category+"%");
+			stmt.setInt(3, beginRow);
+			stmt.setInt(4, rowPerPage);
+		} else if(search.equals("customerId")) {
+			sql = "SELECT r.rnum rnum, r.question_code questionCode, r.orders_code ordersCode, r.category category, r.question_memo questionMemo"
+					+ "			, r.createdate createdate, r.comment_memo commentMemo, r.commentCreatedate commentCreatedate, r.emp_id empId"
+					+ "			, o.customer_id customerId"
+					+ "		FROM "
+					+ "			(SELECT r.rnum, r.question_code, r.orders_code, r.category, r.question_memo, r.createdate createdate"
+					+ "					, qc.comment_memo, qc.createdate commentCreatedate, qc.emp_id"
+					+ "					FROM "
+					+ "						(SELECT ROW_NUMBER() OVER(ORDER BY question_code DESC) rnum"
+					+ "								, question_code, orders_Code, category, question_memo, createdate FROM question) r"
+					+ "							LEFT OUTER JOIN question_comment qc"
+					+ "							ON r.question_code = qc.question_code) r"
+					+ "				LEFT OUTER JOIN orders o"
+					+ "				ON r.orders_code = o.order_code"
+					+ "		WHERE o.customer_id LIKE ? AND r.category LIKE ? ORDER BY createdate DESC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%"+word+"%");
+			stmt.setString(2, "%"+category+"%");
+			stmt.setInt(3, beginRow);
+			stmt.setInt(4, rowPerPage);
+		} else if(search.equals("empId")) {
+			sql = "SELECT r.rnum rnum, r.question_code questionCode, r.orders_code ordersCode, r.category category, r.question_memo questionMemo"
+					+ "			, r.createdate createdate, r.comment_memo commentMemo, r.commentCreatedate commentCreatedate, r.emp_id empId"
+					+ "			, o.customer_id customerId"
+					+ "		FROM "
+					+ "			(SELECT r.rnum, r.question_code, r.orders_code, r.category, r.question_memo, r.createdate createdate"
+					+ "					, qc.comment_memo, qc.createdate commentCreatedate, qc.emp_id"
+					+ "					FROM "
+					+ "						(SELECT ROW_NUMBER() OVER(ORDER BY question_code DESC) rnum"
+					+ "								, question_code, orders_Code, category, question_memo, createdate FROM question) r"
+					+ "							LEFT OUTER JOIN question_comment qc"
+					+ "							ON r.question_code = qc.question_code) r"
+					+ "				LEFT OUTER JOIN orders o"
+					+ "				ON r.orders_code = o.order_code"
+					+ "		WHERE r.emp_id LIKE ? AND r.category LIKE ? ORDER BY createdate DESC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%"+word+"%");
+			stmt.setString(2, "%"+category+"%");
+			stmt.setInt(3, beginRow);
+			stmt.setInt(4, rowPerPage);
+		}
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			HashMap<String, Object> q = new HashMap<String, Object>();
@@ -182,6 +270,7 @@ public class QuestionCommentDao {
 			q.put("commentMemo", rs.getString("commentMemo"));
 			q.put("commentCreatedate", rs.getString("commentCreatedate"));
 			q.put("empId", rs.getString("empId"));
+			q.put("customerId", rs.getString("customerId"));
 			list.add(q);
 		}
 		return list;

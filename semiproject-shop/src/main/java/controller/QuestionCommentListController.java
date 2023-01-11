@@ -38,14 +38,39 @@ private QuestionCommentService questionCommentService;
 		emp.setEmpName(loginEmp.getEmpName());
 		
 		// 페이징에 쓸 값 세팅
+		request.setCharacterEncoding("UTF-8");
 		int cnt = 0;
 		int currentPage = 1;
 		   if(request.getParameter("currentPage") != null) {
 			   currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		   }
-		int rowPerPage = 10;
+	    int rowPerPage = 10;
+		   if(request.getParameter("rowPerPage") != null) {
+			   rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
+		   }
 		int beginRow = (currentPage-1) * rowPerPage;
 		
+		String category = ("");
+		   if(request.getParameter("category") != null) {
+			   category =request.getParameter("category");
+		   } 
+	   
+		
+	    String word = ("");
+		   if(request.getParameter("word") != null) {
+			   word =request.getParameter("word");
+		   } 
+	   
+	    String search = ("");
+		   if(request.getParameter("search") != null) {
+			   search =request.getParameter("search");
+		   } 
+		   
+		   System.out.println(word);
+			System.out.println(search);
+			System.out.println(category);
+			
+			
 		// 모델 호출
 		this.questionCommentService = new QuestionCommentService();
 		request.setCharacterEncoding("UTF-8"); // request 한글코딩	
@@ -55,12 +80,14 @@ private QuestionCommentService questionCommentService;
 		int lastPage = (int)(Math.ceil((double)cnt / (double)rowPerPage));
 		
 		// 모델 리스트 및 페이징
-		ArrayList<HashMap<String, Object>> list = questionCommentService.getQuestionListByPage(beginRow, rowPerPage);
-		
+		ArrayList<HashMap<String, Object>> list = questionCommentService.getQuestionListByPage(beginRow, rowPerPage, word, search, category);
 		request.setAttribute("questionlist", list);
 		request.setAttribute("currentPage", currentPage); 
+		request.setAttribute("rowPerPage", rowPerPage);
 		request.setAttribute("lastPage", lastPage);
-		
+		request.setAttribute("word", word);
+		request.setAttribute("search", search);
+		request.setAttribute("category", category);
 		// 고객센터 (관리자 페이지) View
 		request.getRequestDispatcher("/WEB-INF/view/questionComment/questionCommentList.jsp").forward(request, response);
 	}
