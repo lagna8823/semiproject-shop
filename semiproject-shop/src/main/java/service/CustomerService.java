@@ -546,7 +546,7 @@ public class CustomerService {
 			resultModifyPw = this.customerDao.modifyCustomerPw(conn, customer);
 				
 			
-			if(resultAddPw == 1 && resultDeletePw == 1 && resultModifyPw == 1) {
+			if(resultAddPw == 1 && resultModifyPw == 1) {
 				
 				// 모든 과정 성공하면
 				resultRow = 1;

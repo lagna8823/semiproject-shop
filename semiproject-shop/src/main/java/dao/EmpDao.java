@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import vo.Customer;
 import vo.Emp;
 
 public class EmpDao {
@@ -317,7 +315,8 @@ public class EmpDao {
 	
 
 	// 비밀번호 확인
-	// 사용하는 곳 : DeleteEmpController, UpdateEmpController
+	// 사용하는 곳 : CheckEmpPwController
+	//				 (pw 확인 후 이동 DeleteEmpController, ModifyEmpController, ModifyEmpPwController)
 	// true : 비밀번호 일치(메뉴사용가능) / false : 불일치(메뉴사용불가)
 	public boolean checkPw(Connection conn, Emp emp) throws Exception {
 		
@@ -344,7 +343,32 @@ public class EmpDao {
 	}
 	
 	
-	
+	// emp 비밀번호 변경
+	// 사용하는 곳 : ModifyEmpPwController
+	public int modifyEmpPw(Connection conn, Emp emp) throws Exception {
+		
+		int resultRow = 1;
+		
+		String sql = "UPDATE emp"
+				+ "	 SET emp_pw = PASSWORD(?)"
+				+ "	 WHERE emp_id = ?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1, emp.getEmpPw());
+		stmt.setString(2, emp.getEmpId());
+		
+		resultRow = stmt.executeUpdate();
+		
+		if(resultRow == 1) {
+			System.out.println("emp pw 변경 성공");
+		} else {
+			System.out.println("emp pw 변경 실패");
+		}
+		
+		return resultRow;
+		
+	}
 	
 	
 	

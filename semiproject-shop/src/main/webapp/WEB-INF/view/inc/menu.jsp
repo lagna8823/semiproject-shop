@@ -108,8 +108,8 @@
 					
 					<span>&nbsp;</span>					
 
-					<a href = "${pageContext.request.contextPath }/emp/updateEmpPw">
-						emp 비밀번호 변경(X)
+					<a href = "${pageContext.request.contextPath }/emp/checkPw?targetUrl=/emp/modifyEmpPw">
+						emp 비밀번호 변경
 					</a>				
 				
 					<span>&nbsp;</span>

@@ -308,7 +308,7 @@ public class CustomerDao {
 	
 	// 비밀번호 확인
 	// 사용하는 곳 : CheckCustomerPWConroller
-	//				 (pw 확인 후 이동 DeleteCustomerController, UpdateCustomerController)
+	//				 (pw 확인 후 이동 DeleteCustomerController, ModifyCustomerController, ModifyCustomerPwController)
 	// true : 비밀번호 일치(메뉴사용가능) / false : 불일치(메뉴사용불가)
 	public boolean checkPw(Connection conn, Customer customer) throws Exception {
 		

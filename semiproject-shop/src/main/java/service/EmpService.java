@@ -390,7 +390,8 @@ public class EmpService {
 	}
 	
 	// 비밀번호 확인
-	// 사용하는 곳 : DeleteEmpController, UpdateEmpPwController
+	// 사용하는 곳 : CheckEmpPwController
+	//				 (pw 확인 후 이동 DeleteEmpController, ModifyEmpController)
 	public boolean checkPw(Emp emp) {
 		
 		boolean result = false;
@@ -431,6 +432,49 @@ public class EmpService {
 	}
 		
 
+	
+	// 비밀번호 변경
+	// 사용하는 곳 : ModifyEmpPwController
+	public int modifyEmpPw(Emp emp) {
+		
+		int resultRow = 0;
+		
+		Connection conn = null;
+		
+		try {
+			
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			
+			this.empDao = new EmpDao();
+			resultRow = this.empDao.modifyEmpPw(conn, emp);
+			
+			if(resultRow == 1) {
+				conn.commit();
+			}
+			
+		} catch (Exception e) {
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return resultRow;
+		
+	}	
 		
 	
 	

@@ -9,18 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import service.CustomerService;
 import service.EmpService;
 import vo.Customer;
 import vo.Emp;
 
-@WebServlet("/emp/checkPw")
-public class CheckEmpPwController extends HttpServlet {
+@WebServlet("/emp/modifyEmpPw")
+public class ModifyEmpPwController extends HttpServlet {
 	
 	private EmpService empService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	
 		// 로그인 후 진입가능
 		HttpSession session = request.getSession();
 		
@@ -33,27 +32,12 @@ public class CheckEmpPwController extends HttpServlet {
 			return;
 		}
 		
-		String targetUrl = request.getParameter("targetUrl");
-		
-		// 디버깅
-		System.out.println(targetUrl + " <-- targetUrl");
-		
-		if(targetUrl == null || targetUrl.equals("")) {
-			
-			response.sendRedirect(request.getContextPath() + "/home");
-			return;
-			
-		}
-		
-		request.setAttribute("targetUrl", targetUrl);
-		
-		
-		request.getRequestDispatcher("/WEB-INF/view/emp/checkPw.jsp").forward(request, response);
-		
+		request.getRequestDispatcher("/WEB-INF/view/emp/modifyEmpPw.jsp").forward(request, response);
+	
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	
 		// 로그인 후 진입가능
 		HttpSession session = request.getSession();
 		
@@ -64,49 +48,52 @@ public class CheckEmpPwController extends HttpServlet {
 		if(loginCustomer == null && loginEmp == null) {
 			response.sendRedirect(request.getContextPath()+"/login");
 			return;
-		}
-
+		}	
+	
+		// request
+		String empId = loginEmp.getEmpId();
+		String empNewPw = request.getParameter("empNewPw");
+		String empNewPwCheck = request.getParameter("empNewPwCheck");
 		
-		// 인코딩 : UTF-8
-		request.setCharacterEncoding("UTF-8");
-		
-		String targetUrl = request.getParameter("targetUrl");
-		String empPw = request.getParameter("empPw");
-		
-		// 디버깅
-		System.out.println(targetUrl + " <-- targetUrl");
-		
-		if(targetUrl == null || empPw == null || targetUrl.equals("") || empPw.equals("")) {
+		// request null & 공백 체크
+		if(empId == null || empNewPw == null || empNewPwCheck == null
+				 || empId.equals("") || empNewPw.equals("") || empNewPwCheck.equals("")) {
 			
 			response.sendRedirect(request.getContextPath() + "/home");
 			return;
 			
 		}
 		
+		// empNewPw == empNewPwCheck 체크
+		if(!empNewPw.equals(empNewPwCheck)) {
+			// 새로운 비밀번호와 새로운 비밀번호 확인이 다를경우
+			System.out.println("새 비밀번호와 새 비밀번호 확인이 다릅니다.");
+			response.sendRedirect(request.getContextPath() + "/emp/modifyEmpPw");
+			return;
+		}
+		
 		Emp emp = new Emp();
-		emp.setEmpId(loginEmp.getEmpId());
-		emp.setEmpPw(empPw);
-				
+		emp.setEmpId(empId);
+		emp.setEmpPw(empNewPw);
+		
 		this.empService = new EmpService();
+		int resultRow = this.empService.modifyEmpPw(emp);
 		
-		// 비밀번호 일치하면 true, 틀리면 false
-		boolean checkPw = this.empService.checkPw(emp);
+		// 비밀번호 변경 실패하면
+		String targetUrl = "/emp/modifyEmpPw";
 		
-		// 디버깅
-		System.out.println(checkPw + " <-- checkPw");
-		
-		if(checkPw) {
+		if(resultRow == 1) {
+			// 변경 성공하면
 			
-			response.sendRedirect(request.getContextPath() + targetUrl);
+			// 받아온 세션값을 완전히 삭제.
+			request.getSession().invalidate();
 			
-		} else {
-			
-			response.sendRedirect(request.getContextPath() + "/emp/checkPw?targetUrl=" + targetUrl);
+			targetUrl = "/login";			
 			
 		}
 		
+		response.sendRedirect(request.getContextPath() + targetUrl);		
 		
 	}
-
 
 }

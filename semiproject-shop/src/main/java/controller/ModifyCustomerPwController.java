@@ -58,13 +58,23 @@ public class ModifyCustomerPwController extends HttpServlet {
 		// request
 		String customerId = loginCustomer.getCustomerId();
 		String customerNewPw = request.getParameter("customerNewPw");
+		String customerNewPwCheck = request.getParameter("customerNewPwCheck");
 		
 		// request null & 공백 체크
-		if(customerId == null || customerNewPw == null || customerId.equals("") || customerNewPw.equals("")) {
+		if(customerId == null || customerNewPw == null || customerNewPwCheck == null 
+				 || customerId.equals("") || customerNewPw.equals("") || customerNewPwCheck.equals("")) {
 			
 			response.sendRedirect(request.getContextPath() + "/home");
 			return;
 			
+		}
+
+		// customerNewPw == customerNewPwCheck 체크
+		if(!customerNewPw.equals(customerNewPwCheck)) {
+			// 새로운 비밀번호와 새로운 비밀번호 확인이 다를경우
+			System.out.println("새 비밀번호와 새 비밀번호 확인이 다릅니다.");
+			response.sendRedirect(request.getContextPath() + "/customer/modifyCustomerPw");
+			return;
 		}
 		
 		Customer customer = new Customer();
