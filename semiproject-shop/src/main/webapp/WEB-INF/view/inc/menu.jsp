@@ -51,22 +51,6 @@
 					<a href = "${pageContext.request.contextPath }/">
 						공지사항(미구현)
 					</a>
-					
-					<span>&nbsp;</span>
-					
-					<a href = "${pageContext.request.contextPath }/question/questionList">
-						고객센터
-					</a>
-					<a href = "${pageContext.request.contextPath }/question/questionListUser">
-						나의문의보기
-					</a>
-					<a href = "${pageContext.request.contextPath }/question/addQuestion">
-						고객센터 문의글작성
-					</a>
-					<a href = "${pageContext.request.contextPath }/questionComment/questionCommentList">
-						고객센터(관리자)
-					</a>
-					
 				</h3>
 			</div>
 			
@@ -136,11 +120,36 @@
 										
 				</h3>
 			</div>
-		
-		
-		
+			
+			<div>
+				<h3>
+					<a href = "${pageContext.request.contextPath }/question/questionList">
+						고객센터
+					</a>
+					
+					<span>&nbsp;</span>
+					
+					<a href = "${pageContext.request.contextPath }/question/questionListUser">
+						나의문의보기
+					</a>
+					
+					<span>&nbsp;</span>
+					
+					<a href = "${pageContext.request.contextPath }/question/addQuestion">
+						고객센터 문의글작성
+					</a>
+					
+					<span>&nbsp;</span>
+					
+					<a href = "${pageContext.request.contextPath }/questionComment/questionCommentList">
+						고객센터(관리자)
+					</a>
+					
+				</h3>
+			</div>
+
+
 		
 		</div>
-		
 	</body>
 </html>
