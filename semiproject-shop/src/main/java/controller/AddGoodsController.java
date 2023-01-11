@@ -41,8 +41,8 @@ public class AddGoodsController extends HttpServlet {
 		String empId = mreq.getParameter("empId");
 		String fileName = mreq.getFilesystemName("goodsImg"); // 서버에 실제 업로드된 파일명
 		System.out.println("fileName :"+fileName);
-		String contentType = mreq.getParameter("contentType");
-		String originName = mreq.getParameter("originName"); // 클라이언트가 업로드한 파일 원본
+		String contentType = mreq.getContentType("goodsImg"); // 파일형태
+		String originName = mreq.getOriginalFileName("goodsImg"); // 클라이언트가 업로드한 파일 원본
 
 		Goods goods = new Goods();
 		goods.setGoodsName(goodsName);

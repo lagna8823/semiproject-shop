@@ -11,29 +11,6 @@
 		<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	</div>
 	<h1>상품목록(고객)</h1>
-	<!-- 페이지 당 글 갯수 구현중.. -->
-	<div>
-		<form method="get" action="${pageContext.request.contextPath}/goods/goodsList">
-			<select name="rowPerPage" id="rowPerPage">
-				<c:if test="${rowPerPage == 10}">
-					<option value="10" selected="selected">10</option>
-					<option value="20">20</option>
-					<option value="30">30</option>
-				</c:if>
-				<c:if test="${rowPerPage == 20}">
-					<option value="10">10</option>
-					<option value="20" selected="selected">20</option>
-					<option value="30">30</option>
-				</c:if>
-				<c:if test="${rowPerPage == 30}">
-					<option value="10">10</option>
-					<option value="20">20</option>
-					<option value="30" selected="selected">30</option>
-				</c:if>
-			</select>
-		</form>
-	</div>
-	<!-- 검색창 -->	
 	<form method="get" action="${pageContext.request.contextPath}/goods/goodsList">
 		<div>
 			<input type="search" name="searchWord" id="searchWord">
@@ -58,7 +35,7 @@
 	<!-- 페이징 -->
 	<div>
 		<c:choose>
-			<c:when test="${searchWord ne'searchWord'}"> <!-- 검색값이 없다면 -->
+			<c:when test="${searchWord == null}"> <!-- 검색값이 없다면 -->
 				<a href="${pageContext.request.contextPath}/goods/goodsList?currentPage=1">처음</a>		
 				<c:if test="${currentPage > 1}">
 					<a href="${pageContext.request.contextPath}/goods/goodsList?currentPage=${currentPage-1}">이전</a>

@@ -19,14 +19,6 @@
 				<td><input type="text" name="goodsName"></td>
 			</tr>
 			<tr>
-				<td>상품 타입</td>
-				<td><input type="text" name="contentType"></td>
-			</tr>
-			<tr>
-				<td>상품 원본타입</td>
-				<td><input type="text" name="originName"></td>
-			</tr>
-			<tr>
 				<td>상품 가격</td>
 				<td><input type="number" name="goodsPrice"></td>
 			</tr>
@@ -37,10 +29,12 @@
 					<input type="radio" name="soldout" value="N">N
 				</td>
 			</tr>
+			<!-- 미정
 			<tr>
 				<td>상단 등록 레벨</td>
 				<td><input type="text" name="hit"></td>
 			</tr>
+			-->
 			<tr>
 				<td>상품 이미지</td>
 				<td><input type="file" name="goodsImg"></td>

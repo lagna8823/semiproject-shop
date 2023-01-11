@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,8 +19,10 @@ public class GoodsOneController extends HttpServlet {
 	private GoodsService goodsService;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 값 받아오기
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		
+		// 호출
 		goodsService = new GoodsService();
 		ArrayList<HashMap<String, Object>> list = goodsService.getGoodsOne(goodsCode);
 		

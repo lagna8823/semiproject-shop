@@ -31,7 +31,7 @@ public class NoticeDao {
 	public ArrayList<Notice> selectNoticeListByPage(Connection conn, int beginRow, int rowPerPage) throws Exception {
 		ArrayList<Notice> list = new ArrayList<Notice>();
 		String sql = "SELECT notice_code noticeCode, notice_title noticeTitle, notice_content noticeContent, createdate "
-				+ 		" FROM notice ORDER BY createdate DESC LIMIT ?,?";
+				+ 	" FROM notice ORDER BY createdate DESC LIMIT ?,?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, beginRow);
 		stmt.setInt(2, rowPerPage);
