@@ -19,6 +19,31 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 		<!-- Bootstrap CDN 끝 -->
 		
+		<script>
+			// checkBox 변화 있을시 submit
+			$(document).ready(function() {
+				$('#activeY').change(function() {
+					$('#checkboxForm').submit();
+					alert('changeY');
+				})
+				
+				$('#activeN').change(function() {
+					$('#checkboxForm').submit();
+					alert('changeN');
+				})
+				
+				$('#authCode0').change(function() {
+					$('#checkboxForm').submit();
+					alert('change0');
+				})
+				
+				$('#authCode1').change(function() {
+					$('#checkboxForm').submit();
+					alert('change1');
+				})
+				
+			});
+		</script>
 		
 		
 	</head>
@@ -29,6 +54,72 @@
 			<div>
 				<h1>EMP LIST</h1>
 			</div>
+			
+			<div>
+				${active[0] }
+				<br>
+				${active[1] }
+			</div>
+			
+			
+			<!-- active, authCode 체크박스 -->
+			<div>
+				<form id = "checkboxForm" method = "get" action = "${pageContext.request.contextPath }/emp/empList">
+					<div>
+						<table border = "1">
+							<tr>
+								<th>active</th>
+								<td>
+									<c:choose>
+										<c:when test="${active != null && activeLength == 2}">
+											<input type = "checkbox" name = "active" id = "activeY" value = "Y" checked>Y
+											<input type = "checkbox" name = "active" id = "activeN" value = "N" checked>N
+										</c:when>
+										<c:when test="${active != null && activeLength == 1 && active[0] == 'Y'}">
+											<input type = "checkbox" name = "active" id = "activeY" value = "Y" checked>Y
+											<input type = "checkbox" name = "active" id = "activeN" value = "N">N
+										</c:when>
+										<c:when test="${active != null && activeLength == 1 && active[0] == 'N'}">
+											<input type = "checkbox" name = "active" id = "activeY" value = "Y">Y
+											<input type = "checkbox" name = "active" id = "activeN" value = "N" checked>N
+										</c:when>
+										<c:otherwise>
+											<input type = "checkbox" name = "active" id = "activeY" value = "Y">Y
+											<input type = "checkbox" name = "active" id = "activeN" value = "N">N
+										</c:otherwise>
+									</c:choose>
+								</td>
+							</tr>
+							
+							
+							<tr>
+								<th>authCode</th>
+								<td>
+									<c:choose>
+										<c:when test="${authCode != null && authCodeLength == 2 }">
+											<input type = "checkbox" name = "authCode" id = "authCode0" value = "0" checked>0 : 관리자
+											<input type = "checkbox" name = "authCode" id = "authCode1" value = "1" checked>1 : 사업자
+										</c:when>
+										<c:when test="${authCode != null && authCodeLength == 1 && authCode[0] == 0 }">
+											<input type = "checkbox" name = "authCode" id = "authCode0" value = "0" checked>0 : 관리자
+											<input type = "checkbox" name = "authCode" id = "authCode1" value = "1">1 : 사업자
+										</c:when>
+										<c:when test="${authCode != null && authCodeLength == 1 && authCode[0] == 1 }">
+											<input type = "checkbox" name = "authCode" id = "authCode0" value = "0">0 : 관리자
+											<input type = "checkbox" name = "authCode" id = "authCode1" value = "1" checked>1 : 사업자
+										</c:when>
+										<c:otherwise>
+											<input type = "checkbox" name = "authCode" id = "authCode0" value = "0">0 : 관리자
+											<input type = "checkbox" name = "authCode" id = "authCode1" value = "1">1 : 사업자
+										</c:otherwise>
+									</c:choose>
+								</td>
+							</tr>
+						</table>
+					</div>				
+				</form>
+			</div>
+			
 			
 			<div>
 				<!-- 검색 -->
