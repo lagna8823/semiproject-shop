@@ -36,7 +36,7 @@
 	<!-- 검색창 -->	
 	<form method="get" action="${pageContext.request.contextPath}/goods/goodsList">
 		<div>
-			<input type="text" name="searchWord" value="${searchWord}">
+			<input type="search" name="searchWord" id="searchWord">
 			<button type="submit">검색</button>
 		</div>
 	</form>	

@@ -40,10 +40,10 @@ public class GoodsDao {
 		String sql = "SELECT r.rnum rnum, r.goods_code goodsCode, r.goods_name goodsName"
 				+ 	" , r.goods_price goodsPrice, r.createdate createdate, img.filename filename"
 				+ 	" FROM (SELECT ROW_NUMBER() OVER(ORDER BY goods_code DESC) rnum"
-				+ 		", goods_code, goods_name, goods_price, createdate FROM goods) r LEFT OUTER JOIN goods_img img"
+				+ 		", goods_code, goods_name, goods_price, createdate FROM goods WHERE goods_name LIKE ?) r "
+				+ 	" LEFT OUTER JOIN goods_img img"
 				+ 	" ON r.goods_code = img.goods_code"
-				+ 	" WHERE rnum BETWEEN ? AND ?"
-				+ 	" AND goods_name LIKE ?";
+				+ 	" WHERE rnum BETWEEN ? AND ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, beginRow);
 		stmt.setInt(2, rowPerPage);
