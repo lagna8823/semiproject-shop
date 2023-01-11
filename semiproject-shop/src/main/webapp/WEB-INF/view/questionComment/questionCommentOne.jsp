@@ -22,6 +22,7 @@
 	</head>
 	<body>
 		<header>
+			<a href="${pageContext.request.contextPath}/home">홈으로</a>
 			<a href="${pageContext.request.contextPath}/logout">로그아웃</a>
 			<a href="${pageContext.request.contextPath}/question/questionList">고객센터</a>
 			<a href="${pageContext.request.contextPath}/question/questionList">나의문의</a>
