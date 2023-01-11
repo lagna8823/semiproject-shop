@@ -438,7 +438,8 @@ public class CustomerService {
 	
 	
 	// 비밀번호 확인
-	// 사용하는 곳 : DeleteCustomerController, ModifyCustomerController
+	// 사용하는 곳 : CheckCustomerPwController
+	//				 (pw 확인 후 이동 DeleteCustomerController, ModifyCustomerController)
 	// true : 비밀번호 일치(메뉴사용가능) / false : 불일치(메뉴사용불가)
 	public boolean checkPw(Customer customer) {
 		
@@ -482,6 +483,99 @@ public class CustomerService {
 		
 	}
 	
+	
+	// customer 비밀번호 변경
+	// 1) 새 비밀번호와 pwHistory 이력(최신 3개까지) 중복 확인
+	// 2) 중복이 없다면 pwHistory 추가
+	// 3) pwHistory 개수가 3개 초과라면 제일 오래된 이력 삭제
+	// 4) 모든 과정이 성공하면 customer pw 변경
+	// 5) commit
+	public int modifyCustomerPw(Customer customer) {
+		
+		int resultRow = 0;
+		
+		boolean resultCheckPw = false;
+		int resultAddPw = 0;
+		int countPwHistory = 0;
+		int resultDeletePw = 0;
+		int resultModifyPw = 0;
+		
+		
+		
+		Connection conn = null;
+		
+		try {
+			
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			
+			PwHistory pwHistory = new PwHistory();
+			pwHistory.setCustomerId(customer.getCustomerId());
+			pwHistory.setPw(customer.getCustomerPw());
+			
+			
+			// pwHistory 와 중복확인
+			// true : pw가 이미 존재(변경불가) false : pw 사용 가능(변경 가능)
+			this.pwHistoryDao = new PwHistoryDao();
+			resultCheckPw = this.pwHistoryDao.checkPwHistory(conn, pwHistory);
+			
+			if(resultCheckPw) {
+				
+				// 중복이 있다면 변경불가
+				System.out.println("customerService pwHistory 중복");
+				return resultRow;
+				
+			}
+			
+			// pwHistory 추가
+			resultAddPw = this.pwHistoryDao.addPwHistory(conn, pwHistory);
+			
+			// pwHistory count
+			countPwHistory = this.pwHistoryDao.countPwHistory(conn, customer.getCustomerId());
+			
+			// pwHistory 3개 초과하면 
+			if(countPwHistory > 3) {
+				
+				// 제일 오래된 pwHistory 1개 삭제
+				resultDeletePw = this.pwHistoryDao.deletePwHistoryOne(conn, customer.getCustomerId());
+				
+			}
+			
+			// customerPw 변경(수정)
+			this.customerDao = new CustomerDao();
+			resultModifyPw = this.customerDao.modifyCustomerPw(conn, customer);
+				
+			
+			if(resultAddPw == 1 && resultDeletePw == 1 && resultModifyPw == 1) {
+				
+				// 모든 과정 성공하면
+				resultRow = 1;
+				conn.commit();
+			}
+			
+			
+		} catch (Exception e) {
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return resultRow;
+		
+	}
 	
 	
 	

@@ -74,8 +74,8 @@
 					
 					<span>&nbsp;</span>
 				
-					<a href = "${pageContext.request.contextPath }/customer/updateCustomerPw">
-						customer 비밀번호 변경(X)
+					<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/modifyCustomerPw">
+						customer 비밀번호 변경
 					</a>
 					
 					<span>&nbsp;</span>

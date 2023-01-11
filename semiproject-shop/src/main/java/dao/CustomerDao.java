@@ -307,7 +307,8 @@ public class CustomerDao {
 		
 	
 	// 비밀번호 확인
-	// 사용하는 곳 : DeleteCustomerController, UpdateCustomerController,
+	// 사용하는 곳 : CheckCustomerPWConroller
+	//				 (pw 확인 후 이동 DeleteCustomerController, UpdateCustomerController)
 	// true : 비밀번호 일치(메뉴사용가능) / false : 불일치(메뉴사용불가)
 	public boolean checkPw(Connection conn, Customer customer) throws Exception {
 		
@@ -330,6 +331,34 @@ public class CustomerDao {
 		}
 		
 		return result;
+		
+	}
+	
+	// 비밀번호 변경(수정)
+	// 1) 비밀번호 이력(최신3개)과 중복이 없으면 변경 가능
+	// 사용하는 곳 : ModifyCustomerPwController
+	public int modifyCustomerPw(Connection conn, Customer customer) throws Exception {
+		
+		int resultRow = 1;
+		
+		String sql = "UPDATE customer"
+				+ "	 SET customer_pw = PASSWORD(?)"
+				+ "	 WHERE customer_id = ?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1, customer.getCustomerPw());
+		stmt.setString(2, customer.getCustomerId());
+		
+		resultRow = stmt.executeUpdate();
+		
+		if(resultRow == 1) {
+			System.out.println("customer pw 변경 성공");
+		} else {
+			System.out.println("customer pw 변경 실패");
+		}
+		
+		return resultRow;
 		
 	}
 	
