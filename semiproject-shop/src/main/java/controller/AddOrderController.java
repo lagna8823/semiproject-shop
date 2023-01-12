@@ -25,15 +25,17 @@ public class AddOrderController extends HttpServlet {
 		// 로그인 여부확인, 로그인 되어있지 않으면 홈으로 이동
 		HttpSession session = request.getSession();		
 		// 로그인 값 체크  - 비 로그인 시 로그인 창으로
-		String customerId = "test"; //(String)session.getAttribute("loginCustomer");
-		if(customerId == null) {
+		Customer loginCustomer = (Customer)session.getAttribute("loginCustomer");
+		System.out.println(loginCustomer + "아이디");
+		if(loginCustomer == null) {
 			response.sendRedirect(request.getContextPath()+"/login");
 			System.out.println("로그인 값 없음");
 			return;
 		}
+		String customerId = loginCustomer.getCustomerId();
 		
 		// 상품번호 ,고객아이디, 배송지 필요
-		int goodsCode = 1; //Integer.parseInt(request.getParameter("goodsCode"));	
+		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));	
 		Customer customer = null;
 		ArrayList<CustomerAddress> customerAddress = null;
 		Goods goods = null;
@@ -81,14 +83,19 @@ public class AddOrderController extends HttpServlet {
 		String createdate = request.getParameter("createdate");
 		
 		//포인트 로직 필요
-		String pointKind = "적립"; // request.getParameter("pointKind");
-		int usePoint = 1000; // Integer.parseInt(request.getParameter("point"));
+		String pointKind = null; // request.getParameter("pointKind");
+		int usePoint = Integer.parseInt(request.getParameter("point"));
+		if(usePoint == 0) { //적립
+			pointKind = "적립";
+		} else { //사용
+			pointKind = "사용";
+		}
 		
 		Orders orders = new Orders();
 		PointHistory pointHistory = new PointHistory();
 		orders.setGoodsCode(goodsCode);
 		orders.setCustomerId(customerId);
-		orders.setAddressCode(addressCode);	
+		orders.setAddressCode(addressCode);
 		
 		orders.setOrderQuantity(orderQuantity);
 		orders.setOrderPrice(orderPrice);

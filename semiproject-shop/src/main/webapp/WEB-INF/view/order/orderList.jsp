@@ -49,7 +49,6 @@
 		<table class="table">
 			<tr class = "text-center">
 				<th>주문번호</th>
-				<th>상품번호</th>
 				<th>상품이름</th>
 				<th>상품가격</th>
 				
@@ -68,7 +67,6 @@
 			<c:forEach var="o" items="${orderList}">
 				<tr>
 					<td>${o.orderCode}</td>
-					<td>${o.goodsCode}</td>
 					<td>${o.goodsName}</td>
 					<td>${o.goodsPrice}</td>
 					
