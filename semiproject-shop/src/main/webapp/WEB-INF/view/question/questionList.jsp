@@ -85,11 +85,11 @@
 			<div>
 				<button onclick="history.back()">뒤로가기</button>
 			</div>
+			<br>
 			<!-- 문의글 작성 링크-->
 			<div>
 				<a href="${pageContext.request.contextPath}/question/addQuestion">문의글 작성</a>
 			</div>
-			<br>
 			
 			<!-- 고객센터 내용 -->
 			<div>

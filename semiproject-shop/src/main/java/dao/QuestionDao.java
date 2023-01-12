@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -101,24 +102,37 @@ public class QuestionDao {
 	// 사용하는 곳 : questionOneController, question
 	public HashMap<String, Object> selectQuestionOne(Connection conn, int questionCode) throws Exception {
 		HashMap<String, Object> q = null;
-		String sql = "SELECT q.question_code questionCode, q.orders_code ordersCode, q.category category, q.question_memo questionMemo"
-				+ "		, q.createdate createdate, qc.comment_memo commentMemo, qc.createdate commentCreatedate "
-				+ "	 FROM question q "
-				+ "		LEFT OUTER JOIN question_comment qc "
-				+ "		ON q.question_code = qc.question_code "
-				+ " WHERE q.question_code = ?";
+		String sql = "SELECT r.question_code questionCode, r.category category, r.question_memo questionMemo"
+				+ "				, r.createdate createdate, r.comment_memo commentMemo, r.commentCreatedate commentCreatedate"
+				+ "				, r.order_code orderCode, g.goods_code goodsCode, g.goods_Name goodsName"
+				+ "		FROM "
+				+ "				(SELECT r.question_code, r.category, r.question_memo, r.createdate, r.comment_memo"
+				+ "						, r.commentCreatedate commentCreatedate, o.order_code, o.goods_code"
+				+ "				FROM "
+				+ "						(SELECT q.question_code, q.orders_code, q.category, q.question_memo"
+				+ "								, q.createdate, qc.comment_memo, qc.createdate commentCreatedate"
+				+ "						FROM question q "
+				+ "							LEFT OUTER JOIN question_comment qc "
+				+ "							ON q.question_code = qc.question_code "
+				+ "						WHERE q.question_code = ?) r"
+				+ "					INNER JOIN orders o"
+				+ "					ON r.orders_code = o.order_code) r"
+				+ "			INNER JOIN goods g"
+				+ "			ON r.goods_code = g.goods_code";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, questionCode);
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {
 			q = new HashMap<String, Object>();
 			q.put("questionCode", rs.getInt("questionCode"));
-			q.put("ordersCode", rs.getInt("ordersCode"));
+			q.put("orderCode", rs.getInt("orderCode"));
 			q.put("category", rs.getString("category"));
 			q.put("questionMemo", rs.getString("questionMemo"));
 			q.put("createdate", rs.getString("createdate"));
 			q.put("commentMemo", rs.getString("commentMemo"));
 			q.put("commentCreatedate", rs.getString("commentCreatedate"));
+			q.put("goodsCode", rs.getInt("goodsCode"));
+			q.put("goodsName", rs.getString("goodsName"));
 		}
 		return q;
 	}
@@ -144,9 +158,9 @@ public class QuestionDao {
 		String sql = "SELECT r.order_code orderCode, g.goods_name goodsName"
 				+ "		FROM "
 				+ "			(SELECT o.order_code, o.goods_code, o.createdate"
-				+ "			FROM question q"
-				+ "				INNER JOIN orders o"
-				+ "				ON q.orders_code = o.order_code"
+				+ "				FROM question q"
+				+ "					INNER JOIN orders o"
+				+ "					ON q.orders_code = o.order_code"
 				+ "			WHERE o.customer_id = ?) r"
 				+ "		INNER JOIN goods g"
 				+ "		ON r.goods_code = g.goods_code"
@@ -158,6 +172,7 @@ public class QuestionDao {
 	    	HashMap<String, Object> q = new HashMap<String, Object>();
 	    	q.put("orderCode", rs.getInt("orderCode"));
 	    	q.put("goodsName", rs.getString("goodsName"));
+	    	
 	    	list.add(q);
 	    }
 		return list;
@@ -168,23 +183,25 @@ public class QuestionDao {
 	public ArrayList<HashMap<String, Object>> selectQuestionListByPage(Connection conn, int beginRow, int rowPerPage, String word) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
 		String sql = "SELECT r.rnum rnum, r.question_code questionCode, r.category category, r.question_memo questionMemo"
-				+ "		, r.createdate createdate, r.comment_memo commentMemo, r.order_code orderCode, g.goods_code goodsCode, g.goods_name goodsName"
+				+ "			, r.createdate createdate, r.comment_memo commentMemo, r.order_code orderCode"
+				+ "			, g.goods_code goodsCode, g.goods_name goodsName"
 				+ "		FROM"
-				+ "			(SELECT r.rnum , r.question_code, r.category , r.question_memo , r.createdate, r.comment_memo, o.order_code, o.goods_code"
+				+ "			(SELECT r.rnum , r.question_code, r.category , r.question_memo , r.createdate, r.comment_memo"
+				+ "					, o.order_code, o.goods_code"
 				+ "				 FROM"
 				+ "				 	(SELECT r.rnum, r.question_code, r.orders_code, r.category, r.question_memo, r.createdate"
 				+ "					 		, qc.comment_memo"
 				+ "				 		FROM (SELECT ROW_NUMBER() OVER(ORDER BY question_code DESC) rnum"
-				+ "										, question_code, orders_Code, category, question_memo, createdate "
+				+ "									, question_code, orders_Code, category, question_memo, createdate "
 				+ "									FROM question ) r"
 				+ "							LEFT OUTER JOIN question_comment qc"
 				+ "							ON r.question_code = qc.question_code) r"
 				+ "					INNER JOIN orders o "
 				+ "					ON r.orders_code = o.order_code) r"
-				+ "		INNER JOIN  goods g"
-				+ "		ON r.goods_code = g.goods_code"
-				+ "	WHERE g.goods_name LIKE ? "
-				+ "		ORDER BY createdate DESC LIMIT ?, ?";
+				+ "			INNER JOIN  goods g"
+				+ "			ON r.goods_code = g.goods_code"
+				+ "		WHERE g.goods_name LIKE ? "
+				+ "			ORDER BY createdate DESC LIMIT ?, ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, "%"+word+"%");
 		stmt.setInt(2, beginRow);

@@ -40,8 +40,8 @@ public class QuestionOneController extends HttpServlet {
 		HashMap<String, Object> q = new HashMap<String, Object>();
 		this.questionService = new QuestionService();
 		q = questionService.getQuestionOne(questionCode);
-		int ordersCode = (int) q.get("ordersCode");
-		String customerId = questionService.getQuestionOneCustomerIdByOrderCode(ordersCode);
+		int orderCode = (int) q.get("orderCode");
+		String customerId = questionService.getQuestionOneCustomerIdByOrderCode(orderCode);
 		request.setAttribute("q", q);
 		request.setAttribute("customerId", customerId);
 		request.setAttribute("loginCustomer", loginCustomer.getCustomerId());

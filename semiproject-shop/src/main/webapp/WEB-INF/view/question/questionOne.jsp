@@ -69,22 +69,22 @@
 		<div>
 			<h2 align="center">상세보기</h2>
 			<div align="center" style="padding-right: 42em"> 
-				<a href="${pageContext.request.contextPath}/question/questionList">뒤로가기</a>
+				<button onclick="history.back()">뒤로가기</button>
 			</div>
 			<!-- 고객센터 내용 (분류/주문번호, 문의작성일, 문의내용, 답변일, 답변내용-->
 			<div align="center">
 				<table border="1">
 				<tr>
+					<th>문의번호/카테고리</th>
+				</tr>
+				<tr>
+					<td>${q.questionCode}: ${q.category}</td>
+				</tr>
+				<tr>
 					<th>주문번호/상품명</th>
 				</tr>
 				<tr>
-					<td>${q.ordersCode} : ${q.goodsName}</td>
-				</tr>
-				<tr> 
-					<th>카테고리</th>
-				</tr>
-				<tr>
-					<td>${q.category}</td>
+					<td>${q.orderCode} : ${q.goodsName}</td>
 				</tr>
 				<tr>
 					<th>작성일</th>
