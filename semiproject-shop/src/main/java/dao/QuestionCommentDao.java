@@ -175,7 +175,7 @@ public class QuestionCommentDao {
 		if(sort.equals("sort") || sort == null) {
 			sort=("");
 		} 
-		// sort 전체, 검색값 전체
+		// sort 전체, 검색값 전체 (문의날짜 기준으로 정렬)
 		if(sort.equals("") &&(search.equals("") || search == null) ) {
 			search=("");
 			sql = "SELECT r.rnum rnum, r.question_code questionCode, r.orders_code ordersCode, r.category category, r.question_memo questionMemo"
@@ -192,7 +192,7 @@ public class QuestionCommentDao {
 					+ "				LEFT OUTER JOIN orders o"
 					+ "				ON r.orders_code = o.order_code"
 					+ "		WHERE (r.orders_code LIKE ? OR o.customer_id LIKE ? OR r.emp_id LIKE ? OR r.question_memo LIKE ?) AND r.category LIKE ?"
-					+ "			 ORDER BY commentCreatedate DESC LIMIT ?, ?";
+					+ "			 ORDER BY createdate DESC LIMIT ?, ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, "%"+word+"%");
 			stmt.setString(2, "%"+word+"%");
@@ -203,7 +203,7 @@ public class QuestionCommentDao {
 			stmt.setInt(7, rowPerPage);
 		}
 		
-		// sort 전체, 검색값 주문번호
+		// sort 전체, 검색값 주문번호 (문의날짜 기준으로 정렬)
 		else if(sort.equals("") && search.equals("ordersCode")) {
 			sql = "SELECT r.rnum rnum, r.question_code questionCode, r.orders_code ordersCode, r.category category, r.question_memo questionMemo"
 					+ "			, r.createdate createdate, r.comment_memo commentMemo, r.commentCreatedate commentCreatedate, r.emp_id empId"
@@ -219,14 +219,14 @@ public class QuestionCommentDao {
 					+ "				LEFT OUTER JOIN orders o"
 					+ "				ON r.orders_code = o.order_code"
 					+ "		WHERE r.orders_code = ? AND r.category LIKE ? "
-					+ " 		ORDER BY commentCreatedate DESC LIMIT ?, ?";
+					+ " 		ORDER BY createdate DESC LIMIT ?, ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, word);
 			stmt.setString(2, "%"+category+"%");
 			stmt.setInt(3, beginRow);
 			stmt.setInt(4, rowPerPage);
 			
-		// sort 전체, 검색값 고객ID
+		// sort 전체, 검색값 고객ID (문의날짜 기준으로 정렬)
 		} else if(sort.equals("") && search.equals("customerId")) {
 			sql = "SELECT r.rnum rnum, r.question_code questionCode, r.orders_code ordersCode, r.category category, r.question_memo questionMemo"
 					+ "			, r.createdate createdate, r.comment_memo commentMemo, r.commentCreatedate commentCreatedate, r.emp_id empId"
@@ -242,14 +242,14 @@ public class QuestionCommentDao {
 					+ "				LEFT OUTER JOIN orders o"
 					+ "				ON r.orders_code = o.order_code"
 					+ "		WHERE o.customer_id LIKE ? AND r.category LIKE ?"
-					+ " 		ORDER BY commentCreatedate DESC LIMIT ?, ?";
+					+ " 		ORDER BY createdate DESC LIMIT ?, ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, "%"+word+"%");
 			stmt.setString(2, "%"+category+"%");
 			stmt.setInt(3, beginRow);
 			stmt.setInt(4, rowPerPage);
 			
-		// sort 전체, 검색값 사원ID
+		// sort 전체, 검색값 사원ID (문의날짜 기준으로 정렬)
 		} else if(sort.equals("") && search.equals("empId")) {
 			sql = "SELECT r.rnum rnum, r.question_code questionCode, r.orders_code ordersCode, r.category category, r.question_memo questionMemo"
 					+ "			, r.createdate createdate, r.comment_memo commentMemo, r.commentCreatedate commentCreatedate, r.emp_id empId"
@@ -265,7 +265,7 @@ public class QuestionCommentDao {
 					+ "				LEFT OUTER JOIN orders o"
 					+ "				ON r.orders_code = o.order_code"
 					+ "		WHERE r.emp_id LIKE ? AND r.category LIKE ? "
-					+ " 		ORDER BY commentCreatedate DESC LIMIT ?, ?";
+					+ " 		ORDER BY createdate DESC LIMIT ?, ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, "%"+word+"%");
 			stmt.setString(2, "%"+category+"%");
