@@ -55,6 +55,10 @@ public class EmpListController extends HttpServlet {
 
 		// request active 
 		String[] active = request.getParameterValues("active");
+		
+		// active == null 일 때
+		request.setAttribute("activeLength", 0);
+		
 		if(active != null) {
 			
 			request.setAttribute("activeLength", active.length);
@@ -63,7 +67,23 @@ public class EmpListController extends HttpServlet {
 		}
 		
 		// request authCode
-		String[] authCode = request.getParameterValues("authCode");
+		String[] strAuthCode = request.getParameterValues("authCode");
+		
+		// String 배열 -> int 배열 변환
+		int[] authCode = null;
+		
+		// authCode == null 일 때
+		request.setAttribute("authCodeLength", 0);
+		
+		if(strAuthCode != null) {
+			authCode = new int[strAuthCode.length];
+			
+			for(int i=0; i<authCode.length; i++) {
+				authCode[i] = Integer.parseInt(strAuthCode[i]); 
+			}
+		}
+		
+		// request 속성값 추가
 		if(authCode != null) {
 			
 			request.setAttribute("authCodeLength", authCode.length);
@@ -71,6 +91,8 @@ public class EmpListController extends HttpServlet {
 			
 		}
 		
+		System.out.println(active + " <-- active");
+		System.out.println(authCode + " <-- authCode");
 		
 		
 		this.empService = new EmpService();
@@ -78,10 +100,10 @@ public class EmpListController extends HttpServlet {
 		ArrayList<Emp> empList = new ArrayList<Emp>();
 		
 		// empList
-		empList = this.empService.getEmpList(searchCategory, searchText, currentPage, rowPerPage);
+		empList = this.empService.getEmpList(active, authCode, searchCategory, searchText, currentPage, rowPerPage);
 		
 		// 페이징 처리
-		ArrayList<HashMap<String, Object>> pageList = this.empService.getPage(searchCategory, searchText, currentPage, rowPerPage); 
+		ArrayList<HashMap<String, Object>> pageList = this.empService.getPage(active, authCode, searchCategory, searchText, currentPage, rowPerPage); 
 		
 		for(HashMap<String, Object> hm : pageList) {
 			
@@ -106,22 +128,7 @@ public class EmpListController extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
-		/*
-		System.out.println(active.length + " <-- active.length");
-		System.out.println(active + " <-- active");
-		
-		for(int i=0; i<active.length; i++) {
-			System.out.println(active[i]);
-			
-		}
-		
-		request.setAttribute("num", 123);
 
-		
-		
-		response.sendRedirect(request.getContextPath() + "/emp/empList");
-		*/
 		
 	}
 	

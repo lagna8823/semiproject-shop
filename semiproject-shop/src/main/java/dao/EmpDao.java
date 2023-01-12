@@ -34,28 +34,247 @@ public class EmpDao {
 	
 	// empList
 	// 사용하는 곳 : EmpListController
+	// active, authCode 추가
+	/*
+	 * active, authCode 의 null 상태에 따라 4가지로 분기
+	 * 그 안에 경우의수로 분기
+	 */
+	
 	// 검색 페이징 포함
-	public ArrayList<Emp> selectEmpList(Connection conn, String searchCategory, String searchText, int beginRow, int rowPerPage) throws Exception {
+	public ArrayList<Emp> selectEmpList(Connection conn, String[] active, int[] authCode, String searchCategory, String searchText, int beginRow, int rowPerPage) throws Exception {
 		
 		ArrayList<Emp> list = null;
+		PreparedStatement stmt = null;
 		
-		String sql = "SELECT emp_code empCode"
-				+ "			, emp_id empId"
-				+ "			, emp_name empName"
-				+ "			, active"
-				+ "			, auth_code authCode"
-				+ "			, createdate"
-				+ "	 FROM emp"
-				+ "	 WHERE " + searchCategory + " LIKE ?"
-				+ "	 ORDER BY emp_code DESC"
-				+ "	 LIMIT ?, ?";
-		
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		
-		stmt.setString(1,  "%" + searchText + "%");
-		stmt.setInt(2,  beginRow);
-		stmt.setInt(3, rowPerPage);
-		
+		if(active == null && authCode == null) {
+			// active, authCode 아무것도 선택하지 않은 경우 전체 출력과 같음
+			String sql = "SELECT emp_code empCode"
+					+ "			, emp_id empId"
+					+ "			, emp_name empName"
+					+ "			, active"
+					+ "			, auth_code authCode"
+					+ "			, createdate"
+					+ "	 FROM emp"
+					+ "	 WHERE " + searchCategory + " LIKE ?"
+					+ "	 ORDER BY emp_code DESC"
+					+ "	 LIMIT ?, ?";
+			
+			stmt = conn.prepareStatement(sql);
+			
+			stmt.setString(1,  "%" + searchText + "%");
+			stmt.setInt(2,  beginRow);
+			stmt.setInt(3, rowPerPage);
+			
+		} else if(active != null && authCode == null) {
+			// active만 선택한 경우, authCode 는 선택 안함
+			
+			if(active.length == 2) {
+				// Y, N 모두 선택한 경우
+				
+				String sql = "SELECT emp_code empCode"
+						+ "			, emp_id empId"
+						+ "			, emp_name empName"
+						+ "			, active"
+						+ "			, auth_code authCode"
+						+ "			, createdate"
+						+ "	 FROM emp"
+						+ "	 WHERE active IN (?, ?)"
+						+ "		 AND " + searchCategory + " LIKE ?"
+						+ "	 ORDER BY emp_code DESC"
+						+ "	 LIMIT ?, ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setString(1, active[0]);
+				stmt.setString(2, active[1]);
+				
+				stmt.setString(3,  "%" + searchText + "%");
+				
+				stmt.setInt(4,  beginRow);
+				stmt.setInt(5, rowPerPage);
+				
+			} else {
+				// Y or N 하나만 선택한 경우
+				
+				String sql = "SELECT emp_code empCode"
+						+ "			, emp_id empId"
+						+ "			, emp_name empName"
+						+ "			, active"
+						+ "			, auth_code authCode"
+						+ "			, createdate"
+						+ "	 FROM emp"
+						+ "	 WHERE active IN (?)"
+						+ "		 AND " + searchCategory + " LIKE ?"
+						+ "	 ORDER BY emp_code DESC"
+						+ "	 LIMIT ?, ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setString(1, active[0]);
+				stmt.setString(2,  "%" + searchText + "%");
+				stmt.setInt(3,  beginRow);
+				stmt.setInt(4, rowPerPage);
+				
+			}
+			
+		} else if(active == null && authCode != null) {
+			// authCode만 체크한 경우, active는 선택 안함
+			
+			if(authCode.length == 2) {
+				// 0, 1 모두 선택한 경우
+				
+				String sql = "SELECT emp_code empCode"
+						+ "			, emp_id empId"
+						+ "			, emp_name empName"
+						+ "			, active"
+						+ "			, auth_code authCode"
+						+ "			, createdate"
+						+ "	 FROM emp"
+						+ "	 WHERE auth_code IN (?, ?)"
+						+ "		 AND " + searchCategory + " LIKE ?"
+						+ "	 ORDER BY emp_code DESC"
+						+ "	 LIMIT ?, ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setInt(1, authCode[0]);
+				stmt.setInt(2, authCode[1]);
+				
+				stmt.setString(3,  "%" + searchText + "%");
+				
+				stmt.setInt(4,  beginRow);
+				stmt.setInt(5, rowPerPage);
+				
+				
+			} else {
+				// 0 or 1 하나만 선택한 경우
+				
+				String sql = "SELECT emp_code empCode"
+						+ "			, emp_id empId"
+						+ "			, emp_name empName"
+						+ "			, active"
+						+ "			, auth_code authCode"
+						+ "			, createdate"
+						+ "	 FROM emp"
+						+ "	 WHERE auth_code IN (?)"
+						+ "		 AND " + searchCategory + " LIKE ?"
+						+ "	 ORDER BY emp_code DESC"
+						+ "	 LIMIT ?, ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setInt(1, authCode[0]);
+				stmt.setString(2,  "%" + searchText + "%");
+				stmt.setInt(3,  beginRow);
+				stmt.setInt(4, rowPerPage);
+				
+				
+				
+			}
+			
+		} else {
+			// active, authCode 같이 선택한 경우
+			
+			if(active.length == 1 && authCode.length == 1) {
+				// active, authCode 각각 하나씩 선택한 경우
+				
+				String sql = "SELECT emp_code empCode"
+						+ "			, emp_id empId"
+						+ "			, emp_name empName"
+						+ "			, active"
+						+ "			, auth_code authCode"
+						+ "			, createdate"
+						+ "	 FROM emp"
+						+ "	 WHERE active IN (?)"
+						+ "		 AND auth_code IN (?)"
+						+ "		 AND " + searchCategory + " LIKE ?"
+						+ "	 ORDER BY emp_code DESC"
+						+ "	 LIMIT ?, ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setString(1, active[0]);
+				stmt.setInt(2, authCode[0]);
+				stmt.setString(3,  "%" + searchText + "%");
+				stmt.setInt(4,  beginRow);
+				stmt.setInt(5, rowPerPage);				
+				
+			} else if(active.length == 1 && authCode.length == 2) {
+				// active : 1개, authCode : 2개 -> 선택한 경우
+				
+				String sql = "SELECT emp_code empCode"
+						+ "			, emp_id empId"
+						+ "			, emp_name empName"
+						+ "			, active"
+						+ "			, auth_code authCode"
+						+ "			, createdate"
+						+ "	 FROM emp"
+						+ "	 WHERE active IN (?)"
+						+ "		 AND auth_code IN (?, ?)"
+						+ "		 AND " + searchCategory + " LIKE ?"
+						+ "	 ORDER BY emp_code DESC"
+						+ "	 LIMIT ?, ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setString(1, active[0]);
+				stmt.setInt(2, authCode[0]);
+				stmt.setInt(3, authCode[1]);
+				stmt.setString(4,  "%" + searchText + "%");
+				stmt.setInt(5,  beginRow);
+				stmt.setInt(6, rowPerPage);		
+				
+			} else if(active.length == 2 && authCode.length == 1) {
+				// active : 2개, authCode : 1개 -> 선택한 경우
+				
+				String sql = "SELECT emp_code empCode"
+						+ "			, emp_id empId"
+						+ "			, emp_name empName"
+						+ "			, active"
+						+ "			, auth_code authCode"
+						+ "			, createdate"
+						+ "	 FROM emp"
+						+ "	 WHERE active IN (?, ?)"
+						+ "		 AND auth_code IN (?)"
+						+ "		 AND " + searchCategory + " LIKE ?"
+						+ "	 ORDER BY emp_code DESC"
+						+ "	 LIMIT ?, ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setString(1, active[0]);
+				stmt.setString(2, active[1]);
+				stmt.setInt(3, authCode[0]);
+				stmt.setString(4,  "%" + searchText + "%");
+				stmt.setInt(5,  beginRow);
+				stmt.setInt(6, rowPerPage);	
+				
+			} else {
+				// active : 2개, authCode : 2개 -> 모두 선택한 경우 전체 출력과 같음
+				
+				String sql = "SELECT emp_code empCode"
+						+ "			, emp_id empId"
+						+ "			, emp_name empName"
+						+ "			, active"
+						+ "			, auth_code authCode"
+						+ "			, createdate"
+						+ "	 FROM emp"
+						+ "	 WHERE " + searchCategory + " LIKE ?"
+						+ "	 ORDER BY emp_code DESC"
+						+ "	 LIMIT ?, ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setString(1,  "%" + searchText + "%");
+				stmt.setInt(2,  beginRow);
+				stmt.setInt(3, rowPerPage);
+				
+				
+			}
+				
+			
+		}
+			
 		ResultSet rs = stmt.executeQuery();
 		
 		list = new ArrayList<Emp>();
@@ -78,19 +297,167 @@ public class EmpDao {
 		
 	}
 	
-	
-	// 검색 후 emp 총 카운트
+	// emp 총 카운트
+	// 1) active, authCode 선택
+	// 2) 검색 단어 검색
+	// 3) emp 카운트
 	// 사용하는 곳 : EmpListController
-	public int countEmp(Connection conn, String searchCategory, String searchText) throws Exception {
+	public int countEmp(Connection conn, String[] active, int[] authCode, String searchCategory, String searchText) throws Exception {
 		
 		int resultCount = 0;
 		
-		String sql = "SELECT COUNT(emp_code) cnt"
-				+ "	 FROM emp"
-				+ "	 WHERE " + searchCategory + " LIKE ?";
+		PreparedStatement stmt = null;
 		
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, "%" + searchText + "%");
+		
+		if(active == null && authCode == null) {
+			// active, authCode 아무것도 선택하지 않은 경우 전체 카운트와 같음
+			
+			String sql = "SELECT COUNT(emp_code) cnt"
+					+ "	 FROM emp"
+					+ "	 WHERE " + searchCategory + " LIKE ?";
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%" + searchText + "%");
+			
+		} else if(active != null && authCode == null) {
+			// active만 선택한 경우, authCode 는 선택 안함
+			
+			if(active.length == 2) {
+				// Y, N 모두 선택한 경우
+				
+				String sql = "SELECT COUNT(emp_code) cnt"
+						+ "	 FROM emp"
+						+ "	 WHERE active IN (?, ?)"
+						+ "		 AND " + searchCategory + " LIKE ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setString(1, active[0]);
+				stmt.setString(2, active[1]);
+				
+				stmt.setString(3, "%" + searchText + "%");
+				
+				
+				
+				
+			} else {
+				// Y or N 하나만 선택한 경우
+				
+				String sql = "SELECT COUNT(emp_code) cnt"
+						+ "	 FROM emp"
+						+ "	 WHERE active IN (?)"
+						+ "		 AND " + searchCategory + " LIKE ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setString(1, active[0]);
+				
+				stmt.setString(2, "%" + searchText + "%");
+				
+			}
+			
+		} else if(active == null && authCode != null) {
+			// authCode만 체크한 경우, active는 선택 안함
+			
+			if(authCode.length == 2) {
+				// 0, 1 모두 선택한 경우
+				
+				String sql = "SELECT COUNT(emp_code) cnt"
+						+ "	 FROM emp"
+						+ "	 WHERE auth_code IN (?, ?)"
+						+ "		 AND " + searchCategory + " LIKE ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setInt(1, authCode[0]);
+				stmt.setInt(2, authCode[1]);
+				
+				stmt.setString(3, "%" + searchText + "%");
+				
+				
+			} else {
+				// 0 or 1 하나만 선택한 경우
+				
+				String sql = "SELECT COUNT(emp_code) cnt"
+						+ "	 FROM emp"
+						+ "	 WHERE auth_code IN (?)"
+						+ "		 AND " + searchCategory + " LIKE ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setInt(1, authCode[0]);
+				
+				stmt.setString(2, "%" + searchText + "%");				
+				
+				
+			}
+			
+		} else {
+			// active, authCode 같이 선택한 경우
+			
+			if(active.length == 1 && authCode.length == 1) {
+				// active, authCode 각각 하나씩 선택한 경우
+				
+				String sql = "SELECT COUNT(emp_code) cnt"
+						+ "	 FROM emp"
+						+ "	 WHERE active IN (?)"
+						+ "		 AND auth_code IN (?)"
+						+ "		 AND " + searchCategory + " LIKE ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setString(1, active[0]);
+				stmt.setInt(2, authCode[0]);
+				stmt.setString(3,  "%" + searchText + "%");
+				
+			} else if(active.length == 1 && authCode.length == 2) {
+				// active : 1개, authCode : 2개 -> 선택한 경우
+				
+				String sql = "SELECT COUNT(emp_code) cnt"
+						+ "	 FROM emp"
+						+ "	 WHERE active IN (?)"
+						+ "		 AND auth_code IN (?, ?)"
+						+ "		 AND " + searchCategory + " LIKE ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setString(1, active[0]);
+				stmt.setInt(2, authCode[0]);
+				stmt.setInt(3, authCode[1]);
+				stmt.setString(4,  "%" + searchText + "%");	
+				
+			} else if(active.length == 2 && authCode.length == 1) {
+				// active : 2개, authCode : 1개 -> 선택한 경우
+				
+				String sql = "SELECT COUNT(emp_code) cnt"
+						+ "	 FROM emp"
+						+ "	 WHERE active IN (?, ?)"
+						+ "		 AND auth_code IN (?)"
+						+ "		 AND " + searchCategory + " LIKE ?";
+				
+				stmt = conn.prepareStatement(sql);
+				
+				stmt.setString(1, active[0]);
+				stmt.setString(2, active[1]);
+				stmt.setInt(3, authCode[0]);
+				stmt.setString(4,  "%" + searchText + "%");
+				
+			} else {
+				// active : 2개, authCode : 2개 -> 모두 선택한 경우 전체 카운트와 같음
+				
+				String sql = "SELECT COUNT(emp_code) cnt"
+						+ "	 FROM emp"
+						+ "	 WHERE " + searchCategory + " LIKE ?";
+				
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, "%" + searchText + "%");
+				
+				
+			}
+				
+			
+		}
+		
 		
 		ResultSet rs = stmt.executeQuery();
 		

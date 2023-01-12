@@ -24,22 +24,18 @@
 			$(document).ready(function() {
 				$('#activeY').change(function() {
 					$('#checkboxForm').submit();
-					alert('changeY');
 				})
 				
 				$('#activeN').change(function() {
 					$('#checkboxForm').submit();
-					alert('changeN');
 				})
 				
 				$('#authCode0').change(function() {
 					$('#checkboxForm').submit();
-					alert('change0');
 				})
 				
 				$('#authCode1').change(function() {
 					$('#checkboxForm').submit();
-					alert('change1');
 				})
 				
 			});
@@ -54,13 +50,6 @@
 			<div>
 				<h1>EMP LIST</h1>
 			</div>
-			
-			<div>
-				${active[0] }
-				<br>
-				${active[1] }
-			</div>
-			
 			
 			<!-- active, authCode 체크박스 -->
 			<div>
@@ -129,29 +118,11 @@
 							<c:if test="${param.searchCategory == null || param.searchCategory == 'emp_id'}">
 								<option value = "emp_id" selected>empId</option>
 								<option value = "emp_name">empName</option>
-								<option value = "active">active</option>
-								<option value = "auth_code">authCode</option>
 							</c:if>
 							
 							<c:if test="${param.searchCategory == 'emp_name' }">
 								<option value = "emp_id">empId</option>
 								<option value = "emp_name" selected>empName</option>
-								<option value = "active">active</option>
-								<option value = "auth_code">authCode</option>
-							</c:if>
-							
-							<c:if test="${param.searchCategory == 'active' }">
-								<option value = "emp_id">empId</option>
-								<option value = "emp_name">empName</option>
-								<option value = "active" selected>active</option>
-								<option value = "auth_code">authCode</option>
-							</c:if>
-							
-							<c:if test="${param.searchCategory == 'auth_code' }">
-								<option value = "emp_id">empId</option>
-								<option value = "emp_name">empName</option>
-								<option value = "active">active</option>
-								<option value = "auth_code" selected>authCode</option>
 							</c:if>
 							
 						</select>
@@ -163,68 +134,590 @@
 				
 			</div>
 			
-          	<!-- emp 페이징 처리 시작 -->
-			<div>
-				<ul class="pagination justify-content-center">
-					
-					<!-- 페이지 처음 -->
-					<li class="page-item">
-						<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=1">
-							<span>처음</span>
-						</a>
-					</li>
-					
-					<!-- 페이지 이전(-10의 1페이지) -->
-					<c:if test="${previousPage > 0}">
+			<!-- ============================================================================================================================= -->
+			<!-- 페이징 처리(모든 경우의 수) 시작 -->
+			
+			<c:if test="${activeLength == 0 && authCodeLength == 0 }">
+				<!-- active : 0개 / authCode : 0개 선택 -->
+				<div>
+					<ul class="pagination justify-content-center">
+						
+						<!-- 페이지 처음 -->
 						<li class="page-item">
-							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${previousPage}">
-								<span>이전</span>
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=1">
+								<span>처음</span>
 							</a>
 						</li>
-					</c:if>
-			
-					<!-- 페이지 1 ~ 10 -->
-					<c:forEach var="i" items="${pageList }">
-						<!-- 현재페이지 active 속성 부여 -->
-						<c:choose>
-							<c:when test="${currentPage == i}">
-								<li class = "page-item active">
-							</c:when >
-							<c:otherwise>
-								<li class = "page-item">
-							</c:otherwise>
-						</c:choose>
-					
-						<!-- 마지막 페이지 까지만 출력 -->
-						<c:if test="${i <= lastPage }">
-							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${i}">
-								<span>${i }</span>
-							</a>
+						
+						<!-- 페이지 이전(-10의 1페이지) -->
+						<c:if test="${previousPage > 0}">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${previousPage}">
+									<span>이전</span>
+								</a>
+							</li>
 						</c:if>
+				
+						<!-- 페이지 1 ~ 10 -->
+						<c:forEach var="i" items="${pageList }">
+							<!-- 현재페이지 active 속성 부여 -->
+							<c:choose>
+								<c:when test="${currentPage == i}">
+									<li class = "page-item active">
+								</c:when >
+								<c:otherwise>
+									<li class = "page-item">
+								</c:otherwise>
+							</c:choose>
 						
-								</li>
-						
-					</c:forEach>
-			
-					<!-- 페이지 다음(+10의 1페이지) -->
-					<c:if test="${nextPage <= lastPage }">
+							<!-- 마지막 페이지 까지만 출력 -->
+							<c:if test="${i <= lastPage }">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${i}">
+									<span>${i }</span>
+								</a>
+							</c:if>
+							
+									</li>
+							
+						</c:forEach>
+				
+						<!-- 페이지 다음(+10의 1페이지) -->
+						<c:if test="${nextPage <= lastPage }">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${nextPage}">
+									<span>다음</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 마지막 -->
 						<li class="page-item">
-							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${nextPage}">
-								<span>다음</span>
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${lastPage}">
+								<span>마지막</span>
 							</a>
 						</li>
-					</c:if>
+					</ul>
+				</div>
 			
-					<!-- 페이지 마지막 -->
-					<li class="page-item">
-						<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${lastPage}">
-							<span>마지막</span>
-						</a>
-					</li>
-				</ul>
-			</div>
-			<!-- emp 페이징 처리 끝 -->
+			</c:if>
+
+			<c:if test="${activeLength == 0 && authCodeLength == 1 }">
+				<!-- active : 0개 / authCode : 1개 선택 -->
+				<div>
+					<ul class="pagination justify-content-center">
+						
+						<!-- 페이지 처음 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=1">
+								<span>처음</span>
+							</a>
+						</li>
+						
+						<!-- 페이지 이전(-10의 1페이지) -->
+						<c:if test="${previousPage > 0}">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${previousPage}">
+									<span>이전</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 1 ~ 10 -->
+						<c:forEach var="i" items="${pageList }">
+							<!-- 현재페이지 active 속성 부여 -->
+							<c:choose>
+								<c:when test="${currentPage == i}">
+									<li class = "page-item active">
+								</c:when >
+								<c:otherwise>
+									<li class = "page-item">
+								</c:otherwise>
+							</c:choose>
+						
+							<!-- 마지막 페이지 까지만 출력 -->
+							<c:if test="${i <= lastPage }">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${i}">
+									<span>${i }</span>
+								</a>
+							</c:if>
+							
+									</li>
+							
+						</c:forEach>
+				
+						<!-- 페이지 다음(+10의 1페이지) -->
+						<c:if test="${nextPage <= lastPage }">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${nextPage}">
+									<span>다음</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 마지막 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${lastPage}">
+								<span>마지막</span>
+							</a>
+						</li>
+					</ul>
+				</div>
 			
+			</c:if>
+
+			<c:if test="${activeLength == 0 && authCodeLength == 2 }">
+				<!-- active : 0개 / authCode : 2개 선택 -->
+				<div>
+					<ul class="pagination justify-content-center">
+						
+						<!-- 페이지 처음 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=1">
+								<span>처음</span>
+							</a>
+						</li>
+						
+						<!-- 페이지 이전(-10의 1페이지) -->
+						<c:if test="${previousPage > 0}">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${previousPage}">
+									<span>이전</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 1 ~ 10 -->
+						<c:forEach var="i" items="${pageList }">
+							<!-- 현재페이지 active 속성 부여 -->
+							<c:choose>
+								<c:when test="${currentPage == i}">
+									<li class = "page-item active">
+								</c:when >
+								<c:otherwise>
+									<li class = "page-item">
+								</c:otherwise>
+							</c:choose>
+						
+							<!-- 마지막 페이지 까지만 출력 -->
+							<c:if test="${i <= lastPage }">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${i}">
+									<span>${i }</span>
+								</a>
+							</c:if>
+							
+									</li>
+							
+						</c:forEach>
+				
+						<!-- 페이지 다음(+10의 1페이지) -->
+						<c:if test="${nextPage <= lastPage }">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${nextPage}">
+									<span>다음</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 마지막 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${lastPage}">
+								<span>마지막</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			
+			</c:if>
+
+			<c:if test="${activeLength == 1 && authCodeLength == 0 }">
+				<!-- active : 1개 / authCode : 0개 선택 -->
+				<div>
+					<ul class="pagination justify-content-center">
+						
+						<!-- 페이지 처음 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=1">
+								<span>처음</span>
+							</a>
+						</li>
+						
+						<!-- 페이지 이전(-10의 1페이지) -->
+						<c:if test="${previousPage > 0}">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${previousPage}">
+									<span>이전</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 1 ~ 10 -->
+						<c:forEach var="i" items="${pageList }">
+							<!-- 현재페이지 active 속성 부여 -->
+							<c:choose>
+								<c:when test="${currentPage == i}">
+									<li class = "page-item active">
+								</c:when >
+								<c:otherwise>
+									<li class = "page-item">
+								</c:otherwise>
+							</c:choose>
+						
+							<!-- 마지막 페이지 까지만 출력 -->
+							<c:if test="${i <= lastPage }">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${i}">
+									<span>${i }</span>
+								</a>
+							</c:if>
+							
+									</li>
+							
+						</c:forEach>
+				
+						<!-- 페이지 다음(+10의 1페이지) -->
+						<c:if test="${nextPage <= lastPage }">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${nextPage}">
+									<span>다음</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 마지막 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${lastPage}">
+								<span>마지막</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			
+			</c:if>
+
+			<c:if test="${activeLength == 1 && authCodeLength == 1 }">
+				<!-- active : 1개 / authCode : 1개 선택 -->
+				<div>
+					<ul class="pagination justify-content-center">
+						
+						<!-- 페이지 처음 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=1">
+								<span>처음</span>
+							</a>
+						</li>
+						
+						<!-- 페이지 이전(-10의 1페이지) -->
+						<c:if test="${previousPage > 0}">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${previousPage}">
+									<span>이전</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 1 ~ 10 -->
+						<c:forEach var="i" items="${pageList }">
+							<!-- 현재페이지 active 속성 부여 -->
+							<c:choose>
+								<c:when test="${currentPage == i}">
+									<li class = "page-item active">
+								</c:when >
+								<c:otherwise>
+									<li class = "page-item">
+								</c:otherwise>
+							</c:choose>
+						
+							<!-- 마지막 페이지 까지만 출력 -->
+							<c:if test="${i <= lastPage }">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${i}">
+									<span>${i }</span>
+								</a>
+							</c:if>
+							
+									</li>
+							
+						</c:forEach>
+				
+						<!-- 페이지 다음(+10의 1페이지) -->
+						<c:if test="${nextPage <= lastPage }">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${nextPage}">
+									<span>다음</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 마지막 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${lastPage}">
+								<span>마지막</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			
+			</c:if>
+
+			<c:if test="${activeLength == 1 && authCodeLength == 2 }">
+				<!-- active : 1개 / authCode : 2개 선택 -->
+				<div>
+					<ul class="pagination justify-content-center">
+						
+						<!-- 페이지 처음 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=1">
+								<span>처음</span>
+							</a>
+						</li>
+						
+						<!-- 페이지 이전(-10의 1페이지) -->
+						<c:if test="${previousPage > 0}">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${previousPage}">
+									<span>이전</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 1 ~ 10 -->
+						<c:forEach var="i" items="${pageList }">
+							<!-- 현재페이지 active 속성 부여 -->
+							<c:choose>
+								<c:when test="${currentPage == i}">
+									<li class = "page-item active">
+								</c:when >
+								<c:otherwise>
+									<li class = "page-item">
+								</c:otherwise>
+							</c:choose>
+						
+							<!-- 마지막 페이지 까지만 출력 -->
+							<c:if test="${i <= lastPage }">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${i}">
+									<span>${i }</span>
+								</a>
+							</c:if>
+							
+									</li>
+							
+						</c:forEach>
+				
+						<!-- 페이지 다음(+10의 1페이지) -->
+						<c:if test="${nextPage <= lastPage }">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${nextPage}">
+									<span>다음</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 마지막 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${lastPage}">
+								<span>마지막</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			
+			</c:if>
+
+			<c:if test="${activeLength == 2 && authCodeLength == 0 }">
+				<!-- active : 2개 / authCode : 0개 선택 -->
+				<div>
+					<ul class="pagination justify-content-center">
+						
+						<!-- 페이지 처음 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=1">
+								<span>처음</span>
+							</a>
+						</li>
+						
+						<!-- 페이지 이전(-10의 1페이지) -->
+						<c:if test="${previousPage > 0}">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${previousPage}">
+									<span>이전</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 1 ~ 10 -->
+						<c:forEach var="i" items="${pageList }">
+							<!-- 현재페이지 active 속성 부여 -->
+							<c:choose>
+								<c:when test="${currentPage == i}">
+									<li class = "page-item active">
+								</c:when >
+								<c:otherwise>
+									<li class = "page-item">
+								</c:otherwise>
+							</c:choose>
+						
+							<!-- 마지막 페이지 까지만 출력 -->
+							<c:if test="${i <= lastPage }">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${i}">
+									<span>${i }</span>
+								</a>
+							</c:if>
+							
+									</li>
+							
+						</c:forEach>
+				
+						<!-- 페이지 다음(+10의 1페이지) -->
+						<c:if test="${nextPage <= lastPage }">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${nextPage}">
+									<span>다음</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 마지막 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${lastPage}">
+								<span>마지막</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			
+			</c:if>
+
+			<c:if test="${activeLength == 2 && authCodeLength == 1 }">
+				<!-- active : 2개 / authCode : 1개 선택 -->
+				<div>
+					<ul class="pagination justify-content-center">
+						
+						<!-- 페이지 처음 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=1">
+								<span>처음</span>
+							</a>
+						</li>
+						
+						<!-- 페이지 이전(-10의 1페이지) -->
+						<c:if test="${previousPage > 0}">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${previousPage}">
+									<span>이전</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 1 ~ 10 -->
+						<c:forEach var="i" items="${pageList }">
+							<!-- 현재페이지 active 속성 부여 -->
+							<c:choose>
+								<c:when test="${currentPage == i}">
+									<li class = "page-item active">
+								</c:when >
+								<c:otherwise>
+									<li class = "page-item">
+								</c:otherwise>
+							</c:choose>
+						
+							<!-- 마지막 페이지 까지만 출력 -->
+							<c:if test="${i <= lastPage }">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${i}">
+									<span>${i }</span>
+								</a>
+							</c:if>
+							
+									</li>
+							
+						</c:forEach>
+				
+						<!-- 페이지 다음(+10의 1페이지) -->
+						<c:if test="${nextPage <= lastPage }">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${nextPage}">
+									<span>다음</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 마지막 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&authCode=${authCode[0] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${lastPage}">
+								<span>마지막</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			
+			</c:if>
+
+			<c:if test="${activeLength == 2 && authCodeLength == 2 }">
+				<!-- active : 2개 / authCode : 2개 선택 -->
+				<div>
+					<ul class="pagination justify-content-center">
+						
+						<!-- 페이지 처음 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=1">
+								<span>처음</span>
+							</a>
+						</li>
+						
+						<!-- 페이지 이전(-10의 1페이지) -->
+						<c:if test="${previousPage > 0}">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${previousPage}">
+									<span>이전</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 1 ~ 10 -->
+						<c:forEach var="i" items="${pageList }">
+							<!-- 현재페이지 active 속성 부여 -->
+							<c:choose>
+								<c:when test="${currentPage == i}">
+									<li class = "page-item active">
+								</c:when >
+								<c:otherwise>
+									<li class = "page-item">
+								</c:otherwise>
+							</c:choose>
+						
+							<!-- 마지막 페이지 까지만 출력 -->
+							<c:if test="${i <= lastPage }">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${i}">
+									<span>${i }</span>
+								</a>
+							</c:if>
+							
+									</li>
+							
+						</c:forEach>
+				
+						<!-- 페이지 다음(+10의 1페이지) -->
+						<c:if test="${nextPage <= lastPage }">
+							<li class="page-item">
+								<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${nextPage}">
+									<span>다음</span>
+								</a>
+							</li>
+						</c:if>
+				
+						<!-- 페이지 마지막 -->
+						<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath }/emp/empList?active=${active[0] }&active=${active[1] }&authCode=${authCode[0] }&authCode=${authCode[1] }&searchText=${searchText }&searchCategory=${searchCategory }&rowPerPage=${rowPerPage }&currentPage=${lastPage}">
+								<span>마지막</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			
+			</c:if>
+
+
+			
+			
+			<!-- 페이징 처리(모든 경우의 수) 끝 -->			
+			<!-- ============================================================================================================================= -->
 			
 			<div>
 				<table border = "1">

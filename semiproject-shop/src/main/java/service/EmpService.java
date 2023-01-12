@@ -42,7 +42,7 @@ public class EmpService {
 
 	// EmpList 출력
 	// 사용하는 곳 : EmpListController
-	public ArrayList<Emp> getEmpList(String searchCategory, String searchText, int currentPage, int rowPerPage) {
+	public ArrayList<Emp> getEmpList(String[] active, int[] authCode, String searchCategory, String searchText, int currentPage, int rowPerPage) {
 		
 		ArrayList<Emp> list = null;
 		
@@ -58,7 +58,7 @@ public class EmpService {
 			int beginRow = Page.getBeginRow(currentPage, rowPerPage);
 			
 			this.empDao = new EmpDao();
-			list = this.empDao.selectEmpList(conn, searchCategory, searchText, beginRow, rowPerPage);
+			list = this.empDao.selectEmpList(conn, active, authCode, searchCategory, searchText, beginRow, rowPerPage);
 			conn.commit();
 			
 		} catch (Exception e) {
@@ -86,7 +86,7 @@ public class EmpService {
 	
 	// EmpList 페이징
 	// 사용하는 곳 : EmpListController
-	public ArrayList<HashMap<String, Object>> getPage(String searchCategory, String searchText, int currentPage, int rowPerPage) {
+	public ArrayList<HashMap<String, Object>> getPage(String[] active, int[] authCode, String searchCategory, String searchText, int currentPage, int rowPerPage) {
 		
 		ArrayList<HashMap<String, Object>> list = null;
 		
@@ -100,7 +100,7 @@ public class EmpService {
 			
 			// 페이징 처리
 			int pageLength = 10;
-			int count = this.empDao.countEmp(conn, searchCategory, searchText);
+			int count = this.empDao.countEmp(conn, active, authCode, searchCategory, searchText);
 			
 			int previousPage = Page.getPreviousPage(currentPage, pageLength);
 			int nextPage = Page.getNextPage(currentPage, pageLength);
