@@ -179,14 +179,14 @@ public class QuestionService {
 	}
 	// questionList 출력
 	// 사용하는 곳 : questionListController
-	public ArrayList<HashMap<String, Object>> getQuestionListByPage(int beginRow, int rowPerPage) {
+	public ArrayList<HashMap<String, Object>> getQuestionListByPage(int beginRow, int rowPerPage, String word) {
 		this.questionDao = new QuestionDao();
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
 		Connection conn  = null;
 		try {
 			conn = DBUtil.getConnection();
 			questionDao = new QuestionDao();
-			list = questionDao.selectQuestionListByPage(conn, beginRow, rowPerPage);
+			list = questionDao.selectQuestionListByPage(conn, beginRow, rowPerPage, word);
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {

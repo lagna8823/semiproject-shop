@@ -3,7 +3,6 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,7 +26,7 @@ public class QuestionDao {
 				+ "							LEFT OUTER JOIN question_comment qc"
 				+ "							ON r.question_code = qc.question_code) r"
 				+ "			LEFT OUTER JOIN orders o"
-				+ "			ON r.ordersCode=o.order_code		"
+				+ "			ON r.ordersCode = o.order_code"
 				+ " WHERE o.customer_id = ? ORDER BY r.createdate DESC LIMIT ?,?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, loginCustomer.getCustomerId());
@@ -166,27 +165,41 @@ public class QuestionDao {
 	
 	// questionList 출력
 	// 사용하는 곳 : questionListController
-	public ArrayList<HashMap<String, Object>> selectQuestionListByPage(Connection conn, int beginRow, int rowPerPage) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectQuestionListByPage(Connection conn, int beginRow, int rowPerPage, String word) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
-		String sql = "SELECT r.rnum rnum, r.question_code questionCode, r.orders_code ordersCode, r.category category, r.question_memo questionMemo, r.createdate createdate"
-				+ " , qc.comment_memo commentMemo"
-				+ " 	FROM (SELECT ROW_NUMBER() OVER(ORDER BY question_code DESC) rnum"
-				+ "				, question_code, orders_Code, category, question_memo, createdate FROM question ) r"
-				+ "			LEFT OUTER JOIN question_comment qc"
-				+ "			ON r.question_code = qc.question_code"
-				+ " 	ORDER BY createdate DESC LIMIT ?, ?";
+		String sql = "SELECT r.rnum rnum, r.question_code questionCode, r.category category, r.question_memo questionMemo"
+				+ "		, r.createdate createdate, r.comment_memo commentMemo, r.order_code orderCode, g.goods_code goodsCode, g.goods_name goodsName"
+				+ "		FROM"
+				+ "			(SELECT r.rnum , r.question_code, r.category , r.question_memo , r.createdate, r.comment_memo, o.order_code, o.goods_code"
+				+ "				 FROM"
+				+ "				 	(SELECT r.rnum, r.question_code, r.orders_code, r.category, r.question_memo, r.createdate"
+				+ "					 		, qc.comment_memo"
+				+ "				 		FROM (SELECT ROW_NUMBER() OVER(ORDER BY question_code DESC) rnum"
+				+ "										, question_code, orders_Code, category, question_memo, createdate "
+				+ "									FROM question ) r"
+				+ "							LEFT OUTER JOIN question_comment qc"
+				+ "							ON r.question_code = qc.question_code) r"
+				+ "					INNER JOIN orders o "
+				+ "					ON r.orders_code = o.order_code) r"
+				+ "		INNER JOIN  goods g"
+				+ "		ON r.goods_code = g.goods_code"
+				+ "	WHERE g.goods_name LIKE ? "
+				+ "		ORDER BY createdate DESC LIMIT ?, ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
+		stmt.setString(1, "%"+word+"%");
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			HashMap<String, Object> q = new HashMap<String, Object>();
 			q.put("questionCode", rs.getInt("questionCode"));
-			q.put("ordersCode", rs.getInt("ordersCode"));
+			q.put("orderCode", rs.getInt("orderCode"));
 			q.put("category", rs.getString("category"));
 			q.put("questionMemo", rs.getString("questionMemo"));
 			q.put("createdate", rs.getString("createdate"));
 			q.put("commentMemo", rs.getString("commentMemo"));
+			q.put("goodsCode", rs.getInt("goodsCode"));
+			q.put("goodsName", rs.getString("goodsName"));
 			list.add(q);
 		}
 		return list;

@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import vo.Customer;
 import vo.Emp;
 import vo.Question;
 import vo.QuestionComment;
