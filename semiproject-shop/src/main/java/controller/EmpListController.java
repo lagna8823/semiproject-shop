@@ -52,6 +52,25 @@ public class EmpListController extends HttpServlet {
 		if(request.getParameter("rowPerPage") != null) {
 			rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
 		}
+
+		// request active 
+		String[] active = request.getParameterValues("active");
+		if(active != null) {
+			
+			request.setAttribute("activeLength", active.length);
+			request.setAttribute("active", active);
+			
+		}
+		
+		// request authCode
+		String[] authCode = request.getParameterValues("authCode");
+		if(authCode != null) {
+			
+			request.setAttribute("authCodeLength", authCode.length);
+			request.setAttribute("authCode", authCode);
+			
+		}
+		
 		
 		
 		this.empService = new EmpService();
@@ -77,10 +96,35 @@ public class EmpListController extends HttpServlet {
 		request.setAttribute("searchCategory", searchCategory);	// view에서 필요
 		request.setAttribute("currentPage", currentPage);	// view에서 필요
 		request.setAttribute("rowPerPage", rowPerPage);		// view에서 필요
+		
 	
 		request.getRequestDispatcher("/WEB-INF/view/emp/empList.jsp").forward(request, response);
 		
 		
 	}
+	
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
+		/*
+		System.out.println(active.length + " <-- active.length");
+		System.out.println(active + " <-- active");
+		
+		for(int i=0; i<active.length; i++) {
+			System.out.println(active[i]);
+			
+		}
+		
+		request.setAttribute("num", 123);
+
+		
+		
+		response.sendRedirect(request.getContextPath() + "/emp/empList");
+		*/
+		
+	}
+	
+	
 
 }

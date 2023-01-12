@@ -9,14 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import service.GoodsService;
-import vo.Customer;
-import vo.Emp;
 
-@WebServlet("/goods/goodsList")
-public class GoodsListController extends HttpServlet {
+@WebServlet("/goods/goodsListByAdmin")
+public class GoodsListByAdminController extends HttpServlet {
 	private GoodsService goodsService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 페이징
@@ -55,6 +52,7 @@ public class GoodsListController extends HttpServlet {
 		request.setAttribute("lastPage", lastPage);
 		
 		System.out.println(searchWord + " <--searcrWord");
-		request.getRequestDispatcher("/WEB-INF/view/goods/goodsList.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/goods/goodsListByAdmin.jsp").forward(request, response);
 	}
+
 }

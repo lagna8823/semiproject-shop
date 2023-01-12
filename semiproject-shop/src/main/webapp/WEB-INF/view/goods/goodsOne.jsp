@@ -20,10 +20,6 @@
 				<td>${m.goodsName}</td>
 			</tr>
 			<tr>
-				<td>상품 타입</td>
-				<td>${m.contentType}</td>
-			</tr>
-			<tr>
 				<td>상품 가격</td>
 				<td>${m.goodsPrice}원</td>
 			</tr>
