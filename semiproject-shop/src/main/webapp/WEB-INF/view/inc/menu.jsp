@@ -83,6 +83,10 @@
 					<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/deleteCustomer?customerId=${loginCustomer.customerId }">
 						customer 회원 탈퇴
 					</a>
+					
+					<a href = "${pageContext.request.contextPath }/customer/addressList">
+						customer 배송지 관리
+					</a>
 
 				</h3>
 			

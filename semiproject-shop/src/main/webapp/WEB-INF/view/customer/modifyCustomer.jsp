@@ -45,13 +45,6 @@
 							</tr>
 							
 							<tr>
-								<th>point</th>
-								<td>
-									<input type = "text" name = "point" value = "${customer.point }" id = "point" readonly = "readonly">
-								</td>
-							</tr>
-							
-							<tr>
 								<th>createdate</th>
 								<td>
 									<input type = "text" name = "createdate" id = "createdate" value = "${customer.createdate }" readonly = "readonly">

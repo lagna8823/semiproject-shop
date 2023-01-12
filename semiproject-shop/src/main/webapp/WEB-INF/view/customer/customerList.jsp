@@ -31,12 +31,6 @@
 			</div>
 			
 			<div>
-				<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/modifyCustomerPw">
-					<h3>회원 비밀번호 변경</h3>
-				</a>
-			</div>
-			
-			<div>
 				<!-- 검색 -->
 				<form method = "get" action = "${pageContext.request.contextPath }/customer/customerList">
 					<div>
