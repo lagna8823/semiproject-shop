@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
 import service.GoodsService;
 import vo.Goods;
 import vo.GoodsImg;
@@ -35,14 +38,22 @@ public class ModifyGoodsController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8"); // 한글 인코딩
 		
-		// 값 받아오기, 추가수정 필요-> 사진 업로드
-		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
-		String goodsName = request.getParameter("goodsName");
-		int goodsPrice = Integer.parseInt(request.getParameter("goodsPrice"));
-		String hit = request.getParameter("hit");
-		String empId = request.getParameter("empId");
-		String soldout = request.getParameter("soldout");
-		String filename = request.getParameter("goodsImg");
+		String dir = request.getServletContext().getRealPath("/upload");
+		int maxFileSize = 1024 * 1024 * 100;
+		
+		DefaultFileRenamePolicy fp = new DefaultFileRenamePolicy();
+		MultipartRequest mreq = new MultipartRequest(request, dir, maxFileSize, "utf-8", fp);
+		
+		// 값 받아오기
+		int goodsCode = Integer.parseInt(mreq.getParameter("goodsCode"));
+		String goodsName = mreq.getParameter("goodsName");
+		int goodsPrice = Integer.parseInt(mreq.getParameter("goodsPrice"));
+		String hit = mreq.getParameter("hit");
+		String empId = mreq.getParameter("empId");
+		String soldout = mreq.getParameter("soldout");
+		String filename = mreq.getFilesystemName("goodsImg");
+		String contentType = mreq.getContentType("goodsImg");
+		String originName = mreq.getOriginalFileName("goodsImg");
 
 		
 		Goods goods = new Goods();
@@ -52,18 +63,25 @@ public class ModifyGoodsController extends HttpServlet {
 		goods.setHit(hit);
 		goods.setEmpId(empId);
 		goods.setSoldout(soldout);
+		
+		GoodsImg goodsImg = new GoodsImg();
+		goodsImg.setFilename(filename);
+		goodsImg.setContentType(contentType);
+		goodsImg.setOriginName(originName);
+		goodsImg.setGoodsCode(goodsCode);
 
 		// 호출
 		GoodsService goodsService = new GoodsService();
-		int row = goodsService.modifyGoods(goods, filename); // row값
+		int row = goodsService.modifyGoods(goods, goodsImg, dir);
 		System.out.println("goodsService.updateGoods(goods, filename, goodsCode)값 : "+row);
 		
-		if(row == 0) {
-			System.out.println("상품 수정 실패!");
-		} else {
+		if(row == 1) {
 			System.out.println("상품 수정 성공!");
+			response.sendRedirect(request.getContextPath()+"/goods/goodsOne?goodsCode="+goodsCode);
+		} else {
+			System.out.println("상품 수정 실패!");
+			response.sendRedirect(request.getContextPath()+"/goods/modifyGoods?goodsCode="+goodsCode);
 		}
-	response.sendRedirect(request.getContextPath()+"/goods/goodsListByAdmin");
 	}
 
 }

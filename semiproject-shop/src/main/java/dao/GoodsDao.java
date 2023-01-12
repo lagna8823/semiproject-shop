@@ -11,21 +11,19 @@ import vo.Goods;
 import vo.GoodsImg;
 
 public class GoodsDao {
-	// 상품 수정 진행중~
-	public int modifyGoods(Connection conn, Goods goods, String filename) throws Exception {
+	// 상품 수정
+	public int modifyGoods(Connection conn, Goods goods) throws Exception {
 		int row = 0;
-		String sql = "UPDATE goods gs INNER JOIN goods_img img"
-				+ 	" ON gs.goods_code = img.goods_code"
-				+ 	" SET gs.goods_name = ?, gs.goods_price = ?, gs.soldout = ?"
-				+ 	" , gs.hit = ?, gs.createdate = NOW(), img.filename = ?"
-				+ 	" WHERE gs.goods_code = ?";
+		String sql = "UPDATE goods"
+				+ 	" SET goods_name = ?, goods_price = ?, soldout = ?, hit = ?"
+				+ 	" WHERE goods_code = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, goods.getGoodsName());
 		stmt.setInt(2, goods.getGoodsPrice());
 		stmt.setString(3, goods.getSoldout());
 		stmt.setString(4, goods.getHit());
-		stmt.setString(5, filename);
-		stmt.setInt(6, goods.getGoodsCode());
+		stmt.setInt(5, goods.getGoodsCode());
+		
 		row = stmt.executeUpdate();
 		
 		return row;
@@ -46,7 +44,9 @@ public class GoodsDao {
 		stmt.setString(1, "%"+searchWord+"%");
 		stmt.setInt(2, beginRow);
 		stmt.setInt(3, rowPerPage);
+		
 		ResultSet rs = stmt.executeQuery();
+		
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 			m.put("goodsCode", rs.getInt("goodsCode"));
@@ -71,7 +71,9 @@ public class GoodsDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, beginRow);
 		stmt.setInt(2, rowPerPage);
+		
 		ResultSet rs = stmt.executeQuery();
+		
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 			m.put("goodsCode", rs.getInt("goodsCode"));
@@ -102,7 +104,9 @@ public class GoodsDao {
 		int cnt = 0;
 		String sql = "SELECT COUNT(*) cnt FROM goods";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		
 		ResultSet rs = stmt.executeQuery();
+		
 		if(rs.next()) {
 			cnt = rs.getInt("cnt");
 		}
@@ -119,8 +123,10 @@ public class GoodsDao {
 					+ 	" ON gs.goods_code = img.goods_code"
 					+ 	" WHERE gs.goods_code = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		
 		stmt.setInt(1, goodsCode);
 		ResultSet rs = stmt.executeQuery();
+		
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 			m.put("goodsCode", rs.getInt("goodsCode"));
@@ -146,10 +152,6 @@ public class GoodsDao {
 		stmt.setInt(2, goods.getGoodsPrice());
 		stmt.setString(3, goods.getSoldout());
 		stmt.setString(4, goods.getEmpId());
-		System.out.println(goods.getGoodsName()+"<-상품명");
-		System.out.println(goods.getGoodsPrice()+"<-상품가격");
-		System.out.println(goods.getSoldout()+"<-상품재고");
-		System.out.println(goods.getEmpId()+"<-사원아이디");
 		
 		int row = stmt.executeUpdate();
 		ResultSet rs = stmt.getGeneratedKeys();

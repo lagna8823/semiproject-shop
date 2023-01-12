@@ -114,7 +114,7 @@ public class GoodsService {
 	}
 	
 	// 상품 수정
-	public int modifyGoods(Goods goods, String filename) {
+	public int modifyGoods(Goods goods, GoodsImg goodsImg, String dir) {
 		int row = 0;
 		Connection conn = null;
 		
@@ -122,7 +122,11 @@ public class GoodsService {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
 			GoodsDao goodsDao = new GoodsDao();
-			row = goodsDao.modifyGoods(conn, goods, filename);
+			GoodsImgDao goodsImgDao = new GoodsImgDao();
+			row = goodsDao.modifyGoods(conn, goods);
+			if(row == 1) {
+				row = goodsImgDao.modifyGoodsImg(conn, goodsImg);
+			}
 			conn.commit();
 		} catch (Exception e) {		
 			try {
@@ -173,10 +177,10 @@ public class GoodsService {
 	// 상품 추가
 	public int addItem(Goods goods, GoodsImg goodsImg, String dir) {
 		int row = 0;
-		goodsDao = new GoodsDao();
-		goodsImgDao = new GoodsImgDao();
 		Connection conn = null;
 		try {
+			goodsDao = new GoodsDao();
+			goodsImgDao = new GoodsImgDao();
 			conn = DBUtil.getConnection();
 			System.out.println("db 접속(goodsService)");
 			conn.setAutoCommit(false);
