@@ -152,15 +152,15 @@ public class QuestionService {
 		return resultRow;
 	}
 	
-	// addQuestion (ordersCode조회)
+	// addQuestion (ordersCode, goodsName 조회)
 	// 사용하는 곳 : addQuestionController	
-	public ArrayList<Question> selectOrdersCode(Customer loginCustomer) {
+	public ArrayList<HashMap<String, Object>> selectOrdersCode(Customer loginCustomer) {
 		this.questionDao = new QuestionDao();
-		ArrayList<Question> list = null;
+		ArrayList<HashMap<String, Object>> list = null;
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			list = new ArrayList<Question>();
+			list = new ArrayList<HashMap<String, Object>>();
 			
 			questionDao = new QuestionDao();
 			list = questionDao.selectOrdersCode(conn, loginCustomer);

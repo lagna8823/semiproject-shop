@@ -24,11 +24,11 @@
 		<form action="${pageContext.request.contextPath}/question/addQuestion" method="post">
 			<table border="1">
 				<tr>
-					<th>주문번호</th>
+					<th>주문번호/상품명</th>
 					<td>
 						<select name="ordersCode" id="ordersCode">
 							<c:forEach var="q" items="${ordersCodeList}">
-								<option value="${q.orderCode}" >${q.orderCode}</option>
+								<option value="${q.orderCode}" >${q.orderCode} : ${q.goodsName}</option>
 							</c:forEach>
 						</select>
 					</td>

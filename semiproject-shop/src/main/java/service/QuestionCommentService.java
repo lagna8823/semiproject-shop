@@ -185,7 +185,6 @@ public class QuestionCommentService {
 	public ArrayList<HashMap<String, Object>> getQuestionListByPage(int beginRow, int rowPerPage, String word, String search, String category, String sort) {
 		this.questionCommentDao = new QuestionCommentDao();
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
-		ArrayList<HashMap<String, Object>> c = new ArrayList<HashMap<String,Object>>();
 		Connection conn  = null;
 		try {
 			conn = DBUtil.getConnection();

@@ -138,24 +138,28 @@ public class QuestionDao {
 		return resultRow;
 	}
 
-	// addQuestion (ordersCode 조회)
+	// addQuestion (ordersCode, goodsName 조회)
 	// 사용하는 곳 : addQuestionController	
-	public ArrayList<Question> selectOrdersCode(Connection conn, Customer loginCustomer) throws Exception{
-		ArrayList<Question> list = null;
-		String sql = "SELECT orders_code ordersCode"
-				+ "	 FROM question q"
-				+ "		 INNER JOIN orders o"
-				+ "		 ON q.orders_code = o.order_code"
-				+ "	 WHERE o.customer_id = ?";
+	public ArrayList<HashMap<String, Object>> selectOrdersCode(Connection conn, Customer loginCustomer) throws Exception{
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
+		String sql = "SELECT r.order_code orderCode, g.goods_name goodsName"
+				+ "		FROM "
+				+ "			(SELECT o.order_code, o.goods_code, o.createdate"
+				+ "			FROM question q"
+				+ "				INNER JOIN orders o"
+				+ "				ON q.orders_code = o.order_code"
+				+ "			WHERE o.customer_id = ?) r"
+				+ "		INNER JOIN goods g"
+				+ "		ON r.goods_code = g.goods_code"
+				+ "		ORDER BY r.createdate DESC";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, loginCustomer.getCustomerId());
 		ResultSet rs = stmt.executeQuery();
-		list = new ArrayList<Question>();
 	    while(rs.next()) {
-	    	Question q = new Question();
-	    	q.setOrderCode(rs.getInt("ordersCode"));
+	    	HashMap<String, Object> q = new HashMap<String, Object>();
+	    	q.put("orderCode", rs.getInt("orderCode"));
+	    	q.put("goodsName", rs.getString("goodsName"));
 	    	list.add(q);
-
 	    }
 		return list;
 	}
