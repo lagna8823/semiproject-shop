@@ -18,9 +18,24 @@ public class GoodsImgDao {
 		stmt.setString(2, goodsImg.getContentType());
 		stmt.setString(3, goodsImg.getOriginName());
 		stmt.setInt(4, goodsImg.getGoodsCode());
+		
 		row = stmt.executeUpdate();
+		
 		return row;
 	}
+	
+	// 상품 삭제
+	public int deleteGoodsImg(Connection conn, GoodsImg goodsImg) throws Exception {
+		int row = 0;
+		String sql = "DELETE FROM goods_img WHERE goods_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, goodsImg.getGoodsCode());
+		
+		row = stmt.executeUpdate();
+		System.out.println("img row값 :"+row);
+		return row;
+	}
+	
 	// 상품 추가
 	public int insertItem(Connection conn, GoodsImg goodsImg) throws Exception {
 		int row = 0;
@@ -32,6 +47,7 @@ public class GoodsImgDao {
 		stmt.setString(4, goodsImg.getContentType());
 
 		row = stmt.executeUpdate();
+		
 		return row;
 	}
 }

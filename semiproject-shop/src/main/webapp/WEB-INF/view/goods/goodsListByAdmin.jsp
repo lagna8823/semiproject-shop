@@ -30,7 +30,7 @@
 					<div>${m.goodsPrice}원</div>
 					<div>
 						<a href="${pageContext.request.contextPath}/goods/modifyGoods?goodsCode=${m.goodsCode}">수정</a>
-						<a href=""></a>
+						<a href="${pageContext.request.contextPath}/goods/deleteGoods?goodsCode=${m.goodsCode}">삭제</a>
 					</div>
 				</td>
 			</c:forEach>

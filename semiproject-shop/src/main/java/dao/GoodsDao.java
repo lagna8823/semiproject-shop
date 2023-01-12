@@ -4,6 +4,7 @@ import java.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,6 +28,19 @@ public class GoodsDao {
 		row = stmt.executeUpdate();
 		
 		return row;
+	}
+	
+	// 상품 삭제
+	public int deleteGoods(Connection conn, Goods goods) throws Exception {
+		int row = 0;
+		String sql = "DELETE FROM goods WHERE goods_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, goods.getGoodsCode());
+		
+		row = stmt.executeUpdate();
+		System.out.println("dao row값 :"+row);
+		return row;
+		
 	}
 	
 	// 검색 상품 목록

@@ -146,6 +146,39 @@ public class GoodsService {
 		return row;
 	}
 	
+	// 상품 삭제
+	public int deleteGoods(Goods goods, GoodsImg goodsImg) {
+		int row = 0;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			GoodsDao goodsDao = new GoodsDao();
+			GoodsImgDao goodsImgDao = new GoodsImgDao();
+			row = goodsImgDao.deleteGoodsImg(conn, goodsImg); // 트랜젝션-> 외래키로 img 테이블 먼저 삭제 진행
+			if(row == 1) {
+				row = goodsDao.deleteGoods(conn, goods);
+			}
+			conn.commit();
+		} catch (Exception e) {		
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
+	
 	// 상품 상세보기
 	public ArrayList<HashMap<String, Object>> getGoodsOne(int goodsCode) {
 		ArrayList<HashMap<String, Object>> list = null;
