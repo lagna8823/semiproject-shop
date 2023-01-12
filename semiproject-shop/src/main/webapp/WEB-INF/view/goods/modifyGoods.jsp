@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h1>상품 수정</h1>
-	<form action="${pageContext.request.contextPath}/goods/modifyGoods" method="post">
+	<form action="${pageContext.request.contextPath}/goods/modifyGoods" enctype="multipart/form-data" method="post">
 		<c:forEach var="m" items="${list}" varStatus="s">
 			<div>
 				<img src="${pageContext.request.contextPath}/upload/${m.filename}" width="200" height="200">
@@ -44,7 +44,7 @@
 				</tr>
 				<tr>
 					<td>상품 이미지</td>
-					<td><input type="file" name="goodsImg" value="${m.goodsImg}"></td>
+					<td><input type="file" name="goodsImg"></td>
 				</tr>
 			</table>
 		</c:forEach>
