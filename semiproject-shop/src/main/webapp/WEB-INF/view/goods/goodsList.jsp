@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!-- 숫자 표시에 콤마 찍기위한 포맷 -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +41,7 @@
 							${m.goodsName}
 						</a>
 					</div>
-					<div>${m.goodsPrice}원</div>
+					<div><fmt:formatNumber value="${m.goodsPrice}" pattern="#,###"/>원</div>
 				</td>		
 			</c:forEach>
 		</tr>
