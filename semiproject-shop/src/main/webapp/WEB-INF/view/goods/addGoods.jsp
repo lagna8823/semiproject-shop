@@ -16,7 +16,7 @@
 		<table border="1">
 			<tr>
 				<td>상품 등록자 ID</td>
-				<td><input type="text" name="empId" value="${m.empId}"></td>
+				<td><input type="text" name="empId" value="${loginEmp.empId}" readonly="readonly"></td>
 			</tr>
 			<tr>
 				<td>상품명</td>

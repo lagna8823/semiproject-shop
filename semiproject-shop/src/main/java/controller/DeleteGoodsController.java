@@ -7,8 +7,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import service.GoodsService;
+import vo.Emp;
 import vo.Goods;
 import vo.GoodsImg;
 
@@ -18,7 +20,11 @@ public class DeleteGoodsController extends HttpServlet {
 	private GoodsService goodsService;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8"); // 한글 인코딩
+		// 관리자만 진입가능
+		HttpSession session = request.getSession();
+
+		Emp loginEmp = (Emp)session.getAttribute("loginEmp");		
+		System.out.println(loginEmp+"<-로그인한사람");
 		
 		// 값 받아오기
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
@@ -37,9 +43,5 @@ public class DeleteGoodsController extends HttpServlet {
 			System.out.println("상품 삭제 실패!");
 		}	
 		response.sendRedirect(request.getContextPath()+"/goods/goodsList");
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 	}
 }

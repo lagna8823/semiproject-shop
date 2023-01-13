@@ -24,7 +24,8 @@ public class GoodsOneController extends HttpServlet {
 		
 		// 호출
 		goodsService = new GoodsService();
-		ArrayList<HashMap<String, Object>> list = goodsService.getGoodsOne(goodsCode);
+		ArrayList<HashMap<String, Object>> list = null;
+		list = goodsService.getGoodsOne(goodsCode);
 		
 		request.setAttribute("list", list);
 		

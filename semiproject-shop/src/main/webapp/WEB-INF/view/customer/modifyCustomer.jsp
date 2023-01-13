@@ -137,6 +137,7 @@
 								<th>customerId</th>
 								<td>
 									<input type = "text" name = "customerId" id = "customerId" value = "${customer.customerId }" readonly = "readonly">
+									System.out.println("");
 								</td>
 							</tr>
 							

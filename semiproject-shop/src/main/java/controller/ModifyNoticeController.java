@@ -22,11 +22,11 @@ public class ModifyNoticeController extends HttpServlet {
 		// 관리자만 진입가능
 		HttpSession session = request.getSession();
 		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
-		System.out.println(loginEmp.toString()+"<-- loginEmp");
+		System.out.println(loginEmp+"<-로그인한사람");
 		
 		// 값 받아오기
 		int noticeCode = Integer.parseInt(request.getParameter("noticeCode"));
-		System.out.println("noticecode 값 :"+noticeCode);
+		// System.out.println("noticecode 값 :"+noticeCode);
 		// 호출
 		noticeService = new NoticeService();
 		ArrayList<Notice> list = null;
@@ -42,12 +42,7 @@ public class ModifyNoticeController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8"); // 한글 인코딩
-		
-		// 관리자만 진입가능
-		HttpSession session = request.getSession();
-		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
-		System.out.println(loginEmp.toString()+"<-- loginEmp");
-		
+
 		// 값 받아오기
 		int noticeCode = Integer.parseInt(request.getParameter("noticeCode"));
 		String noticeTitle = request.getParameter("noticeTitle");

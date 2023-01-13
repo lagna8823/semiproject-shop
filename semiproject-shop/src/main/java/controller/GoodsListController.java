@@ -17,7 +17,7 @@ import vo.Emp;
 
 @WebServlet("/goods/goodsList")
 public class GoodsListController extends HttpServlet {
-	private GoodsService goodsService;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		// 페이징
 		int currentPage = 1;

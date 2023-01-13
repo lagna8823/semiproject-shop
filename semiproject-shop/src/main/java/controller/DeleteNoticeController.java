@@ -6,15 +6,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import service.NoticeService;
+import vo.Emp;
 import vo.Notice;
 
 @WebServlet("/notice/deleteNotice")
 public class DeleteNoticeController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8"); // 한글 인코딩
+		// 관리자만 진입가능
+		HttpSession session = request.getSession();
+
+		Emp loginEmp = (Emp)session.getAttribute("loginEmp");		
+		System.out.println(loginEmp+"<-로그인한사람");
 		
 		// 값 받아오기
 		int noticeCode = Integer.parseInt(request.getParameter("noticeCode"));
@@ -23,6 +29,7 @@ public class DeleteNoticeController extends HttpServlet {
 		notice.setNoticeCode(noticeCode);
 		
 		NoticeService noticeService = new NoticeService();
+		
 		int row = noticeService.deleteNotice(notice);
 		if(row == 1) {
 			System.out.println("상품 삭제 성공!");

@@ -24,18 +24,18 @@ import vo.GoodsImg;
 public class ModifyGoodsController extends HttpServlet {
 	private GoodsService goodsService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		// 관리자만 진입가능
 		HttpSession session = request.getSession();
 		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
-		System.out.println(loginEmp.toString()+"<-- loginEmp");
+		System.out.println(loginEmp+"<-로그인한사람");
 		
 		// 값 받아오기
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		
 		// 호출
 		goodsService = new GoodsService();
-		ArrayList<HashMap<String, Object>> list = goodsService.getGoodsOne(goodsCode);
+		ArrayList<HashMap<String, Object>> list = null;
+		list = goodsService.getGoodsOne(goodsCode);
 		
 		request.setAttribute("list", list);
 		request.setAttribute("goodsCode", goodsCode);
@@ -46,11 +46,6 @@ public class ModifyGoodsController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8"); // 한글 인코딩
-		
-		// 관리자만 진입가능
-		HttpSession session = request.getSession();
-		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
-		System.out.println(loginEmp.toString()+"<-- loginEmp");
 		
 		String dir = request.getServletContext().getRealPath("/upload");
 		int maxFileSize = 1024 * 1024 * 100;
