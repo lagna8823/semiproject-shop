@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,13 +7,16 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<div>
+		<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
+	</div>
 	<!-- 중간관리자 이상만 가능한 기능 -->
 	<h1>상품등록</h1>
 	<form action="${pageContext.request.contextPath}/goods/addGoods" enctype="multipart/form-data" method="post" >
 		<table border="1">
 			<tr>
 				<td>상품 등록자 ID</td>
-				<td><input type="text" name="empId" value=""></td>
+				<td><input type="text" name="empId" value="${m.empId}"></td>
 			</tr>
 			<tr>
 				<td>상품명</td>

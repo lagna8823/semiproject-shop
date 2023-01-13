@@ -48,8 +48,8 @@
 					
 					<span>&nbsp;</span>
 					
-					<a href = "${pageContext.request.contextPath }/">
-						공지사항(미구현)
+					<a href = "${pageContext.request.contextPath }/notice/noticeList">
+						공지사항
 					</a>
 				</h3>
 			</div>

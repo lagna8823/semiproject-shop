@@ -208,7 +208,7 @@ public class GoodsService {
 	}
 	
 	// 상품 추가
-	public int addItem(Goods goods, GoodsImg goodsImg, String dir) {
+	public int addItem(Goods goods, GoodsImg goodsImg, String dir, String empId) {
 		int row = 0;
 		Connection conn = null;
 		try {
@@ -218,7 +218,7 @@ public class GoodsService {
 			System.out.println("db 접속(goodsService)");
 			conn.setAutoCommit(false);
 			
-			HashMap<String, Integer> map = goodsDao.insertItem(conn, goods);
+			HashMap<String, Integer> map = goodsDao.insertItem(conn, goods, empId);
 				
 			goodsImg.setGoodsCode(map.get("autoKey")); // map에서 받은 키값을 goodsImg타입에 저장
 			// 키값을 goodsImg타입에 저장 후 goodsImgDao 호출

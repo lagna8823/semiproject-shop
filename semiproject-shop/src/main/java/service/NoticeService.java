@@ -11,6 +11,58 @@ import vo.Notice;
 
 public class NoticeService {
 	private NoticeDao noticeDao;
+	// 공지 삭제
+	public int deleteNotice(Notice notice) {
+		int row = 0;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			noticeDao = new NoticeDao();
+			row = noticeDao.deleteNotice(conn, notice);
+			conn.commit(); 
+		} catch (Exception e) {
+			try {
+				conn.rollback(); 
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+		return row;
+	}
+	
+	// 공지 수정
+	public int modifyNotice(Notice notice) {
+		int row = 0;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			noticeDao = new NoticeDao();
+			row = noticeDao.modifyNotice(conn, notice);
+			conn.commit(); 
+		} catch (Exception e) {
+			try {
+				conn.rollback(); 
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+		return row;
+	}
+	
 	// 공지 상세보기
 	public ArrayList<Notice> getNotiecOne(int noticeCode) {
 		ArrayList<Notice> list = null;

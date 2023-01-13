@@ -33,11 +33,10 @@ public class DeleteGoodsController extends HttpServlet {
 		int row = goodsService.deleteGoods(goods, goodsImg);
 		if(row == 1) {
 			System.out.println("상품 삭제 성공!");
-			response.sendRedirect(request.getContextPath()+"/goods/goodsListByAdmin");
 		} else {
 			System.out.println("상품 삭제 실패!");
-			response.sendRedirect(request.getContextPath()+"/goods/goodsListByAdmin");
 		}	
+		response.sendRedirect(request.getContextPath()+"/goods/goodsList");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

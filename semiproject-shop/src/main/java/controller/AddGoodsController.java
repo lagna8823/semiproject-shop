@@ -7,11 +7,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import service.GoodsService;
+import vo.Emp;
 import vo.Goods;
 import vo.GoodsImg;
 
@@ -20,6 +22,19 @@ public class AddGoodsController extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 관리자만 접근 가능
+		HttpSession session = request.getSession();
+		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
+		System.out.println(loginEmp+"<-로그인한사람");
+		
+		if(loginEmp == null) {
+			response.sendRedirect(request.getContextPath()+"/login");
+			return;
+		}
+		
+		// 세션에 저장
+		request.setAttribute("loginEmp", loginEmp);
+		
 		request.getRequestDispatcher("/WEB-INF/view/goods/addGoods.jsp").forward(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,12 +42,12 @@ public class AddGoodsController extends HttpServlet {
 
 		// MultipartRequest에 들어갈 매개변수
 		String dir = request.getServletContext().getRealPath("/upload");
-		int maxFileSize = 1024 * 1024 * 500;
+		int maxFileSize = 1024 * 1024 * 100;
 		DefaultFileRenamePolicy fp = new DefaultFileRenamePolicy();
 
 		// form -> mreq 저장
 		MultipartRequest mreq = new MultipartRequest(request, dir, maxFileSize, "utf-8", fp);
-
+		
 		// mreq 정보 불러오기
 		int price = Integer.parseInt(mreq.getParameter("goodsPrice"));
 		System.out.println(price+"<-상품가격");
@@ -57,7 +72,7 @@ public class AddGoodsController extends HttpServlet {
 		goodsImg.setOriginName(originName);
 
 		GoodsService goodsService = new GoodsService();
-		int row = goodsService.addItem(goods, goodsImg, dir);
+		int row = goodsService.addItem(goods, goodsImg, dir, empId);
 		System.out.println(row+"로우값");
 		if(row == 0) {
 			System.out.println("상품 업로드 실패");

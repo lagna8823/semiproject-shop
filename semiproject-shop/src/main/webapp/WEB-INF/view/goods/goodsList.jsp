@@ -10,13 +10,19 @@
 	<div>
 		<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	</div>
-	<h1>상품목록(고객)</h1>
+	<h1>상품목록</h1>
 	<form method="get" action="${pageContext.request.contextPath}/goods/goodsList">
 		<div>
 			<input type="search" name="searchWord" id="searchWord">
 			<button type="submit">검색</button>
 		</div>
-	</form>	
+	</form>
+	<!-- 정렬 기능구현 진행중 -->
+	<select>
+		<option>낮은가격순</option>
+		<option>높은가격순</option>
+		<option>최신등록순</option>
+	</select>	
 	<table border="1">
 		<tr>
 			<c:forEach var="m" items="${list}" varStatus="s">
@@ -25,13 +31,26 @@
 					</tr><tr>
 				</c:if>
 				<td>
-					<div><img src="${pageContext.request.contextPath}/upload/${m.filename}" width="200" height="200"></div>
-					<div><a href="${pageContext.request.contextPath}/goods/goodsOne?goodsCode=${m.goodsCode}">${m.goodsName}</a></div>
+					<div>
+						<img src="${pageContext.request.contextPath}/upload/${m.filename}" width="200" height="200">
+					</div>
+					<div>
+						<a href="${pageContext.request.contextPath}/goods/goodsOne?goodsCode=${m.goodsCode}">
+							${m.goodsName}
+						</a>
+					</div>
 					<div>${m.goodsPrice}원</div>
-				</td>
+				</td>		
 			</c:forEach>
 		</tr>
 	</table>
+	<div>
+		<c:if test="${loginEmp != null}">
+			<a href="${pageContext.request.contextPath}/goods/addGoods">
+				상품추가
+			</a>
+		</c:if>
+	</div>
 	<!-- 페이징 -->
 	<div>
 		<c:choose>

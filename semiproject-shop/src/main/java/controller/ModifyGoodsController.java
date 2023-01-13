@@ -9,11 +9,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import service.GoodsService;
+import vo.Emp;
 import vo.Goods;
 import vo.GoodsImg;
 
@@ -22,6 +24,12 @@ import vo.GoodsImg;
 public class ModifyGoodsController extends HttpServlet {
 	private GoodsService goodsService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// 관리자만 진입가능
+		HttpSession session = request.getSession();
+		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
+		System.out.println(loginEmp.toString()+"<-- loginEmp");
+		
 		// 값 받아오기
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		
@@ -30,6 +38,7 @@ public class ModifyGoodsController extends HttpServlet {
 		ArrayList<HashMap<String, Object>> list = goodsService.getGoodsOne(goodsCode);
 		
 		request.setAttribute("list", list);
+		request.setAttribute("goodsCode", goodsCode);
 		
 		request.getRequestDispatcher("/WEB-INF/view/goods/modifyGoods.jsp").forward(request, response);
 	}
@@ -37,6 +46,11 @@ public class ModifyGoodsController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8"); // 한글 인코딩
+		
+		// 관리자만 진입가능
+		HttpSession session = request.getSession();
+		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
+		System.out.println(loginEmp.toString()+"<-- loginEmp");
 		
 		String dir = request.getServletContext().getRealPath("/upload");
 		int maxFileSize = 1024 * 1024 * 100;

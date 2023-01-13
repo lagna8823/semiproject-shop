@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<div>
+		<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
+	</div>
 	<h1>공지 입력</h1>
 	<form action="${pageContext.request.contextPath}/notice/addNotice" method="post">
 		<table border="1">
