@@ -160,14 +160,14 @@ public class QuestionCommentService {
 	
 	// addQuestionComment (question 정보조회)
 	// 사용하는 곳 : addQuestionCommentController	
-	public Question selectOrdersCode(int questionCode) {
+	public HashMap<String, Object> selectOrderCode(int questionCode) {
 		this.questionCommentDao = new QuestionCommentDao();
-		Question returnQuestion = null;
+		HashMap<String, Object> q = null;
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			questionCommentDao = new QuestionCommentDao();
-			returnQuestion = questionCommentDao.selectOrdersCode(conn, questionCode);
+			q = questionCommentDao.selectOrderCode(conn, questionCode);
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -177,7 +177,7 @@ public class QuestionCommentService {
 				e1.printStackTrace();
 			}
 		}
-		return returnQuestion;
+		return q;
 	}
 	
 	// questionList 출력
