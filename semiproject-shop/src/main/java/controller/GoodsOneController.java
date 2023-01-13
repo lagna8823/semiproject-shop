@@ -27,6 +27,10 @@ public class GoodsOneController extends HttpServlet {
 		ArrayList<HashMap<String, Object>> list = null;
 		list = goodsService.getGoodsOne(goodsCode);
 		
+		for(HashMap<String, Object> hm : list) {
+			
+			request.setAttribute("soldout", (String) hm.get("soldout"));
+		}
 		request.setAttribute("list", list);
 		
 		request.getRequestDispatcher("/WEB-INF/view/goods/goodsOne.jsp").forward(request, response);
