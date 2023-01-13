@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -35,10 +36,19 @@
 					</a>
 					
 					<span>&nbsp;</span>
-					
-					<a href = "${pageContext.request.contextPath }/goods/goodsList">
-						상품리스트
-					</a>
+					<c:choose>
+						<c:when test="${loginEmp != null && loginEmp.empId eq 'compuzone'}">
+							<a href = "${pageContext.request.contextPath }/goods/goodsListByCompany">
+								사업자용리스트
+							</a>
+						</c:when>
+						<c:otherwise>
+							<a href = "${pageContext.request.contextPath }/goods/goodsList">
+								상품리스트
+							</a>
+						</c:otherwise>
+					</c:choose>
+
 					
 					<span>&nbsp;</span>
 					
