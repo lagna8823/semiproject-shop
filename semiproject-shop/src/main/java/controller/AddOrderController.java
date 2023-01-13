@@ -85,26 +85,28 @@ public class AddOrderController extends HttpServlet {
 		String orderState = request.getParameter("orderState"); // 주문상태는 일단 결제
 		String createdate = request.getParameter("createdate");
 		
-		//포인트 로직 필요
 		String pointKind = null;
+		int point = Integer.parseInt(request.getParameter("point"));
 		int usePoint = Integer.parseInt(request.getParameter("usePoint"));
 		
 		
 		Orders orders = new Orders();
 		orders.setGoodsCode(goodsCode);
+		orders.setAddressCode(addressCode);	
 		orders.setCustomerId(customerId);
-		orders.setAddressCode(addressCode);
 		
 		orders.setOrderQuantity(orderQuantity);
 		orders.setOrderPrice(orderPrice);
 		orders.setOrderState(orderState);
 		orders.setCreatedate(createdate);
 
-		PointHistory pointHistory = new PointHistory();
-		pointHistory.setPointKind(pointKind);
-		pointHistory.setPoint(usePoint);
-		
+		PointHistory pointHistory = new PointHistory();		
+		Customer customer = new Customer();		
+		customer.setCustomerId(customerId);
 
+
+		// 모델호출
+		ordersService = new OrdersService();
 		if(usePoint == 0) { // 적립만 point_history '적립 예정으로'
 			pointKind = "적립예정";
 			int earnPoint = Math.round(orderPrice / 100);
@@ -112,18 +114,18 @@ public class AddOrderController extends HttpServlet {
 			pointHistory.setPointKind(pointKind);
 			pointHistory.setPoint(earnPoint);
 			
-		} else { // 포인트 사용 및 기록 : point update, pointHistory --- 수정중
+			ordersService.addOrderService(orders, pointHistory);
+			
+		} else { // 포인트 사용 및 기록 : point update, pointHistory
 			pointKind = "사용";
 			pointHistory.setPointKind(pointKind);
 			pointHistory.setPoint(usePoint);
+			point = point - usePoint;
+			customer.setPoint(point);
+			System.out.println("포인트 사용");
 			
+			ordersService.addOrderService(orders, pointHistory, customer);
 		}
-
-		// 모델호출
-		ordersService = new OrdersService();
-		ordersService.addOrderService(orders, pointHistory);
-		//this.pointService = new PointService();
-		System.out.println("전달"+orders);
 		
 		// view
 		response.sendRedirect(request.getContextPath()+"/order/orderList");

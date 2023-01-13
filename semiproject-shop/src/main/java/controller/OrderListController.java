@@ -54,7 +54,6 @@ public class OrderListController extends HttpServlet {
 			resultCnt = ordersService.cntOrderListServie(customerId);
 			list = ordersService.getOrderListByPage(currentPage, rowPerPage, customerId);
 			System.out.println("검색어 없음");
-			System.out.println(list);
 		} else { // 검색어가 있을 경우
 			resultCnt = ordersService.cntOrderListServie(customerId, word);
 			list = ordersService.getOrderListByPage(currentPage, rowPerPage, customerId, word);

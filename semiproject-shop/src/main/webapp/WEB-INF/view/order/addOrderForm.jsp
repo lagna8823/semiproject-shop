@@ -15,7 +15,18 @@
 		    let orderQuantity = $('#orderQuantity').val();
 		    let resultPrice = goodsPrice * parseInt(orderQuantity);
 		    $('#orderPrice').val(resultPrice);
-	    });		
+	    });
+		
+		/* 입력 값 제한 */
+		$( '#usePoint' ).on("input", function() {
+		    let point = $('#point').val();
+		    let usePoint = $('#usePoint').val();
+		    if (usePoint > point || usePoint < 0) {
+		    	alert("포인트를 확인해주세요");
+		    	$('#usePoint').val(0) ;
+		    	return;
+		    }
+	    });
 		
 		/* 주문일 계산 */
 	    let now = new Date();
@@ -61,7 +72,7 @@
 			<tr>
 				<th>보유 포인트</th>
 				<td>
-				    <input type="number" id="earnPoint" name="point" value="${point}" readonly>
+				    <input type="number" id="point" name="point" value="${point}" readonly>
 				    <label for="earnPoint">적립 포인트</label>
 				</td>
 		    </tr>

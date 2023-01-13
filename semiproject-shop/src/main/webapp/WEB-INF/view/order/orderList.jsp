@@ -67,7 +67,7 @@
 			<c:forEach var="o" items="${orderList}">
 				<tr>
 					<td>${o.orderCode}</td>
-					<td>${o.goodsName}</td>
+					<td><a type="button" href="${pageContext.request.contextPath}/goods/goodsOne?goodsCode=${o.goodsCode}">${o.goodsName}</a></td>
 					<td>${o.goodsPrice}</td>
 					
 					<td>${o.customerId}</td>
