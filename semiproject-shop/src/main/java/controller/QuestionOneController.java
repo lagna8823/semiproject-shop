@@ -43,8 +43,13 @@ public class QuestionOneController extends HttpServlet {
 		int orderCode = (int) q.get("orderCode");
 		String customerId = questionService.getQuestionOneCustomerIdByOrderCode(orderCode);
 		request.setAttribute("q", q);
-		request.setAttribute("customerId", customerId);
-		request.setAttribute("loginCustomer", loginCustomer.getCustomerId());
+		if(loginCustomer != null) {
+			request.setAttribute("customerId", customerId);
+			request.setAttribute("loginCustomer", loginCustomer.getCustomerId());
+			return;
+		} else {
+			request.setAttribute("loginEmp", loginEmp);
+		}
 		
 		// 고객센터 문의사항 상세보기 View
 		request.getRequestDispatcher("/WEB-INF/view/question/questionOne.jsp").forward(request, response);

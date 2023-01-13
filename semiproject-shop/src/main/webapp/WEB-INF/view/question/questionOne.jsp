@@ -122,22 +122,22 @@
 			<!-- 문의글 수정, 삭제 -->
 			<div align="center">
 				<td>
-					<c:if test="${loginCustomer == customerId and q.commentMemo == null}">
+					<c:if test="${loginCustomer == customerId and q.commentMemo == null and loginEmp == null}">
 						<a href="${pageContext.request.contextPath}/question/modifyQuestion?questionCode=${q.questionCode}">
 							<span>수정</span> 
 						</a>	
 					</c:if>
-					<c:if test="${loginCustomer != customerId and q.commentMemo != null}">
+					<c:if test="${(loginCustomer != customerId and q.commentMemo != null) or (loginEmp != null  and q.commentMemo != null)}">
 						<span>&nbsp;</span>
 					</c:if>
 				</td>
 				<td>
-					<c:if test="${loginCustomer == customerId and q.commentMemo == null}">
+					<c:if test="${loginCustomer == customerId and q.commentMemo == null and loginEmp == null}">
 						<a id="remove" href="${pageContext.request.contextPath}/question/removeQuestion?questionCode=${q.questionCode}">
 							<span>삭제</span> 
 						</a>
 					</c:if>
-					<c:if test="${loginCustomer != customerId and q.commentMemo != null}">
+					<c:if test="${(loginCustomer != customerId and q.commentMemo != null) or (loginEmp != null and q.commentMemo != null)}">
 						<span>&nbsp;</span>
 					</c:if>
 				</td>
