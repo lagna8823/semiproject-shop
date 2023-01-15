@@ -28,12 +28,16 @@ public class DeleteOrderController extends HttpServlet {
 			return;
 		}
 		String customerId = loginCustomer.getCustomerId();
+		System.out.println(customerId);
 		
-		int orderCode = 0;
-		orderCode = Integer.parseInt(request.getParameter("orderCode"));
+		int orderCode = Integer.parseInt(request.getParameter("orderCode"));
+		System.out.println(orderCode);
+		int point = Integer.parseInt(request.getParameter("point"));
+		System.out.println(point);
 		// 고객 포인트, 고객 아이디, 주문 코드, 
 		Customer customer = new Customer();
 		customer.setCustomerId(customerId);
+		customer.setPoint(point);
 		Orders orders = new Orders();
 		orders.setOrderCode(orderCode);
 

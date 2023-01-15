@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import service.OrdersService;
-import service.PointService;
 import vo.Customer;
 import vo.CustomerAddress;
 import vo.Goods;
@@ -21,7 +20,6 @@ import vo.PointHistory;
 @WebServlet("/order/addOrder")
 public class AddOrderController extends HttpServlet {
 	private OrdersService ordersService;
-	private PointService pointService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// 로그인 여부확인, 로그인 되어있지 않으면 홈으로 이동
@@ -66,7 +64,7 @@ public class AddOrderController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		request.setCharacterEncoding("UTF-8");
-		/*
+
 		// 로그인 여부확인
 		HttpSession session = request.getSession();
 		// 로그인 값 체크  - 비 로그인 시 로그인 창으로
@@ -76,9 +74,9 @@ public class AddOrderController extends HttpServlet {
 			System.out.println("로그인 값 없음");
 			return;
 		}
-		*/
+		
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
-		String customerId = request.getParameter("loginId");
+		String customerId = loginCustomer.getCustomerId();
 		int addressCode = Integer.parseInt(request.getParameter("addressCode"));
 		int orderQuantity = Integer.parseInt(request.getParameter("orderQuantity"));
 		int orderPrice = Integer.parseInt(request.getParameter("orderPrice"));
