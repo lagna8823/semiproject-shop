@@ -18,6 +18,10 @@
 </script>
 </head>
 <body>
+	<!-- 간이 메뉴바 -->
+	<div>
+		<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
+	</div>
 	<div class = "container">
 	<h1>주문목록</h1>
 		<div class="d-flex justify-content-end">

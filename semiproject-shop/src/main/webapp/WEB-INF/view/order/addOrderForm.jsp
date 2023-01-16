@@ -42,6 +42,10 @@
 </script>
 </head>
 <body>
+	<!-- 간이 메뉴바 -->
+	<div>
+		<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
+	</div>
 	<h1>주문</h1>
 	<form method="post" action="${pageContext.request.contextPath}/order/addOrder">
 		<table class="table" border="1">		

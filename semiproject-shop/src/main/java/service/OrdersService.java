@@ -288,6 +288,7 @@ public class OrdersService {
 		int point = 0;
 		Connection conn = null;
 		int row = 0;
+		int row2 = 0;
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
@@ -296,10 +297,10 @@ public class OrdersService {
 			orderCode = orderDao.selectOrderForPoint(conn, customer.getCustomerId());
 			System.out.println(orderCode + " : 2차 주문생성 후 주문번호 가져오기");
 			pointHistory.setOrderCode(orderCode);
-			row = pointDao.addPointHistory(conn, pointHistory);
-			System.out.println(row + " : 3차 포인트 기록");
+			row2 = pointDao.addPointHistory(conn, pointHistory);
+			System.out.println(row2 + " : 3차 포인트 기록");
 			point = pointDao.updatePoint(conn, customer);
-			System.out.println(row + " : 4차 포인트 업데이트");
+			System.out.println(point + " : 4차 포인트 업데이트");
 			conn.commit();
 		} catch (Exception e) {
 			try {
@@ -315,7 +316,7 @@ public class OrdersService {
 				e.printStackTrace();
 			}
 		}
-		return row;
+		return point;
 	}
 	
 	// 주문취소(배송 전까지만 가능) - 포인트 사용 후, 적립만 했었다면 2차부터
@@ -324,9 +325,9 @@ public class OrdersService {
 		pointDao = new PointDao();
 		PointHistory pointHistory = new PointHistory();
 		int orderCode = orders.getOrderCode();
-		int point = 0;
 		Connection conn = null;
 		int row = 0;
+		int row2 = 0;
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
@@ -342,8 +343,8 @@ public class OrdersService {
 			}
 			row = pointDao.deletePointHistory(conn, orderCode);
 			System.out.println(row + " : 2차 포인트 기록삭제");
-			row = orderDao.deleteOrderList(conn, orderCode, customer.getCustomerId());
-			System.out.println(row + " : 3차 주문삭제");
+			row2 = orderDao.deleteOrderList(conn, orderCode, customer.getCustomerId());
+			System.out.println(row2 + " : 3차 주문삭제");
 			conn.commit();
 		} catch (Exception e) {
 			try {

@@ -45,7 +45,7 @@ public class AddOrderController extends HttpServlet {
 		this.ordersService = new OrdersService();
 		customer = ordersService.getCustomerInfoForOrderService(customerId);
 		customerAddress = ordersService.getCustomerAddressForOrderService(customerId);
-		goods = ordersService.getGoodsForOrderService(goodsCode);		
+		goods = ordersService.getGoodsForOrderService(goodsCode);
 
 		
 		System.out.println("customer : " + customer);
