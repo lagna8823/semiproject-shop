@@ -30,36 +30,6 @@ public class QuestionCommentDao {
 		return resultRow;
 	}
 			
-	// modifyQuestionComment (답변글 수정 폼 정보 불러오기)  
-	// 사용하는 곳 : modifyQuestionCommentController
-	public HashMap<String, Object> selectCommentCodeByComment(Connection conn, int commentCode) throws Exception {
-		HashMap<String, Object> q = null;
-		String sql = " SELECT qc.comment_code commentCode, qc.emp_id empId, qc.comment_memo commentMemo"
-				+ "				, qc.createdate commentCreatedate, q.question_code questionCode"
-				+ "				, q.orders_code ordersCode, q.category category, q.question_memo questionMemo"
-				+ "				, q.createdate createdate"
-				+ "		FROM question_comment qc"
-				+ "			INNER JOIN question q"
-				+ "			ON qc.question_code = q.question_code"
-				+ "	WHERE qc.comment_code = ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, commentCode);
-		ResultSet rs = stmt.executeQuery();
-		if(rs.next()) {
-			q = new HashMap<String, Object>();
-			q.put("commentCode", rs.getInt("commentCode"));
-			q.put("empId", rs.getString("empId"));
-			q.put("commentMemo", rs.getString("commentMemo"));
-			q.put("commentCreatedate", rs.getString("commentCreatedate"));
-			q.put("questionCode", rs.getInt("questionCode"));
-			q.put("ordersCode", rs.getInt("ordersCode"));
-			q.put("category", rs.getString("category"));
-			q.put("questionMemo", rs.getString("questionMemo"));
-			q.put("createdate", rs.getString("createdate"));
-		}
-		return q;
-	}
-		
 	// removeQuestionComment (답변글 삭제) 
 	// 사용하는 곳 : removeQuestionCommentController	
 	public int removeQuestionComment(Connection conn, int commentCode, Emp loginEmp) throws Exception {
@@ -92,29 +62,45 @@ public class QuestionCommentDao {
 		return empId;
 	}
 	
-	// questionCommentOne 출력
-	// 사용하는 곳 : questionCommentOneController
+	// questionCommentOne 출력, modifyQuestionComment (답변글 수정 폼 정보 불러오기)  
+	// 사용하는 곳 : questionCommentOneController,  modifyQuestionCommentController
 	public HashMap<String, Object> selectQuestionOne(Connection conn, int questionCode) throws Exception {
 		HashMap<String, Object> q = null;
-		String sql = "SELECT q.question_code questionCode, q.orders_code ordersCode, q.category category, q.question_memo questionMemo"
-				+ "		, q.createdate createdate, qc.comment_code commentCode, qc.comment_memo commentMemo, qc.createdate commentCreatedate "
-				+ "	 FROM question q "
-				+ "		LEFT OUTER JOIN question_comment qc "
-				+ "		ON q.question_code = qc.question_code "
-				+ " WHERE q.question_code = ?";
+		String sql = "SELECT r.question_code questionCode, r.category category, r.question_memo questionMemo"
+				+ "			, r.createdate createdate, r.comment_code commentCode, r.comment_memo commentMemo"
+				+ "			, r.commentCreatedate commentCreatedate, r.order_code orderCode, r.customer_id customerId"
+				+ "			, r.emp_id empId, g.goods_code goodsCode, g.goods_name goodsName"
+				+ "		FROM "
+				+ "			(SELECT r.question_code, r.orders_code, r.category, r.question_memo, r.createdate, r.comment_code"
+				+ "			, r.comment_memo, r.commentCreatedate, r.emp_id , o.order_code, o.goods_code, o.customer_id"
+				+ "				FROM "
+				+ "					(SELECT q.question_code , q.orders_code , q.category , q.question_memo "
+				+ "				 			, q.createdate , qc.comment_code , qc.comment_memo , qc.createdate commentCreatedate, qc.emp_id "
+				+ "			 			 FROM question q "
+				+ "			 		LEFT OUTER JOIN question_comment qc "
+				+ "			 		ON q.question_code = qc.question_code "
+				+ "			  WHERE q.question_code = ?) r"
+				+ "		INNER JOIN orders o "
+				+ "		ON r.orders_code = o.order_code) r"
+				+ " INNER JOIN goods g"
+				+ " ON r.goods_code = g.goods_code";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, questionCode);
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {
 			q = new HashMap<String, Object>();
 			q.put("questionCode", rs.getInt("questionCode"));
-			q.put("ordersCode", rs.getInt("ordersCode"));
+			q.put("orderCode", rs.getInt("orderCode"));
 			q.put("category", rs.getString("category"));
 			q.put("questionMemo", rs.getString("questionMemo"));
 			q.put("createdate", rs.getString("createdate"));
 			q.put("commentCode", rs.getInt("commentCode"));
 			q.put("commentMemo", rs.getString("commentMemo"));
 			q.put("commentCreatedate", rs.getString("commentCreatedate"));
+			q.put("customerId", rs.getString("customerId"));
+			q.put("empId", rs.getString("empId"));
+			q.put("goodsCode", rs.getInt("goodsCode"));
+			q.put("goodsName", rs.getString("goodsName"));
 		}
 		return q;
 	}
@@ -133,15 +119,15 @@ public class QuestionCommentDao {
 		return resultRow;
 	}
 		
-	// addQuestionComment (question 정보조회)
-	// 사용하는 곳 : addQuestionCommentController	
+	// addQuestionComment  (question 정보조회)
+	// 사용하는 곳 : addQuestionCommentController
 	public HashMap<String, Object> selectOrderCode(Connection conn, int questionCode) throws Exception{
 		HashMap<String, Object> q = null;
 		String sql = "SELECT r.question_code questionCode, r.category category, r.question_memo questionMemo"
-				+ "			, r.createdate createdate, r.order_code orderCode, g.goods_code goodsCode, g.goods_name goodsName"
-				+ "		FROM 				 				"
+				+ "			, r.createdate createdate, r.order_code orderCode, g.goods_code goodsCode, r.customer_id customerId, g.goods_name goodsName"
+				+ "		FROM "
 				+ "				(SELECT r.question_code, r.orders_code, r.category"
-				+ "						, r.question_memo, r.createdate, o.order_code, o.goods_code"
+				+ "						, r.question_memo, r.createdate, o.order_code, o.goods_code, o.customer_id"
 				+ "					FROM "
 				+ "							(SELECT question_code, orders_code, category"
 				+ "									, question_memo, createdate"
@@ -149,7 +135,7 @@ public class QuestionCommentDao {
 				+ "							WHERE question_code = ?) r"
 				+ "						INNER JOIN orders o"
 				+ "						ON r.orders_code = o.order_code ) r"
-				+ "			INNER JOIN goods g"
+				+ "			INNER JOIN goods g "
 				+ "			ON r.goods_code = g.goods_code";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, questionCode);
@@ -157,11 +143,11 @@ public class QuestionCommentDao {
 	    if(rs.next()) {
 	    	q = new HashMap<String, Object>();
 			q.put("questionCode", rs.getInt("questionCode"));
-			q.put("ordersCode", rs.getInt("ordersCode"));
+			q.put("orderCode", rs.getInt("orderCode"));
 			q.put("category", rs.getString("category"));
 			q.put("questionMemo", rs.getString("questionMemo"));
 			q.put("createdate", rs.getString("createdate"));
-			q.put("commentCreatedate", rs.getString("commentCreatedate"));
+			q.put("customerId", rs.getString("customerId"));
 			q.put("goodsCode", rs.getInt("goodsCode"));
 			q.put("goodsName", rs.getString("goodsName"));
 			

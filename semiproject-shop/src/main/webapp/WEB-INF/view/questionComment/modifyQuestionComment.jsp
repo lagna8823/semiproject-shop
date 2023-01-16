@@ -5,6 +5,43 @@
 	<head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<style>
+		body {
+		  padding:1.5em;
+		  background: #f5f5f5
+		}
+		
+		table {
+		  border: 1px #a39485 solid;
+		  font-size: .9em;
+		  box-shadow: 0 2px 5px rgba(0,0,0,.25);
+		  width: 40%;
+		  border-collapse: collapse;
+		  border-radius: 5px;
+		  overflow: hidden;
+		}
+		th {
+		  text-align: center;
+		}
+		  
+		thead {
+		  font-weight: bold;
+		  color: #fff;
+		}
+		  
+		 td, th {
+		  padding: 1em .5em;
+		  vertical-align: middle;
+		}
+		  
+		 td {
+		  border-bottom: 1px solid rgba(0,0,0,.1);
+		  text-align: center
+		}
+		a {
+		  text-decoration: none;
+		}
+	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script>
 		$(document).ready(function() {
@@ -30,33 +67,27 @@
 			<a href="${pageContext.request.contextPath}/questionComment/questionCommentList">고객센터(관리자 페이지)</a>
 		</header>
 		<div>
-			<h2>modify Question Comment</h2>
-			<div>
-				<a href="${pageContext.request.contextPath}/questionComment/questionCommentOne?questionCode=${q.questionCode}">뒤로가기</a>
+			<h2 align="center">답변글 수정</h2>
+			<div align="center" style="padding-right: 42em">
+				<button onclick="history.back()">뒤로가기</button>
 			</div>
 			<!-- 고객센터 내용 (분류/주문번호, 문의작성일, 문의내용, 답변일, 답변내용-->
-			<div>
+			<div align="center">
 			<form method="post" action="${pageContext.request.contextPath}/questionComment/modifyQuestionComment">
 				<table border="1">
 					<input type="hidden" name="commentCode" value="${q.commentCode}">
 					<!-- 문의내용 -->
 					<tr>
-						<th>questionCode</th>
+						<th>문의번호/주문번호</th>
 					</tr>
 					<tr>
-						<td>${q.questionCode}</td>
-					</tr>
-					<tr>
-						<th>ordersCode</th>
-					</tr>
-					<tr>
-						<td>${q.ordersCode}</td>
+						<td>${q.questionCode} : ${q.orderCode}</td>
 					</tr>
 					<tr> 
-						<th>category</th>
+						<th>카테고리/상품명</th>
 					</tr>
 					<tr>
-						<td>${q.category}</td>
+						<td>${q.category} : ${q.goodsName}</td>
 					</tr>
 					<tr>
 						<th >작성일</th>
@@ -65,20 +96,12 @@
 						<td >${q.createdate}</td>
 					</tr>
 					<tr>
-						<th >questionMemo</th>
+						<th >문의내용</th>
 					</tr>
 					<tr>
 						<td >${q.questionMemo}</td>
 					</tr>
 					<!-- 답변정보 -->
-					<tr>
-						<th>commentCode</th>
-					</tr>
-					<tr>
-						<td>
-							${q.commentCode}
-						</td>
-					</tr>
 					<tr>
 						<th >답변일</th>
 					</tr>
@@ -88,7 +111,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th>commentMemo</th>
+						<th>답변내용</th>
 					</tr>
 					<tr>
 						<td>

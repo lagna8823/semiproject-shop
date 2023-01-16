@@ -13,8 +13,8 @@
 		<a href="${pageContext.request.contextPath}/question/questionList">고객센터</a>
 		<a href="${pageContext.request.contextPath}/question/questionList">나의문의</a>
 		<a href="${pageContext.request.contextPath}/questionComment/questionCommentList">고객센터(관리자 페이지)</a>
-		</header>
-	<h2>문의글 작성</h2>
+	</header>
+	<h2>답변글 작성</h2>
 	<div>
 		<a href="${pageContext.request.contextPath}/questionComment/questionCommentList">뒤로가기</a>
 	</div>
@@ -23,35 +23,36 @@
 		<div>
 		<form action="${pageContext.request.contextPath}/questionComment/addQuestionComment" method="post">
 			<table border="1">
+			<input type="hidden" name="questionCode" value="${q.questionCode}">
 				<!-- 사용자 문의 정보 -->
 				<tr>
 					<th>문의번호</th>
 					<td>
-						<input type="number"  name="questionCode" value="${q.questionCode}" readonly="readonly">
+						${q.questionCode}
 					</td>
 				</tr>
 				<tr>
-					<th>주문번호</th>
+					<th>주문번호/상품명</th>
 					<td>
-						<input type="number"  name="orderCode" value="${q.orderCode}" readonly="readonly">
+						${q.orderCode} : ${q.goodsName}
 					</td>
 				</tr>
 				<tr>
 					<th>카테고리</th>
 					<td>
-						<input type="text"  name="category" value="${q.category}" readonly="readonly">
+						${q.category}
 					</td>
 				</tr>
 				<tr>
 					<th>문의날짜</th>
 					<td>
-						<input type="text"  name="createdate" value="${q.createdate}" readonly="readonly">
+						${q.createdate}
 					</td>
 				</tr>
 				<tr>
 					<th>문의내용</th>
 					<td>
-						<textarea rows="6" cols="80" name="questionMemo" readonly="readonly">${q.questionMemo}</textarea>
+						<textarea rows="6" cols="80" name="commentMemo" readonly="readonly">${q.questionMemo}</textarea>
 					</td>
 				</tr>
 				<!-- 문의에 대한 답변 작성란 -->
