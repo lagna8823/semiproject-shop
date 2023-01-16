@@ -67,14 +67,14 @@ public class QuestionCommentDao {
 	public HashMap<String, Object> selectQuestionOne(Connection conn, int questionCode) throws Exception {
 		HashMap<String, Object> q = null;
 		String sql = "SELECT r.question_code questionCode, r.category category, r.question_memo questionMemo"
-				+ "			, r.createdate createdate, r.comment_code commentCode, r.comment_memo commentMemo"
+				+ "			, r.createdate createdate, r.comment_code commentCode, r.comment_memo commentMemo, r.question_img questionImg"
 				+ "			, r.commentCreatedate commentCreatedate, r.order_code orderCode, r.customer_id customerId"
 				+ "			, r.emp_id empId, g.goods_code goodsCode, g.goods_name goodsName"
 				+ "		FROM "
 				+ "			(SELECT r.question_code, r.orders_code, r.category, r.question_memo, r.createdate, r.comment_code"
-				+ "			, r.comment_memo, r.commentCreatedate, r.emp_id , o.order_code, o.goods_code, o.customer_id"
+				+ "			, r.comment_memo, r.question_img, r.commentCreatedate, r.emp_id , o.order_code, o.goods_code, o.customer_id"
 				+ "				FROM "
-				+ "					(SELECT q.question_code , q.orders_code , q.category , q.question_memo "
+				+ "					(SELECT q.question_code , q.orders_code , q.category , q.question_memo, q.question_img "
 				+ "				 			, q.createdate , qc.comment_code , qc.comment_memo , qc.createdate commentCreatedate, qc.emp_id "
 				+ "			 			 FROM question q "
 				+ "			 		LEFT OUTER JOIN question_comment qc "
@@ -93,6 +93,7 @@ public class QuestionCommentDao {
 			q.put("orderCode", rs.getInt("orderCode"));
 			q.put("category", rs.getString("category"));
 			q.put("questionMemo", rs.getString("questionMemo"));
+			q.put("questionImg", rs.getString("questionImg"));
 			q.put("createdate", rs.getString("createdate"));
 			q.put("commentCode", rs.getInt("commentCode"));
 			q.put("commentMemo", rs.getString("commentMemo"));
@@ -123,14 +124,14 @@ public class QuestionCommentDao {
 	// 사용하는 곳 : addQuestionCommentController
 	public HashMap<String, Object> selectOrderCode(Connection conn, int questionCode) throws Exception{
 		HashMap<String, Object> q = null;
-		String sql = "SELECT r.question_code questionCode, r.category category, r.question_memo questionMemo"
+		String sql = "SELECT r.question_code questionCode, r.category category, r.question_memo questionMemo, r.question_img questionImg"
 				+ "			, r.createdate createdate, r.order_code orderCode, g.goods_code goodsCode, r.customer_id customerId, g.goods_name goodsName"
 				+ "		FROM "
-				+ "				(SELECT r.question_code, r.orders_code, r.category"
-				+ "						, r.question_memo, r.createdate, o.order_code, o.goods_code, o.customer_id"
+				+ "				(SELECT r.question_code, r.orders_code, r.category, r.question_memo"
+				+ "						, r.question_img, r.createdate, o.order_code, o.goods_code, o.customer_id"
 				+ "					FROM "
 				+ "							(SELECT question_code, orders_code, category"
-				+ "									, question_memo, createdate"
+				+ "									, question_memo, question_img, createdate"
 				+ "								FROM question"
 				+ "							WHERE question_code = ?) r"
 				+ "						INNER JOIN orders o"
@@ -146,6 +147,7 @@ public class QuestionCommentDao {
 			q.put("orderCode", rs.getInt("orderCode"));
 			q.put("category", rs.getString("category"));
 			q.put("questionMemo", rs.getString("questionMemo"));
+			q.put("questionImg", rs.getString("questionImg"));
 			q.put("createdate", rs.getString("createdate"));
 			q.put("customerId", rs.getString("customerId"));
 			q.put("goodsCode", rs.getInt("goodsCode"));

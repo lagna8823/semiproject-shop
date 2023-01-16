@@ -21,6 +21,7 @@
 		  overflow: hidden;
 		}
 		th {
+		  border: 1px solid rgba(0,0,0,.1);
 		  text-align: center;
 		}
 		  
@@ -71,31 +72,24 @@
 			<div align="center" style="padding-right: 42em"> 
 				<button onclick="history.back()">뒤로가기</button>
 			</div>
+			<br>
 			<!-- 고객센터 내용 (분류/주문번호, 문의작성일, 문의내용, 답변일, 답변내용-->
 			<div align="center">
 				<table border="1">
 				<tr>
-					<th>문의번호</th>
+					<th>문의번호/카테고리</th>
+					<td>${q.category} : ${q.questionCode}</td>
 				</tr>
 				<tr>
-					<td>${q.questionCode}</td>
-				</tr>
-				<tr>
-					<th>카테고리/상품명</th>
-				</tr>
-				<tr>
-					<td> ${q.category} : ${q.goodsName}</td>
+					<th>상품명</th>
+					<td>${q.goodsName}</td>
 				</tr>
 				<tr>
 					<th>작성일</th>
-				</tr>
-				<tr>
 					<td>${q.createdate}</td>
 				</tr>
 				<tr>
 					<th>문의내용</th>
-				</tr>
-				<tr>
 					<td>${q.questionMemo}</td>
 				</tr>
 				<!-- 첨부 파일 있을시에만 보임 -->
@@ -104,27 +98,21 @@
 				</c:if> 
 				<c:if test="${q.questionImg != null}">
 					<tr>
-						<td>첨부파일</td>
-					</tr>
-					<tr>
+						<th>첨부파일</th>
 						<td>
 							<div><img src="${pageContext.request.contextPath}/upload/${q.questionImg}" width="200" height="200"></div>
 						</td>
-					</c:if> 
-				</tr>
+					</tr>
+				</c:if> 
 				<tr>
 					<th>답변일</th>
-				</tr>
-				<tr>
-					<td >
+					<td>
 						<c:if test="${q.commentMemo == null}">답변전</c:if> 
 						<c:if test="${q.commentMemo != null}">${q.commentCreatedate}</c:if> 
 					</td>
 				</tr>
 				<tr>
 					<th >답변내용</th>
-				</tr>
-				<tr>
 					<td >
 						<c:if test="${q.commentMemo == null}">답변전</c:if> 
 						<c:if test="${q.commentMemo != null}">${q.commentMemo}</c:if>

@@ -21,6 +21,7 @@
 		  overflow: hidden;
 		}
 		th {
+		  border: 1px solid rgba(0,0,0,.1);
 		  text-align: center;
 		}
 		  
@@ -70,54 +71,55 @@
 			<div align="center" style="padding-right: 42em">
 				<button onclick="history.back()">뒤로가기</button>
 			</div>
+			<br>
 			<!-- 문의 내용대한 답변내용 상세보기 (분류/주문번호, 문의작성일, 문의내용, 답변일, 답변내용-->
 			<div align="center">
 				<table border="1">
 				<!-- 문의내용 -->
 				<tr>
-					<th>문의번호/주문번호</th>
-				</tr>
-				<tr>
-					<td>${q.questionCode} : ${q.orderCode}</td>
+					<th>문의번호/카테고리</th>
+					<td>${q.questionCode} :${q.category}</td>
 				<tr> 
-					<th>카테고리/상품명</th>
+					<th>주문번호/상품명</th>
+					<td> ${q.orderCode} : ${q.goodsName}</td>
 				</tr>
 				<tr>
-					<td>${q.category} : ${q.goodsName}</td>
-				</tr>
-				<tr>
-					<th >작성일</th>
-				</tr>
-				<tr>
+					<th >문의날짜</th>
 					<td >${q.createdate}</td>
 				</tr>
 				<tr>
 					<th >문의내용</th>
-				</tr>
-				<tr>
 					<td >${q.questionMemo}</td>
 				</tr>
-				<!-- 답변정보 -->
-				<tr>
-					<th >답변일</th>
-				</tr>
-				<tr>
-					<td>
-						<c:if test="${q.commentMemo == null}">답변전</c:if> 
-						<c:if test="${q.commentMemo != null}">${q.commentCreatedate}</c:if> 
-					</td>
-				</tr>
-				<tr>
-					<th>답변내용</th>
-				</tr>
-				<tr>
-					<td>
-						<c:if test="${q.commentMemo == null}">답변전</c:if> 
-						<c:if test="${q.commentMemo != null}">${q.commentMemo}</c:if>
-					</td>
-				</tr>
-				</table>
-			</div>
+				<!-- 첨부 파일 있을시에만 보임 -->
+					<c:if test="${q.questionImg == null}">
+						<div>&nbsp;</div>
+					</c:if> 
+					<c:if test="${q.questionImg != null}">
+						<tr>
+							<th>첨부파일</th>
+							<td>
+								<div><img src="${pageContext.request.contextPath}/upload/${q.questionImg}" width="200" height="200"></div>
+							</td>
+						</tr>
+					</c:if> 
+					<!-- 답변정보 -->
+					<tr>
+						<th>작성자/답변일</th>
+						<td>
+							<c:if test="${q.commentMemo == null}">답변전</c:if> 
+							<c:if test="${q.commentMemo != null}">${q.empId} : ${q.commentCreatedate}</c:if> 
+						</td>
+					</tr>
+					<tr>
+						<th>답변내용</th>
+						<td>
+							<c:if test="${q.commentMemo == null}">답변전</c:if> 
+							<c:if test="${q.commentMemo != null}">${q.commentMemo}</c:if>
+						</td>
+					</tr>
+					</table>
+				</div>
 			<br>
 			<!-- 문의글 수정, 삭제 -->
 			<div align="center">
