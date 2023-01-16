@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import service.GoodsService;
 import service.OrdersService;
 import vo.Customer;
 import vo.CustomerAddress;
@@ -20,6 +21,7 @@ import vo.PointHistory;
 @WebServlet("/order/addOrder")
 public class AddOrderController extends HttpServlet {
 	private OrdersService ordersService;
+	private GoodsService goodsService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// 로그인 여부확인, 로그인 되어있지 않으면 홈으로 이동
@@ -57,7 +59,6 @@ public class AddOrderController extends HttpServlet {
 		request.setAttribute("loginId", customerId);
 		request.setAttribute("customerAddress", customerAddress);
 		request.setAttribute("point", customer.getPoint());
-		
 		request.setAttribute("customer", customer);
 		request.getRequestDispatcher("/WEB-INF/view/order/addOrderForm.jsp").forward(request, response);
 	}
@@ -123,6 +124,16 @@ public class AddOrderController extends HttpServlet {
 			System.out.println("포인트 사용");
 			
 			ordersService.addOrderService(orders, pointHistory, customer);
+		}
+		
+		// hit(상품 결제시 hit = hit+1) 설정
+		GoodsService goodsService = new GoodsService();
+		Goods goods = new Goods();
+		int row = goodsService.updateHit(goods);
+		if(row == 1) {
+			System.out.println("hit값 증가!");
+		} else {
+			System.out.println("hit 실패!");
 		}
 		
 		// view

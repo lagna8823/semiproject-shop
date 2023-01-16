@@ -36,6 +36,7 @@
 					</a>
 					
 					<span>&nbsp;</span>
+					<!-- authCode 수정되면 eq뒤에 값 1로 변경예정 -->
 					<c:choose>
 						<c:when test="${loginEmp != null && loginEmp.empId eq 'compuzone'}">
 							<a href = "${pageContext.request.contextPath }/goods/goodsListByCompany">

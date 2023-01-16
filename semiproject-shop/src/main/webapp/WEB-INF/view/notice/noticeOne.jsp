@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<!-- 공지사항 상세보기 -->
 	<h1>공지 세부 내용</h1>
 	<input type="hidden" name="noticeCode">
 	<c:forEach var="n" items="${list}">

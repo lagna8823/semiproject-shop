@@ -20,15 +20,16 @@ import vo.Goods;
 public class GoodsListByCompanyController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 로그인 전에만 진입가능
+		// 관리자만 진입가능
 		HttpSession session = request.getSession();
 		
 		// 로그인 값 체크
-		Customer loginCustomer = (Customer)session.getAttribute("loginCustomer");
 		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
 		
-		if(loginCustomer != null || loginEmp != null) {
-			response.sendRedirect(request.getContextPath()+"/goods/goodsList");
+		System.out.println(loginEmp.toString() + " <-- loginEmp");
+		
+		if(loginEmp == null || loginEmp.getAuthCode() != 0) {
+			response.sendRedirect(request.getContextPath()+"/login");
 			return;
 		}
 		
@@ -44,7 +45,7 @@ public class GoodsListByCompanyController extends HttpServlet {
 		ArrayList<HashMap<String, Object>> list = null;
 		
 		int totalCnt = 0;
-		String empId = request.getParameter("empId");
+		String empId = loginEmp.getEmpId();
 		// 세션 authcode 수정 후 동작
 		Goods goods = new Goods();
 		goods.setEmpId(empId);

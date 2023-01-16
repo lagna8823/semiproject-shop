@@ -16,6 +16,35 @@ import vo.GoodsImg;
 public class GoodsService {
 	private GoodsDao goodsDao;
 	private GoodsImgDao goodsImgDao;
+	// hit
+	public int updateHit(Goods goods) {
+		int row = 0;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			GoodsDao goodsDao = new GoodsDao();
+			row = goodsDao.updateHit(conn, goods);
+			conn.commit();
+		} catch (Exception e) {		
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
+	
 	// 검색한 상품 리스트
 	public ArrayList<HashMap<String, Object>> getItemListBySearch(int beginRow, int rowPerPage, String searchWord) {
 		ArrayList<HashMap<String, Object>> list = null;

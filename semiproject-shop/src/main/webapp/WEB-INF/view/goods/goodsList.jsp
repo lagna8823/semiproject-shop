@@ -9,22 +9,51 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<!-- 간이 메뉴바 -->
 	<div>
 		<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	</div>
-	<h1>상품목록</h1>
+	
+	<!-- hit == 9999 인 경우 인기 상품출력 -->
+	<h2>현재 인기상품----------------------------------------------------------------------------------------</h2>
+	<table border="1">
+		<tr>
+			<c:forEach var="m" items="${list}">
+				<c:if test="${m.hit == 9999}">
+					<td>
+						<div>
+							<img src="${pageContext.request.contextPath}/upload/${m.filename}" width="200" height="200">
+						</div>
+						<div>
+							<a href="${pageContext.request.contextPath}/goods/goodsOne?goodsCode=${m.goodsCode}">
+								${m.goodsName}
+							</a>
+						</div>
+						<div><fmt:formatNumber value="${m.goodsPrice}" pattern="#,###"/>원</div>
+					</td>
+				</c:if>
+			</c:forEach>
+		</tr>
+	</table>
+	
+	<!-- 검색 기능 -->
+	<h1>상품목록--------------------------------------------------------------------</h1>
 	<form method="get" action="${pageContext.request.contextPath}/goods/goodsList">
 		<div>
 			<input type="search" name="searchWord" id="searchWord">
 			<button type="submit">검색</button>
 		</div>
 	</form>
+	
 	<!-- 정렬 기능구현 진행중 -->
-	<select>
-		<option>낮은가격순</option>
-		<option>높은가격순</option>
-		<option>최신등록순</option>
+	<select name="category">
+		<option value="dPirce">낮은가격순</option>
+		<option value="uPrice">높은가격순</option>
+		<option value="nCreatedate">최신등록순</option>
+		<option value="nHit">판매인기순</option>
 	</select>	
+	
+	<!-- 상품 목록 -->
 	<table border="1">
 		<tr>
 			<c:forEach var="m" items="${list}" varStatus="s">
@@ -53,6 +82,7 @@
 			</a>
 		</c:if>
 	</div>
+	
 	<!-- 페이징 -->
 	<div>
 		<c:choose>

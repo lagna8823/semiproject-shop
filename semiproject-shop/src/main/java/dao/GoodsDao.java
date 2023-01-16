@@ -12,6 +12,20 @@ import vo.Goods;
 import vo.GoodsImg;
 
 public class GoodsDao {
+	// hit
+	public int updateHit(Connection conn, Goods goods) throws Exception {
+		int row = 0;
+		String sql = "UPDATE goods gs INNER JOIN orders o"
+				+ 	" ON gs.goods_code = o.goods_code"
+				+ 	" SET gs.hit = gs.hit + 1"
+				+ 	" WHERE o.order_state = '결제' ";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		row = stmt.executeUpdate();
+		System.out.println(row+"<-hitrow값");
+		
+		return row;
+	}
+	
 	// 상품 수정
 	public int modifyGoods(Connection conn, Goods goods) throws Exception {
 		int row = 0;
@@ -78,9 +92,10 @@ public class GoodsDao {
 	public ArrayList<HashMap<String, Object>> selectItemList(Connection conn, int beginRow, int rowPerPage) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
 		String sql = "SELECT r.rnum rnum, r.goods_code goodsCode, r.goods_name goodsName"
-				+ 	" , r.goods_price goodsPrice, r.emp_id empId, r.createdate createdate, img.filename filename"
+				+ 	" , r.goods_price goodsPrice, r.emp_id empId, r.hit hit"
+				+ 	" , r.createdate createdate, img.filename filename"
 				+ 		" FROM (SELECT ROW_NUMBER() OVER(ORDER BY goods_code DESC) rnum"
-				+ 			" , goods_code, goods_name, goods_price, emp_id, createdate "
+				+ 			" , goods_code, goods_name, goods_price, emp_id, hit, createdate "
 				+ 				" FROM goods) r LEFT OUTER JOIN goods_img img"
 				+ 	" ON r.goods_code = img.goods_code"
 				+ 	" ORDER BY createdate DESC LIMIT ?, ?";
@@ -96,6 +111,7 @@ public class GoodsDao {
 			m.put("goodsName", rs.getString("goodsName"));
 			m.put("goodsPrice", rs.getInt("goodsPrice"));
 			m.put("empId", rs.getString("empId"));
+			m.put("hit", rs.getInt("hit"));
 			m.put("createdate", rs.getString("createdate"));
 			m.put("filename", rs.getString("filename"));
 			list.add(m);

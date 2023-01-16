@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.GoodsDao;
 import service.GoodsService;
 import vo.Customer;
 import vo.Emp;
+import vo.Goods;
 
 @WebServlet("/goods/goodsList")
 public class GoodsListController extends HttpServlet {
@@ -25,8 +27,9 @@ public class GoodsListController extends HttpServlet {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
 		int rowPerPage = 10;
-		int beginRow = (currentPage-1) * rowPerPage;
-
+		int beginRow = (currentPage-1) * rowPerPage;	
+		
+		// 호출
 		GoodsService goodsService = new GoodsService();
 		
 		// 상품 리스트 초기화
@@ -47,12 +50,15 @@ public class GoodsListController extends HttpServlet {
 		if(totalCnt % rowPerPage != 0) {
 			lastPage++;
 		}
+		
+		
 		request.setAttribute("list", list);
 		request.setAttribute("beginRow", beginRow);
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("rowPerPage", rowPerPage);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("lastPage", lastPage);
+
 		
 		System.out.println(searchWord + " <--searcrWord");
 		request.getRequestDispatcher("/WEB-INF/view/goods/goodsList.jsp").forward(request, response);
