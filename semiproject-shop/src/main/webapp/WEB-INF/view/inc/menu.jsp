@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>menu</title>		
-</head>	
+<title>menu</title>
+</head>
 <body>
 	<div>
 		<div>
@@ -18,8 +18,8 @@
 				</c:if>
 				<a href = "${pageContext.request.contextPath }/home">
 					홈으로
-				</a>				
-				<span>&nbsp;</span>				
+				</a>
+				<span>&nbsp;</span>
 				<a href = "${pageContext.request.contextPath }/login">
 					로그인
 				</a>				

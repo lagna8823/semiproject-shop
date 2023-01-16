@@ -29,7 +29,7 @@ public class AddReviewController extends HttpServlet {
 		}
 		
 		// 상품번호 필요
-		int goodsCode = 10; //Integer.parseInt(request.getParameter("goodsCode"));
+		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		Review reviewInfo = null;
 		
 		this.reviewService = new ReviewService();
