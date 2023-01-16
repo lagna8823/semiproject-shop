@@ -133,7 +133,7 @@
 				</td>
 				<td>
 					<c:if test="${loginEmp == empId}">
-						<a id="remove" href="${pageContext.request.contextPath}//questionComment/removeCommentQuestion?questionCode=${q.questionCode}">
+						<a id="remove" href="${pageContext.request.contextPath}//questionComment/removeCommentQuestion?commentCode=${q.commentCode}">
 							<span>삭제</span> 
 						</a>
 					</c:if>
