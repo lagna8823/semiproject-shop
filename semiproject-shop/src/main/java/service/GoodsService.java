@@ -45,6 +45,35 @@ public class GoodsService {
 		return row;
 	}
 	
+	// hit 상품 리스트
+	// 상품 리스트
+	public ArrayList<HashMap<String, Object>> getItemListByTop() {
+		ArrayList<HashMap<String, Object>> topList = null;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			System.out.println("db 접속(goodsList)");
+			conn.setAutoCommit(false);
+			goodsDao = new GoodsDao();
+			topList = goodsDao.selectItemListByTop(conn);
+			conn.commit();
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return topList;
+	}
+
 	// 검색한 상품 리스트
 	public ArrayList<HashMap<String, Object>> getItemListBySearch(int beginRow, int rowPerPage, String searchWord) {
 		ArrayList<HashMap<String, Object>> list = null;

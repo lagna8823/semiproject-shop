@@ -16,10 +16,10 @@
 	
 	<!-- hit == 9999 인 경우 인기 상품출력 -->
 	<h2>현재 인기상품----------------------------------------------------------------------------------------</h2>
-	<table border="1">
-		<tr>
-			<c:forEach var="m" items="${list}">
-				<c:if test="${m.hit == 9999}">
+	<div>
+		<table border="1">
+			<tr>
+				<c:forEach var="m" items="${topList}">
 					<td>
 						<div>
 							<img src="${pageContext.request.contextPath}/upload/${m.filename}" width="200" height="200">
@@ -31,11 +31,10 @@
 						</div>
 						<div><fmt:formatNumber value="${m.goodsPrice}" pattern="#,###"/>원</div>
 					</td>
-				</c:if>
-			</c:forEach>
-		</tr>
-	</table>
-	
+				</c:forEach>
+			</tr>
+		</table>
+	</div>
 	<!-- 검색 기능 -->
 	<h1>상품목록--------------------------------------------------------------------</h1>
 	<form method="get" action="${pageContext.request.contextPath}/goods/goodsList">

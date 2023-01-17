@@ -25,6 +25,31 @@ public class GoodsDao {
 		
 		return row;
 	}
+	// 상품 목록(hit)
+	public ArrayList<HashMap<String, Object>> selectItemListByTop(Connection conn) throws Exception {
+		ArrayList<HashMap<String, Object>> topList = new ArrayList<HashMap<String,Object>>();
+		String sql = "SELECT gs.goods_code goodsCode, gs.goods_name goodsName"
+				+ 	" , gs.goods_price goodsPrice, gs.hit hit, gs.emp_id empId"
+				+ 	" , gs.createdate createdate, img.filename filename"
+				+ 		" FROM goods gs INNER JOIN goods_img img"
+				+ 		" ON gs.goods_code = img.goods_code"
+				+ 	" WHERE gs.hit = 9999 ORDER BY createdate DESC";
+		PreparedStatement stmt = conn.prepareStatement(sql);		
+		ResultSet rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("goodsCode", rs.getInt("goodsCode"));
+			m.put("goodsName", rs.getString("goodsName"));
+			m.put("goodsPrice", rs.getInt("goodsPrice"));
+			m.put("empId", rs.getString("empId"));
+			m.put("hit", rs.getInt("hit"));
+			m.put("createdate", rs.getString("createdate"));
+			m.put("filename", rs.getString("filename"));
+			topList.add(m);
+		}
+		return topList;
+	}
 	
 	// 상품 수정
 	public int modifyGoods(Connection conn, Goods goods) throws Exception {
@@ -96,9 +121,9 @@ public class GoodsDao {
 				+ 	" , r.createdate createdate, img.filename filename"
 				+ 		" FROM (SELECT ROW_NUMBER() OVER(ORDER BY goods_code DESC) rnum"
 				+ 			" , goods_code, goods_name, goods_price, emp_id, hit, createdate "
-				+ 				" FROM goods) r LEFT OUTER JOIN goods_img img"
+				+ 			" FROM goods) r LEFT OUTER JOIN goods_img img"
 				+ 	" ON r.goods_code = img.goods_code"
-				+ 	" ORDER BY createdate DESC LIMIT ?, ?";
+				+ 	" ORDER BY hit DESC, createdate DESC LIMIT ?, ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, beginRow);
 		stmt.setInt(2, rowPerPage);

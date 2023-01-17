@@ -35,6 +35,11 @@ public class GoodsListController extends HttpServlet {
 		// 상품 리스트 초기화
 		ArrayList<HashMap<String, Object>> list = null;
 		
+		// hit 상품 리스트 초기화
+		ArrayList<HashMap<String, Object>> topList = null;
+		
+		topList = goodsService.getItemListByTop();
+		
 		int totalCnt = 0;
 		// 검색어 받기
 		String searchWord = request.getParameter("searchWord");
@@ -51,13 +56,14 @@ public class GoodsListController extends HttpServlet {
 			lastPage++;
 		}
 		
-		
 		request.setAttribute("list", list);
+		request.setAttribute("topList", topList);
 		request.setAttribute("beginRow", beginRow);
 		request.setAttribute("searchWord", searchWord);
 		request.setAttribute("rowPerPage", rowPerPage);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("lastPage", lastPage);
+		
 
 		
 		System.out.println(searchWord + " <--searcrWord");
