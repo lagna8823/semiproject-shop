@@ -97,15 +97,19 @@ public class ModifyQuestionController extends HttpServlet {
 		
 		// 이미지 파일 검사
 	    String contentType = mreq.getContentType("questionImg"); // input type=file
-	    if(contentType.equals("image/jpeg") || contentType.equals("image/png")) {
-	    	modifyQuestion.setQuestionImg(mreq.getFilesystemName("questionImg"));
-	    } else {
-	        System.out.println("*.jpg, *.png파일만 업로드 가능");
-	        File f = new File(dir+"\\"+mreq.getFilesystemName("questionImg"));
-	        if(f.exists()) {
-	           f.delete(); // 이미지가 아닌 파일이 업로드 되었기때문에 삭제
-	        }
-	     }
+	    if(contentType == null) {
+	    	modifyQuestion.setQuestionImg(null);
+	    } else { // Null이 아닌경우 체크
+	    	 if(contentType.equals("image/jpeg") || contentType.equals("image/png")) {
+	    		 modifyQuestion.setQuestionImg(mreq.getFilesystemName("questionImg"));
+		    } else {
+		        System.out.println("*.jpg, *.png파일만 업로드 가능");
+		        File f = new File(dir+"\\"+mreq.getFilesystemName("questionImg"));
+		        if(f.exists()) {
+		           f.delete(); // 이미지가 아닌 파일이 업로드 되었기때문에 삭제
+		        }
+		     }
+	    }
 	    
 		// 모델호출
 		this.questionService = new QuestionService();

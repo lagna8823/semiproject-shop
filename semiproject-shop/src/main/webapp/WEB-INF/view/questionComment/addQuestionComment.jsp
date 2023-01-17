@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -43,6 +44,50 @@
 		  text-decoration: none;
 		}
 	</style>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+			<script>
+				<!-- 문의글 내용 유효성체크 -->
+				$(document).ready(function() {
+					// 최대 글자수
+					${'MAX_COUNT'} = 500;
+					
+					// 입력된 메모값
+					let commentMemo = document.querySelector('#commentMemo')
+					
+					$('#commentMemo').keyup(function() {
+						// 입력한 값의 글자수
+						${'len'} = $('#commentMemo').val().length; 
+						
+						// 결과
+						if(len < MAX_COUNT){
+							document.querySelector('#count').innerHTML = len;
+						} else if(len > MAX_COUNT-1){
+							alert(MAX_COUNT+'자까지 입력가능합니다');
+							commentMemo.value = commentMemo.value.substring(0, MAX_COUNT);
+						} 
+					});	
+							
+					$('#addBtn').click(function() {
+						// 미입력시
+						if( ($('#commentMemo').val().length) < 1 )  {
+							alert('입력된값이 없습니다.');
+							$('#commentMemo').focus();
+							return;
+						}
+						// 공백만 입력시
+						if($('#commentMemo').val().trim() == '')  {
+							alert('공백만 입력할 수 없습니다.');
+							$('#commentMemo').text('');
+							$('#commentMemo').focus();
+							return;
+						} 
+						$('#addForm').submit();
+					});
+						
+				});
+	    </script>
+	    
 	</head>
 	
 	<body>
@@ -57,11 +102,13 @@
 		<div align="center" style="padding-right: 42em"> 
 			<button onclick="history.back()">뒤로가기</button>
 		</div>
-		<br>
+		<div align="center" style="padding-left: 38em"> 
+				글자수 : <span id="count">0</span> /500
+			</div>
 		<div>
 			<!-- 문의글 작성 페이지-->
 			<div align="center">
-			<form action="${pageContext.request.contextPath}/questionComment/addQuestionComment" method="post">
+			<form id="addForm" action="${pageContext.request.contextPath}/questionComment/addQuestionComment" method="post">
 				<table border>
 				<input type="hidden" name="questionCode" value="${q.questionCode}">
 					<!-- 사용자 문의 정보 -->
@@ -105,12 +152,12 @@
 					<tr>
 						<th>답변내용</th>
 						<td>
-							<textarea rows="6" cols="80" name="commentMemo"></textarea>
+							<textarea id="commentMemo" rows="8" cols="80" name="commentMemo"></textarea>
 						</td>
 					</tr>
 				</table>
 				<br>
-				<button type="submit">답변 작성</button>
+				<button id="addBtn" type="button">답변 작성</button>
 			</form>
 			</div>
 		</div>

@@ -46,6 +46,25 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script>
 		$(document).ready(function() {
+			// 최대 글자수
+			${'MAX_COUNT'} = 500;
+			
+			// 입력된 메모값
+			let commentMemo = document.querySelector('#commentMemo')
+			
+			$('#commentMemo').keyup(function() {
+				// 입력한 값의 글자수
+				${'len'} = $('#commentMemo').val().length; 
+				
+				// 결과
+				if(len < MAX_COUNT){
+					document.querySelector('#count').innerHTML = len;
+				} else if(len > MAX_COUNT-1){
+					alert(MAX_COUNT+'자까지 입력가능합니다');
+					commentMemo.value = commentMemo.value.substring(0, MAX_COUNT);
+				} 
+			});	
+			
 			// 수정 버튼 클릭시 확인 및 공백값 체크
 			$('#modifyBtn').click(function(){
 				var out = confirm('수정 하시겠습니까?');
@@ -63,7 +82,7 @@
 							$('#commentMemo').focus();
 							return;
 						} 
-						$('#moidfyForm').submit();
+						$('#modifyForm').submit();
 						alert('수정되었습니다.')
 				} else { 
 					alert('취소되었습니다.')
@@ -87,10 +106,12 @@
 			<div align="center" style="padding-right: 42em">
 				<button onclick="history.back()">뒤로가기</button>
 			</div>
-			<br>
+			<div align="center" style="padding-left: 38em"> 
+				글자수 : <span id="count">0</span> /500
+			</div>
 			<!-- 고객센터 내용 (분류/주문번호, 문의작성일, 문의내용, 답변일, 답변내용-->
 			<div align="center">
-			<form id="moidfyForm" method="post" action="${pageContext.request.contextPath}/questionComment/modifyQuestionComment">
+			<form id="modifyForm" method="post" action="${pageContext.request.contextPath}/questionComment/modifyQuestionComment">
 				<table border="1">
 					<input type="hidden" name="commentCode" value="${q.commentCode}">
 					<!-- 문의내용 -->
