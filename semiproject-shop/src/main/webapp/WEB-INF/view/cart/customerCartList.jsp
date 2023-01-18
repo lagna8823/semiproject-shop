@@ -105,16 +105,16 @@
 	<body>
 		<div>
 			<div>
-				<h1>비회원 장바구니</h1>
+				<h1>장바구니</h1>
 			</div>
 
 				<table border = "1">
 				
-					<c:forEach var="cart" items="${nonMemberCartList }" varStatus="i">
+					<c:forEach var="cart" items="${customerCartList }" varStatus="i">
 						<tr>
 							<td rowspan = "2">
 								<span>${i.count }</span>
-								<form id = "quantityForm${i.count }" action = "${pageContext.request.contextPath }/cart/nonMemberCartList?action=modifyQuantity" method = "post">
+								<form id = "quantityForm${i.count }" action = "${pageContext.request.contextPath }/cart/customerCartList?action=modifyQuantity" method = "post">
 									<input type = "text" name = "goodsCode" id = "goodsCode${i.count }" value = ${cart.goodsCode }>
 									<input type = "text" name = "quantity" id = "quantity${i.count }">
 								</form>		
@@ -124,7 +124,7 @@
 							</td>
 							<td colspan = "3">상품명 : ${cart.goodsName }</td>
 							<td rowspan = "2">
-								<button type = "button" onClick="location.href='${pageContext.request.contextPath}/cart/nonMemberCartList?action=deleteCart&goodsCode=${cart.goodsCode }'">삭제</button>
+								<button type = "button" onClick="location.href='${pageContext.request.contextPath}/cart/customerCartList?action=deleteCart&goodsCode=${cart.goodsCode }'">삭제</button>
 							</td>
 						</tr>
 					
@@ -133,11 +133,7 @@
 							<td>${cart.goodsPrice }원</td>
 							<td>
 								<button type = "button" id = "btnMinus${i.count }">-</button>
-								<c:forEach var="c" items="${nonMemberTempCartList }">
-									<c:if test="${c.goodsCode == cart.goodsCode }">
-										<input type = "text" name = "inputQuantity${i.count }" id = "inputQuantity${i.count }" value = "${c.cartQuantity }" style = "width : 20px;">
-									</c:if>
-								</c:forEach>
+								<input type = "text" name = "inputQuantity${i.count }" id = "inputQuantity${i.count }" value = "${cart.cartQuantity }" style = "width : 20px;">
 								<button type = "button" id = "btnPlus${i.count }">+</button>
 							</td>
 						</tr>
@@ -153,7 +149,7 @@
 		
 		
 		<div>
-			<form action = "${pageContext.request.contextPath }/cart/nonMemberCartList" method = "post">
+			<form action = "${pageContext.request.contextPath }/cart/customerCartList" method = "post">
 				<input type = "hidden" name = "action" value = "addCart">
 				<input type = "hidden" name = "goodsCode" value = "3">
 				<button type = "submit">3번추가</button>
@@ -161,7 +157,7 @@
 		</div>
 		
 		<div>
-			<form action = "${pageContext.request.contextPath }/cart/nonMemberCartList" method = "post">
+			<form action = "${pageContext.request.contextPath }/cart/customerCartList" method = "post">
 				<input type = "hidden" name = "action" value = "addCart">
 				<input type = "hidden" name = "goodsCode" value = "29">
 				<button type = "submit">29번추가</button>
@@ -169,7 +165,7 @@
 		</div>
 		
 		<div>
-			<form action = "${pageContext.request.contextPath }/cart/nonMemberCartList" method = "post">
+			<form action = "${pageContext.request.contextPath }/cart/customerCartList" method = "post">
 				<input type = "hidden" name = "action" value = "addCart">
 				<input type = "hidden" name = "goodsCode" value = "30">
 				<button type = "submit">30번추가</button>
@@ -177,7 +173,7 @@
 		</div>
 		
 		<div>
-			<form action = "${pageContext.request.contextPath }/cart/nonMemberCartList" method = "post">
+			<form action = "${pageContext.request.contextPath }/cart/customerCartList" method = "post">
 				<input type = "hidden" name = "action" value = "addCart">
 				<input type = "hidden" name = "goodsCode" value = "31">
 				<button type = "submit">31번추가</button>
@@ -186,11 +182,11 @@
 		
 		
 		<div>
-			<button type = "button" onClick="location.href='${pageContext.request.contextPath}/cart/nonMemberCartList?action=emptyCart'">삭제</button>
+			<button type = "button" onClick="location.href='${pageContext.request.contextPath}/cart/customerCartList?action=emptyCart'">전체삭제</button>
 		</div>
 		
 		<div>
-			<button type = "button" onClick="location.href='${pageContext.request.contextPath}/cart/loginCart'">구매</button>
+			<button type = "button" onClick="location.href=''">구매</button>
 		</div>
 		
 		
