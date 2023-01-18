@@ -37,7 +37,7 @@
 						<img src="${pageContext.request.contextPath}/upload/${filename}" width="200" height="200">
 					</c:if>
 					<c:if test="${filename eq null}">
-						<span>사진 준비중</span>
+						<span>사진 준비중!</span>
 					</c:if>
 				</td>
 			</tr>

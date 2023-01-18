@@ -53,7 +53,7 @@ public class OrderPageNonMember extends HttpServlet {
 		Random rd = new Random();//랜덤 객체 생성
 		String customerId = "temp"+ rd.nextInt(100) + rd.nextInt(100) + rd.nextInt(100);
 		String customerPw = request.getParameter("customerPw");
-		String customerName = request.getParameter("customerName");
+		String customerName = request.getParameter("customerName"); 
 		String customerPhone = request.getParameter("customerPhone");
 		String address = request.getParameter("address");
 		

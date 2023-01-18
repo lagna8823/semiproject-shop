@@ -20,6 +20,7 @@ public class OrderDao {
 		ArrayList<Orders> list = new ArrayList<Orders>();
 		String sql = "SELECT r.order_code orderCode"
 				+ "			, g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.soldout soldout"
+				+ "			, gi.filename"
 				+ "			, c.customer_id customerID, c.customer_name customerName, c.customer_phone customerPhone, c.point customerPoint"
 				+ "			, ca.address_code addressCode, ca.address address"
 				+ "			, r.order_quantity orderQuantity, r.order_price orderPrice, r.order_state orderState, r.createdate createdate"
@@ -28,6 +29,7 @@ public class OrderDao {
 				+ "					, order_quantity, order_price, order_state, createdate"
 				+ " 			FROM orders) r"
 				+ " 	INNER JOIN goods g ON r.goods_code = g.goods_code"
+				+ "		INNER JOIN goods_img gi ON g.goods_code = gi.goods_code"
 				+ " 	INNER JOIN customer c ON r.customer_id = c.customer_id"
 				+ " 	INNER JOIN customer_address ca ON r.address_code = ca.address_code"
 			 	+ "		INNER JOIN (SELECT order_code, point_kind, POINT"
@@ -48,6 +50,7 @@ public class OrderDao {
 			o.setGoodsName(rs.getString("goodsName"));
 			o.setGoodsPrice(rs.getInt("goodsPrice"));
 			o.setSoldout(rs.getString("soldout"));
+			o.setFilename(rs.getString("filename"));
 			o.setCustomerId(rs.getString("customerID"));
 			o.setCustomerName(rs.getString("customerName"));
 			o.setCustomerPhone(rs.getString("customerPhone"));
@@ -72,14 +75,16 @@ public class OrderDao {
 		ArrayList<Orders> list = new ArrayList<Orders>();
 		String sql = "SELECT r.order_code orderCode"
 				+ "			, g2.goods_code goodsCode, g2.goods_name goodsName, g2.goods_price goodsPrice, g2.soldout soldout"
+				+ "			, gi.filename"
 				+ "			, c.customer_id customerID, c.customer_name customerName, c.customer_phone customerPhone, c.point customerPoint"
 				+ "			, ca.address_code addressCode, ca.address address"
 				+ "			, r.order_quantity orderQuantity, r.order_price orderPrice, r.order_state orderState, r.createdate createdate"
 				+ "			, p.point_kind pointKind, p.point point"
-				+ " 	FROM (SELECT ROW_NUMBER() OVER(ORDER BY order_code desc) rnum, o.order_code, g1.goods_code, o.customer_id, o.address_code"
+				+ " 	FROM (SELECT ROW_NUMBER() OVER(ORDER BY order_code desc) rnum, o.order_code, o.goods_code, o.customer_id, o.address_code"
 				+ "					, o.order_quantity, o.order_price, o.order_state, o.createdate"
 				+ "				FROM orders o INNER JOIN goods g1 ON o.goods_code = g1.goods_code WHERE g1.goods_name LIKE ?) r"
 				+ " 	INNER JOIN goods g2 ON r.goods_code = g2.goods_code"
+				+ "		INNER JOIN goods_img gi ON g2.goods_code = gi.goods_code"
 				+ " 	INNER JOIN customer c ON r.customer_id = c.customer_id"
 				+ " 	INNER JOIN customer_address ca ON r.address_code = ca.address_code"
 			 	+ "		INNER JOIN (SELECT order_code, point_kind, POINT"
@@ -100,6 +105,7 @@ public class OrderDao {
 			o.setGoodsName(rs.getString("goodsName"));
 			o.setGoodsPrice(rs.getInt("goodsPrice"));
 			o.setSoldout(rs.getString("soldout"));
+			o.setFilename(rs.getString("filename"));
 			o.setCustomerId(rs.getString("customerId"));
 			o.setCustomerName(rs.getString("customerName"));
 			o.setCustomerPhone(rs.getString("customerPhone"));

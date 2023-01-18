@@ -74,6 +74,14 @@
 				<td><input type="text" id="goodsPrice" name="goodsPrice" value="${goodsPrice}" readonly></td>				
 			</tr>
 			<tr>
+				<th>주문자</th>
+				<td><input type="text" id="customerName" name="customerName" value="${customerName}" readonly></td>				
+			</tr>
+			<tr>
+				<th>연락처</th>
+				<td><input type="text" id="customerPhone" name="customerPhone" value="${customerPhone}" readonly></td>				
+			</tr>
+			<tr>
 				<th>배송지</th> <!-- customerAddress에서 받아옴 -->
 				<td>
 					<select id="addressCode" name="addressCode">
