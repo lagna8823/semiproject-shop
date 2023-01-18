@@ -6,9 +6,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dao.EmpDao;
 import dao.GoodsDao;
 import dao.GoodsImgDao;
 import util.DBUtil;
+import vo.Emp;
 import vo.Goods;
 import vo.GoodsImg;
 
@@ -20,7 +22,6 @@ public class GoodsService {
 	public int updateHit(Goods goods) {
 		int row = 0;
 		Connection conn = null;
-		
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
@@ -103,7 +104,7 @@ public class GoodsService {
 	}
 	
 	// 상품 리스트
-	public ArrayList<HashMap<String, Object>> getItemList(int beginRow, int rowPerPage) {
+	public ArrayList<HashMap<String, Object>> getItemList(int beginRow, int rowPerPage, String category) {
 		ArrayList<HashMap<String, Object>> list = null;
 		Connection conn = null;
 		try {
@@ -111,7 +112,8 @@ public class GoodsService {
 			System.out.println("db 접속(goodsList)");
 			conn.setAutoCommit(false);
 			goodsDao = new GoodsDao();
-			list = goodsDao.selectItemList(conn, beginRow, rowPerPage);
+			list = goodsDao.selectItemList(conn, beginRow, rowPerPage, category);
+			System.out.println(category);
 			conn.commit();
 		} catch(Exception e) {
 			try {

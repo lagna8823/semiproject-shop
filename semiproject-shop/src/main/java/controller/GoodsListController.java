@@ -9,18 +9,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import dao.GoodsDao;
+
+
 import service.GoodsService;
-import vo.Customer;
-import vo.Emp;
-import vo.Goods;
+
 
 @WebServlet("/goods/goodsList")
 public class GoodsListController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		String category = "";
+		if(request.getParameter("category") != null) {
+			category =request.getParameter("category");
+			System.out.println(category+"<--category null아닌경우");
+		} 
+		
 		// 페이징
 		int currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
@@ -46,10 +50,11 @@ public class GoodsListController extends HttpServlet {
 		if(searchWord != null) { // 검색값이 있다면
 			list = goodsService.getItemListBySearch(beginRow, rowPerPage, searchWord);
 			totalCnt = goodsService.count(searchWord);
-		} else { // 검색값이 없다면
-			list = goodsService.getItemList(beginRow, rowPerPage);
+		} // 검색값이 없다면
+			list = goodsService.getItemList(beginRow, rowPerPage, category);
+			System.out.println("list :"+list);
 			totalCnt = goodsService.count();
-		}
+		
 		// 마지막 페이지
 		int lastPage = totalCnt / rowPerPage;
 		if(totalCnt % rowPerPage != 0) {
@@ -63,10 +68,11 @@ public class GoodsListController extends HttpServlet {
 		request.setAttribute("rowPerPage", rowPerPage);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("lastPage", lastPage);
+		request.setAttribute("category", category);
 		
 
-		
-		System.out.println(searchWord + " <--searcrWord");
+		System.out.println(category+"<--category");
+		System.out.println(searchWord+"<--searcrWord");
 		request.getRequestDispatcher("/WEB-INF/view/goods/goodsList.jsp").forward(request, response);
 	}
 }

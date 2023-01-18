@@ -2,14 +2,14 @@ package dao;
 
 import java.sql.Connection;
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import vo.Emp;
 import vo.Goods;
-import vo.GoodsImg;
 
 public class GoodsDao {
 	// hit
@@ -114,19 +114,72 @@ public class GoodsDao {
 		return list;
 	}
 	// 상품 목록(페이징)
-	public ArrayList<HashMap<String, Object>> selectItemList(Connection conn, int beginRow, int rowPerPage) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectItemList(Connection conn, int beginRow, int rowPerPage, String category) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
-		String sql = "SELECT r.rnum rnum, r.goods_code goodsCode, r.goods_name goodsName"
-				+ 	" , r.goods_price goodsPrice, r.emp_id empId, r.hit hit"
-				+ 	" , r.createdate createdate, img.filename filename"
-				+ 		" FROM (SELECT ROW_NUMBER() OVER(ORDER BY goods_code DESC) rnum"
-				+ 			" , goods_code, goods_name, goods_price, emp_id, hit, createdate "
-				+ 			" FROM goods) r LEFT OUTER JOIN goods_img img"
-				+ 	" ON r.goods_code = img.goods_code"
-				+ 	" ORDER BY hit DESC, createdate DESC LIMIT ?, ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
+		PreparedStatement stmt = null;
+		String sql = null;
+		System.out.println(category+"<--dao카테고리값");
+		if(category == "") {
+			sql = "SELECT r.rnum rnum, r.goods_code goodsCode, r.goods_name goodsName"
+					+ 	" , r.goods_price goodsPrice, r.emp_id empId, r.hit hit"
+					+ 	" , r.createdate createdate, img.filename filename"
+					+ 		" FROM (SELECT ROW_NUMBER() OVER(ORDER BY goods_code DESC) rnum"
+					+ 			" , goods_code, goods_name, goods_price, emp_id, hit, createdate "
+					+ 			" FROM goods) r LEFT OUTER JOIN goods_img img"
+					+ 	" ON r.goods_code = img.goods_code"
+					+ 	" ORDER BY createdate DESC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);
+		} else if(category.equals("dPrice")) {
+			sql = "SELECT r.rnum rnum, r.goods_code goodsCode, r.goods_name goodsName"
+					+ 	" , r.goods_price goodsPrice, r.emp_id empId, r.hit hit"
+					+ 	" , r.createdate createdate, img.filename filename"
+					+ 		" FROM (SELECT ROW_NUMBER() OVER(ORDER BY goods_code DESC) rnum"
+					+ 			" , goods_code, goods_name, goods_price, emp_id, hit, createdate "
+					+ 			" FROM goods) r LEFT OUTER JOIN goods_img img"
+					+ 	" ON r.goods_code = img.goods_code"
+					+ 	" ORDER BY goods_price ASC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);
+		} else if(category.equals("uPrice")) {
+			sql = "SELECT r.rnum rnum, r.goods_code goodsCode, r.goods_name goodsName"
+					+ 	" , r.goods_price goodsPrice, r.emp_id empId, r.hit hit"
+					+ 	" , r.createdate createdate, img.filename filename"
+					+ 		" FROM (SELECT ROW_NUMBER() OVER(ORDER BY goods_code DESC) rnum"
+					+ 			" , goods_code, goods_name, goods_price, emp_id, hit, createdate "
+					+ 			" FROM goods) r LEFT OUTER JOIN goods_img img"
+					+ 	" ON r.goods_code = img.goods_code"
+					+ 	" ORDER BY goods_price DESC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);
+		} else if(category.equals("nCreatedate")) {
+			sql = "SELECT r.rnum rnum, r.goods_code goodsCode, r.goods_name goodsName"
+					+ 	" , r.goods_price goodsPrice, r.emp_id empId, r.hit hit"
+					+ 	" , r.createdate createdate, img.filename filename"
+					+ 		" FROM (SELECT ROW_NUMBER() OVER(ORDER BY goods_code DESC) rnum"
+					+ 			" , goods_code, goods_name, goods_price, emp_id, hit, createdate "
+					+ 			" FROM goods) r LEFT OUTER JOIN goods_img img"
+					+ 	" ON r.goods_code = img.goods_code"
+					+ 	" ORDER BY createdate DESC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);
+		} else if(category.equals("nHit")) {
+			sql = "SELECT r.rnum rnum, r.goods_code goodsCode, r.goods_name goodsName"
+					+ 	" , r.goods_price goodsPrice, r.emp_id empId, r.hit hit"
+					+ 	" , r.createdate createdate, img.filename filename"
+					+ 		" FROM (SELECT ROW_NUMBER() OVER(ORDER BY goods_code DESC) rnum"
+					+ 			" , goods_code, goods_name, goods_price, emp_id, hit, createdate "
+					+ 			" FROM goods) r LEFT OUTER JOIN goods_img img"
+					+ 	" ON r.goods_code = img.goods_code"
+					+ 	" ORDER BY hit DESC LIMIT ?, ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);
+		}
 		
 		ResultSet rs = stmt.executeQuery();
 		
@@ -143,6 +196,7 @@ public class GoodsDao {
 		}
 		return list;
 	}
+
 	
 	// 사업자용 상품 리스트(페이징)
 	public ArrayList<HashMap<String, Object>> selectItemListByCompany(Connection conn, int beginRow, int rowPerPage, Goods goods) throws Exception {

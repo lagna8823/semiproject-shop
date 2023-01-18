@@ -42,7 +42,7 @@
 		<c:choose>
 			<c:when test="${loginEmp != null}">
 				<button type="button" onclick="location.href='${pageContext.request.contextPath}/goods/modifyGoods?goodsCode=${m.goodsCode}'">수정</button>
-				<button type="button" onclick="location.href='${pageContext.request.contextPath}/goods/deleteGoods?goodsCode=${m.goodsCode}'">삭제</button>
+				<button type="button" onclick="location.href='${pageContext.request.contextPath}/emp/checkPw?targetUrl=/goods/deleteGoods?goodsCode=${m.goodsCode}'">삭제</button>
 			</c:when>
 			<c:otherwise>
 				<c:if test="${soldout eq 'N'}">
