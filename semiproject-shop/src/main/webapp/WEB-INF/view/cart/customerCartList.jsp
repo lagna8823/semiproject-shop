@@ -20,11 +20,6 @@
 		<script>
 		
 		$(document).ready(function() {
-			/*
-			for(let i=1; i<2; i+=1) {
-				//$('#active').hide(); // 숨기기	
-			}
-			*/
 			
 			var count = $('#iCount').val();
 			
@@ -35,6 +30,7 @@
 				$('#goodsCode' + i).hide();
 				$('#quantity' + i).hide();
 				
+				// + 버튼 클릭 할 때				
 				$('#btnPlus' + i).click(function() {
 					$('#inputQuantity' + i).val(parseInt($('#inputQuantity' + i).val()) + 1);
 					$('#quantity' + i).val($('#inputQuantity' + i).val());
@@ -50,7 +46,7 @@
 					
 				});
 				
-				
+				// - 버튼 클릭 할때				
 				$('#btnMinus' + i).click(function() {
 					if($('#inputQuantity' + i).val() > 1) {
 						$('#inputQuantity' + i).val(parseInt($('#inputQuantity' + i).val()) - 1);
@@ -69,7 +65,7 @@
 				});
 				
 				
-
+				// input text 클릭하여 직접 수정할 때
 				$('#inputQuantity' + i).change(function() {
 					$('#quantity' + i).val($('#inputQuantity' + i).val());
 					
@@ -84,6 +80,9 @@
 				});				
 				
 
+				// 수량에 따른 total 가격 표시
+				let calPrice = $('#price' + i).val() * $('#inputQuantity' + i).val()
+				$('#calPrice' + i).prepend(calPrice + '원');				
 				
 				
 			}
@@ -105,20 +104,17 @@
 	<body>
 		<div>
 			<div>
-				<h1>장바구니</h1>
+				<h1>회원 장바구니</h1>
 			</div>
 
 				<table border = "1">
 				
 					<c:forEach var="cart" items="${customerCartList }" varStatus="i">
+						<form id = "quantityForm${i.count }" action = "${pageContext.request.contextPath }/cart/customerCartList?action=modifyQuantity" method = "post">
+							<input type = "text" name = "goodsCode" id = "goodsCode${i.count }" value = ${cart.goodsCode }>
+							<input type = "text" name = "quantity" id = "quantity${i.count }">
+						</form>		
 						<tr>
-							<td rowspan = "2">
-								<span>${i.count }</span>
-								<form id = "quantityForm${i.count }" action = "${pageContext.request.contextPath }/cart/customerCartList?action=modifyQuantity" method = "post">
-									<input type = "text" name = "goodsCode" id = "goodsCode${i.count }" value = ${cart.goodsCode }>
-									<input type = "text" name = "quantity" id = "quantity${i.count }">
-								</form>		
-							</td>
 							<td rowspan = "2">
 								<img src = "${pageContext.request.contextPath }/upload/${cart.filename }">
 							</td>
@@ -130,11 +126,14 @@
 					
 						<tr>
 							<td>사업자 : ${cart.empId }</td>
-							<td>${cart.goodsPrice }원</td>
 							<td>
 								<button type = "button" id = "btnMinus${i.count }">-</button>
 								<input type = "text" name = "inputQuantity${i.count }" id = "inputQuantity${i.count }" value = "${cart.cartQuantity }" style = "width : 20px;">
 								<button type = "button" id = "btnPlus${i.count }">+</button>
+							</td>
+							<td>
+								<input type = "hidden" id = "price${i.count }" value = "${cart.goodsPrice }">
+								<span id = "calPrice${i.count }"></span>
 							</td>
 						</tr>
 			
