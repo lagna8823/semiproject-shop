@@ -26,7 +26,7 @@
 	    }); /* 	var b = a.replace(/(^0+)/, ""); */
 
 		/* 결제가격 계산 */
-		$( '#goodsPrice, #orderQuantity, #usePoint' ).on("input", function() {
+		$( '#goodsPrice, #orderQuantity, #usePoint' ).on("blur", function() {
 		    let goodsPrice = Number($('#goodsPrice').val());
 		    let orderQuantity = Number($('#orderQuantity').val());
 		    let usePoint = Number($('#usePoint').val());
@@ -111,7 +111,7 @@
 			</tr>
 			<tr>
 				<th>결제가격</t0h>
-				<td><input type="number" id="orderPrice" name="orderPrice" readonly></td> <!-- goods에서 받아옴 -->
+				<td><input type="number" id="orderPrice" name="orderPrice" min="0" readonly></td> <!-- goods에서 받아옴 -->
 			</tr>
 			<tr>
 				<th>주문일</th>

@@ -28,7 +28,8 @@
 		<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
 	</div>
 	<h1>리뷰쓰기</h1>
-	<form method="post" action="${pageContext.request.contextPath}/review/addReviewForm">
+	<form method="post" action="${pageContext.request.contextPath}/review/addReview">
+		<input type="hidden" name="orderCode" value="${orderCode}" readonly>
 		<table class="table" border="1">
 			<tr>
 				<th>상품사진</th>

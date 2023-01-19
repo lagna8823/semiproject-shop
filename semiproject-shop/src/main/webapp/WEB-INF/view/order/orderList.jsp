@@ -100,7 +100,7 @@
 					
 					<c:choose>
 						<c:when test="${o.orderState eq '구매확정'}">
-							<td><a type="button" href="${pageContext.request.contextPath}/review/addReview?goodsCode=${o.goodsCode}">리뷰작성</a></td>
+							<td><a type="button" href="${pageContext.request.contextPath}/review/addReview?orderCode=${o.orderCode}">리뷰작성</a></td>
 						</c:when>
 						<c:otherwise>
 							<td><a type="button" href="${pageContext.request.contextPath}/order/deleteOrder?orderCode=${o.orderCode}&point=${o.point}">주문취소</a></td>
@@ -119,10 +119,10 @@
 					<span aria-hidden="true">&laquo;</span>
 				</a>
 			</li>		      
-			<c:if test="${currentPage >= 5}">
+			<c:if test="${lastPage - currentPage <= 0 and lastPage > 4}">
 				<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/order/orderList?rowPerPage=${rowPerPage}&currentPage=${currentPage-4}&word=${word}">${currentPage-4}</a></li>
 			</c:if>		    	
-			<c:if test="${currentPage >= 4}">
+			<c:if test="${lastPage - currentPage <= 1 and lastPage > 3}">
 		    	<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/order/orderList?rowPerPage=${rowPerPage}&currentPage=${currentPage-3}&word=${word}">${currentPage-3}</a></li>
 	    	</c:if>		    	
 			<c:if test="${currentPage >= 3}">
@@ -140,10 +140,10 @@
 			<c:if test="${lastPage - currentPage >= 2}">
 				<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/order/orderList?rowPerPage=${rowPerPage}&currentPage=${currentPage+2}&word=${word}">${currentPage+2}</a></li>
 	    	</c:if>
-			<c:if test="${lastPage - currentPage >= 3}">
+			<c:if test="${currentPage <= 2 and lastPage > 3}">
 	   	 		<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/order/orderList?rowPerPage=${rowPerPage}&currentPage=${currentPage+3}&word=${word}">${currentPage+3}</a></li>
 	    	</c:if>
-			<c:if test="${lastPage - currentPage >= 4}">
+			<c:if test="${currentPage <= 1 and lastPage > 4}">
 	    		<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/order/orderList?rowPerPage=${rowPerPage}&currentPage=${currentPage+4}&word=${word}">${currentPage+4}</a></li>
 	    	</c:if>		    
 		    <li class="page-item">
