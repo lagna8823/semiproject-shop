@@ -78,6 +78,8 @@ public class CartService {
 			if(!result) {
 				// 중복이 없을 때 장바구니 추가
 				resultRow = this.cartDao.addCart(conn, cart);
+			} else {
+				System.out.println("CartService / 이미 장바구니에 있는 상품입니다.");
 			}
 			
 			if(resultRow == 1) {

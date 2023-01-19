@@ -44,6 +44,9 @@ public class CustomerCartListController extends HttpServlet {
 	        case "cartList":	// 회원 장바구니 목록
 	            this.cartList(request, response);
 	            break;
+	        case "addCart":		// 장바구니 1개 추가	// 나중에 doGet으로 바꿔야함
+	            this.addCart(request, response);
+	            break;	            
 	        case "emptyCart":	// 전체 삭제
 	        	this.emptyCart(request, response);
 	            break;
@@ -77,9 +80,6 @@ public class CustomerCartListController extends HttpServlet {
 		
         String action = request.getParameter("action");
         switch(action) {
-        case "addCart":		// 장바구니 1개 추가	// 나중에 doGet으로 바꿔야함
-            this.addCart(request, response);
-            break;
         case "modifyQuantity":	// 장바구니 수량 조정
         	this.modifyQuantity(request, response);
         	break;
