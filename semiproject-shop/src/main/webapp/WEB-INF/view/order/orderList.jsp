@@ -147,9 +147,18 @@
 	    		<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/order/orderList?rowPerPage=${rowPerPage}&currentPage=${currentPage+4}&word=${word}">${currentPage+4}</a></li>
 	    	</c:if>		    
 		    <li class="page-item">
-				<a class="page-link" href="${pageContext.request.contextPath}/order/orderList?rowPerPage=${rowPerPage}&currentPage=${lastPage}&word=${word}" aria-label="Next">
-					<span aria-hidden="true">&raquo;</span>
-				</a>
+				<c:choose>
+					<c:when test="${lastPage eq 0}">
+						<a class="page-link" href="${pageContext.request.contextPath}/order/orderList?rowPerPage=${rowPerPage}&currentPage=${0}&word=${word}" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</c:when>
+					<c:otherwise>
+						<a class="page-link" href="${pageContext.request.contextPath}/order/orderList?rowPerPage=${rowPerPage}&currentPage=${lastPage}&word=${word}" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</c:otherwise>
+				</c:choose>
 			</li>
 		</ul>
 	</nav>
