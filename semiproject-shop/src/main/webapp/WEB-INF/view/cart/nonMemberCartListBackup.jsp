@@ -109,7 +109,7 @@
 				
 					<c:forEach var="cart" items="${nonMemberCartList }" varStatus="i">
 						<form id = "quantityForm${i.count }" action = "${pageContext.request.contextPath }/cart/nonMemberCartList?action=modifyQuantity" method = "post">
-							<input type = "text" name = "goodsCode" id = "goodsCode${i.count }" value = ${cart.goodsCode }>
+							<input type = "text" name = "goodsCode" id = "goodsCode${i.count }" value = "${cart.goodsCode }">
 							<input type = "text" name = "quantity" id = "quantity${i.count }">
 						</form>		
 						<tr>

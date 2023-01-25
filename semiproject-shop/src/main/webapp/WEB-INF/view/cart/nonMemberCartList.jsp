@@ -39,48 +39,57 @@
    
     <script>
     
-    
+
     
     
 		$(document).ready(function() {
     
-			for(let i=1; i<=count; i+=1) {
-				
-				
-				
-				// 수량에 따른 total 가격 표시
-				let inputPrice = $('#inputPrice' + i).val();
-				let calPrice = inputPrice * $('#inputQuantity' + i).val();
-				$('#price' + i).prepend(inputPrice + '원');
-				$('#calPrice' + i).prepend(calPrice + '원');
-				
-			}
-			
 
-			
 		    var proQty = $('.pro-qty-3');
-		    proQty.prepend('<span class="fa fa-angle-left dec qtybtn"></span>');
-		    proQty.append('<span class="fa fa-angle-right inc qtybtn"></span>');
+		    
+		    // quantityForm 의 goodsCode 숨기기
+		    proQty.parent().find('.hide').hide();
+		    
+		    // < > 버튼으로 수량 조정할 때
 		    proQty.on('click', '.qtybtn', function () {
 		        var $button = $(this);
-		        var oldValue = $button.parent().find('input').val();
+		        
+		        // 디버깅
+		        // console.log($button.parent());
+		        
+		        var oldValue = $button.parent().find('#quantity').val();
 		        if ($button.hasClass('inc')) {
+		        	// +버튼
 		            var newVal = parseFloat(oldValue) + 1;
 		        } else {
-		            // Don't allow decrementing below zero
-		            if (oldValue > 0) {
+		        	// -버튼
+		            if (oldValue > 1) {
 		                var newVal = parseFloat(oldValue) - 1;
 		            } else {
-		                newVal = 0;
+		                newVal = 1;
 		            }
 		        }
-		        $button.parent().find('input').val(newVal);
+		        // 수량 조정 후 input에 값 대입
+		        $button.parent().find('#quantity').val(newVal);
+
+		        // quantity, goodsCode Form submit
+		        $button.parent().submit();
+		        
+		        
+		    });
+			
+		    
+		    // 수량 input 직접 입력할 때 
+		    proQty.find('#quantity').change(function () {
+		    	let quantity = $(this);
+		    	
+		    	console.log(quantity.parent());
+		    	
+		    	quantity.parent().submit();
+		    	
 		    });
 			
 
-			
-			
-			
 			
 		});	    
     
@@ -233,35 +242,62 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            	비회원(나중에 지우기)
                             	<!-- ========================================================= -->
                             	<!-- ========================================================= -->
                             	<!-- ========================================================= -->
+                            	<!-- 모든 장바구니 항목 sumTotalPrice (최종 가격) 초기화 -->
+                            	<c:set var="sumTotalPrice" value="0"></c:set>
+                            	
+                            	<!-- 항목당 수량 계산한 totalPrice 초기화 -->
+                            	<c:set var="totalPrice" value="0"></c:set>
                             	<c:forEach var="cart" items="${nonMemberCartList }" varStatus="i">
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic imgCart">
-                                            <img src="${pageContext.request.contextPath }/upload/${cart.filename }" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>상품명 : ${cart.goodsName }</h6>
-                                            <h5>
-												<span id = "price${i.count }"></span>
-											</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-3">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">
-										<input type = "hidden" id = "inputPrice${i.count }" value = "${cart.goodsPrice }">
-										<span id = "calPrice${i.count }"></span>
-									</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
+	                                <tr>
+	                                    <td class="product__cart__item">
+	                                        <div class="product__cart__item__pic imgCart">
+	                                            <img src="${pageContext.request.contextPath }/upload/${cart.filename }" alt="">
+	                                        </div>
+	                                        <div class="product__cart__item__text">
+	                                            <h6>상품명 : ${cart.goodsName }</h6>
+	                                            <h5>
+													<span class = "price">
+														<i class="fa fa-won"></i> ${cart.goodsPrice }
+													</span>
+												</h5>
+	                                        </div>
+	                                    </td>
+	                                    <td class="quantity__item">
+	                                        <div class="quantity">
+	                                            <div class="pro-qty-3">
+													<c:forEach var="c" items="${nonMemberTempCartList }">
+														<c:if test="${c.goodsCode == cart.goodsCode }">
+															<form action = "${pageContext.request.contextPath }/cart/nonMemberCartList?action=modifyQuantity" method = "post">
+				                                            	<span id = "btnDec" class="fa fa-angle-left dec qtybtn"></span>
+																<input type = "text" name = "goodsCode" class = "hide" value = "${cart.goodsCode }">
+																<input type = "text" name = "quantity" id = "quantity" value = "${c.cartQuantity }">
+																<span id = "btnInc" class="fa fa-angle-right inc qtybtn"></span>
+															</form>
+															
+															<!-- totalPrcie 구하기 위해 c.cartQuantity jstl 변수로 설정 -->
+															<c:set var="cQuantity" target="cQuantity" value="${c.cartQuantity }"></c:set>													
+														</c:if>
+													</c:forEach>
+	                                            </div>
+	                                        </div>
+	                                    </td>
+	                                    <td class="cart__price">
+											<span class = "totalPrice">
+												<c:set var="totalPrice" value="${cQuantity * cart.goodsPrice }"></c:set>
+												<i class="fa fa-won"></i> ${totalPrice }
+												
+												<!-- sumTotalPrice 계산 -->
+												<c:set var="sumTotalPrice" value="${sumTotalPrice + totalPrice }"></c:set>
+											</span>
+										</td>
+	                                    <td class="cart__close"><i class="fa fa-close" 
+                                   									onClick="location.href='${pageContext.request.contextPath}/cart/nonMemberCartList?action=deleteCart&goodsCode=${cart.goodsCode }'"
+                                   									style = "cursor : pointer;"></i></td>
+	                                </tr>
                                 </c:forEach>
                             	<!-- ========================================================= -->
                             	<!-- ========================================================= -->
@@ -272,12 +308,12 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn">
-                                <a href="#">Continue Shopping</a>
+                                <a href="${pageContext.request.contextPath }/goods/goodsList">Continue Shopping</a>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn update__btn">
-                                <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+                                <a href="${pageContext.request.contextPath }/cart/nonMemberCartList?action=cartList"><i class="fa fa-spinner"></i> Update cart</a>
                             </div>
                         </div>
                     </div>
@@ -294,51 +330,15 @@
                         <h6>Cart total</h6>
                         <ul>
                             <li>Subtotal <span>$ 169.50</span></li>
-                            <li>Total <span>$ 169.50</span></li>
+                            <li>Total <span><i class="fa fa-won"></i> ${sumTotalPrice }</span></li>
                         </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                        <a href="${pageContext.request.contextPath }/cart/loginCart" class="primary-btn">Proceed to checkout</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- Shopping Cart Section End -->
-
-
-		<div>
-			<form action = "${pageContext.request.contextPath }/cart/nonMemberCartList" method = "post">
-				<input type = "hidden" name = "action" value = "addCart">
-				<input type = "hidden" name = "goodsCode" value = "3">
-				<button type = "submit">3번추가</button>
-			</form>
-		</div>
-		
-		<div>
-			<form action = "${pageContext.request.contextPath }/cart/nonMemberCartList" method = "post">
-				<input type = "hidden" name = "action" value = "addCart">
-				<input type = "hidden" name = "goodsCode" value = "29">
-				<button type = "submit">29번추가</button>
-			</form>
-		</div>
-		
-		<div>
-			<form action = "${pageContext.request.contextPath }/cart/nonMemberCartList" method = "post">
-				<input type = "hidden" name = "action" value = "addCart">
-				<input type = "hidden" name = "goodsCode" value = "30">
-				<button type = "submit">30번추가</button>
-			</form>
-		</div>
-		
-		<div>
-			<form action = "${pageContext.request.contextPath }/cart/nonMemberCartList" method = "post">
-				<input type = "hidden" name = "action" value = "addCart">
-				<input type = "hidden" name = "goodsCode" value = "31">
-				<button type = "submit">31번추가</button>
-			</form>
-		</div>
-
-
-
 
     <!-- Footer Section Begin -->
     <footer class="footer">
@@ -429,7 +429,6 @@
     <script src="${pageContext.request.contextPath }/resources/js/mixitup.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/owl.carousel.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/main.js"></script>
-    
     
 </body>
 

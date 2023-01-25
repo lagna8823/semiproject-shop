@@ -80,6 +80,28 @@
                   cursor: pointer;
                 }
               }
+              
+              .pro-qty-3 {
+                width: 80px;
+
+                input {
+                  width: 50px;
+                  border: none;
+                  text-align: center;
+                  color: $heading-color;
+                  font-size: 16px;
+                }
+
+                .qtybtn {
+                  font-size: 16px;
+                  color: #888888;
+                  width: 10px;
+                  cursor: pointer;
+                }
+              }              
+              
+              
+              
             }
           }
 

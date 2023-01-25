@@ -31,7 +31,7 @@ public class CustomerListController extends HttpServlet {
 		 */
 		
 		
-		String searchCategory = "customer_code";
+		String searchCategory = "customer_id";
 		if(request.getParameter("searchCategory") != null) {
 			searchCategory = request.getParameter("searchCategory");
 		}

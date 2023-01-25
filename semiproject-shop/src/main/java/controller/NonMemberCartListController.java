@@ -236,7 +236,8 @@ public class NonMemberCartListController extends HttpServlet {
 		String strQuantity = request.getParameter("quantity");
 		
 		// 디버깅
-		// System.out.println(strQuantity);
+		System.out.println(strGoodsCode + " <-- strGoodsCode");
+		System.out.println(strQuantity + " <-- strQuantity");
 		
 		// request null & 공백 체크
 		if(strGoodsCode == null || strQuantity == null
