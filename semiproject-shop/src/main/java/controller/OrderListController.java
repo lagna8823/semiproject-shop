@@ -38,7 +38,7 @@ public class OrderListController extends HttpServlet {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
 		
-		int rowPerPage = 1;
+		int rowPerPage = 10;
 		if(request.getParameter("rowPerPage") != null) {
 			rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
 		}

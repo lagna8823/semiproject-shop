@@ -35,7 +35,6 @@
         </div>
         <div class="offcanvas__nav__option">
             <a href="#" class="search-switch"><img src="${pageContext.request.contextPath }/resources/img/icon/search.png" alt=""></a>
-            <a href="#"><img src="${pageContext.request.contextPath }/resources/img/icon/heart.png" alt=""></a>
             <a href="#"><img src="${pageContext.request.contextPath }/resources/img/icon/cart.png" alt=""> <span>0</span></a>
             <div class="price">$0.00</div>
         </div>
@@ -193,7 +192,6 @@
 								</li>
 							</c:if>
                             <li><a href="${pageContext.request.contextPath }/resources//blog.html">Blog</a></li>
-							<li><a href = "${pageContext.request.contextPath }/notice/noticeList">공지사항</a></li>
                             <li><a href = "${pageContext.request.contextPath }/review/reviewList">리뷰</a></li>
                         </ul>
                     </nav>
