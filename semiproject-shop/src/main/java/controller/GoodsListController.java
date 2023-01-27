@@ -85,6 +85,7 @@ public class GoodsListController extends HttpServlet {
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("category", category);
+		request.setAttribute("totalCnt", totalCnt);
 		
 
 		System.out.println(category+"<--category");

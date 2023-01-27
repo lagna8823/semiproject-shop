@@ -42,108 +42,10 @@
 </head>
 
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
+    <div>
+		<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
+	</div>
 
-    <!-- Offcanvas Menu Begin -->
-    <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
-            </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
-            </div>
-        </div>
-        <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="${pageContext.request.contextPath}/resources/img/icon/search.png" alt=""></a>
-            <a href="#"><img src="${pageContext.request.contextPath}/resources/img/icon/heart.png" alt=""></a>
-            <a href="#"><img src="${pageContext.request.contextPath}/resources/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
-        </div>
-    </div>
-    <!-- Offcanvas Menu End -->
-
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="header__top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-7">
-                        <div class="header__top__left">
-                            <p>Free shipping, 30-day return or refund guarantee.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-5">
-                        <div class="header__top__right">
-                            <div class="header__top__links">
-                                <a href="#">Sign in</a>
-                                <a href="#">FAQs</a>
-                            </div>
-                            <div class="header__top__hover">
-                                <span>Usd <i class="arrow_carrot-down"></i></span>
-                                <ul>
-                                    <li>USD</li>
-                                    <li>EUR</li>
-                                    <li>USD</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__logo">
-                        <a href="./index.html"><img src="${pageContext.request.contextPath}/resources/img/logo.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <nav class="header__menu mobile-menu">
-                        <ul>
-                            <li><a href="./index.html">Home</a></li>
-                            <li class="active"><a href="${pageContext.request.contextPath}/goods/goodsList">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./about.html">About Us</a></li>
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contacts</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="${pageContext.request.contextPath}/resources/img/icon/search.png" alt=""></a>
-                        <a href="#"><img src="${pageContext.request.contextPath}/resources/img/icon/heart.png" alt=""></a>
-                        <a href="#"><img src="${pageContext.request.contextPath}/resources/img/icon/cart.png" alt=""> <span>0</span></a>
-                        <div class="price">$0.00</div>
-                    </div>
-                </div>
-            </div>
-            <div class="canvas__open"><i class="fa fa-bars"></i></div>
-        </div>
-    </header>
     <!-- Header Section End -->
 
     <!-- Breadcrumb Section Begin -->
@@ -171,70 +73,9 @@
                 <div class="col-lg-3">
                     <div class="shop__sidebar">
                         <div class="shop__sidebar__search">
-                        <form method="get" action="${pageContext.request.contextPath}/goods/goodsList" id="pageForm">
-                            <input type="search" name="searchWord" id="searchWord" value="${searchWord}" placeholder="Search...">
-                            <button type="submit"><span class="icon_search"></span></button>
-                        </div>
-                        <div class="shop__sidebar__accordion">
-                            <div class="accordion" id="accordionExample">
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseOne">Categories</a>
-                                    </div>
-                                    <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__categories">
-                                                <ul class="nice-scroll">
-                                                    <li><a href="#">조립PC</a></li>
-                                                    <li><a href="#">모니터</a></li>
-                                                    <li><a href="#">키보드</a></li>
-                                                    <li><a href="#">마우스</a></li>
-                                                    <li><a href="#">스피커</a></li>
-                                                    <li><a href="#">헤드셋/이어폰</a></li>
-                                                    <li><a href="#">액세서리</a></li>
-                                                    <li><a href="#">미정</a></li>
-                                                    <li><a href="#">미정</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseTwo">브랜드몰</a>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__brand">
-                                                <ul>
-                                                    <li><a href="#">컴퓨존</a></li>
-                                                    <li><a href="#">마인드피씨</a></li>
-                                                    <li><a href="#">홈플러스</a></li>
-                                                    <li><a href="#">하이마트</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseSix">Tags</a>
-                                    </div>
-                                    <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__tags">
-                                                <a href="#">Product</a>
-                                                <a href="#">Bags</a>
-                                                <a href="#">Shoes</a>
-                                                <a href="#">Fashio</a>
-                                                <a href="#">Clothing</a>
-                                                <a href="#">Hats</a>
-                                                <a href="#">Accessories</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        	<form method="get" action="${pageContext.request.contextPath}/goods/goodsList" id="pageForm">
+                            	<input type="search" name="searchWord" id="searchWord" value="${searchWord}" placeholder="Search...">
+                            	<button type="submit"><span class="icon_search"></span></button>
                         </div>
                     </div>
                 </div>
@@ -244,7 +85,7 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__left">
-                                    <p>Showing 1–12 of 126 results</p>
+                                    <p>Showing ${beginRow}–${lastPage} of ${totalCnt} results</p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -298,15 +139,26 @@
                             	<div class="product__item">
                                 	<div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/upload/${m.filename}">
                                     	<ul class="product__hover">
-                                        	<li><a href="#"><img src="${pageContext.request.contextPath}/resources/img/icon/heart.png" alt=""></a></li>
-                                        	<li><a href="#"><img src="${pageContext.request.contextPath}/resources/img/icon/compare.png" alt=""> <span>Compare</span></a>
-                                        	</li>
+                                    		<c:if test="${loginEmp != null}">
+                                    			<li><a href="${pageContext.request.contextPath}/emp/checkPw?targetUrl=/goods/deleteGoods?goodsCode=${m.goodsCode}"><img src="${pageContext.request.contextPath}/resources/img/icon/trash.png" alt=""> <span>Delete</span></a></li>
+                                        		<li><a href="${pageContext.request.contextPath}/goods/modifyGoods?goodsCode=${m.goodsCode}"><img src="${pageContext.request.contextPath}/resources/img/icon/compare.png" alt=""> <span>Update</span></a></li>
+                                    		</c:if>                                        	
                                         	<li><a href="${pageContext.request.contextPath}/goods/goodsOne?goodsCode=${m.goodsCode}"><img src="${pageContext.request.contextPath}/resources/img/icon/search.png" alt=""></a></li>
                                     	</ul>
                                 	</div>
                                 	<div class="product__item__text">
                                     	<h6>${m.goodsName}</h6>
-                                    	<a href="#" class="add-cart">+ Add To Cart</a>
+                       					<c:if test="${m.soldout eq 'N'}">
+											<!-- 장바구니(비회원, 회원) 분기 -->
+											<c:choose>
+												<c:when test="${loginCustomer == null }">
+													<a href="${pageContext.request.contextPath }/cart/nonMemberCartList?action=addCart&goodsCode=${m.goodsCode }" class="add-cart">+ Add To Cart</a>
+												</c:when>
+												<c:otherwise>
+													<a href="${pageContext.request.contextPath }/cart/customerCartList?action=addCart&goodsCode=${m.goodsCode }" class="add-cart">+ Add To Cart</a>
+												</c:otherwise>
+											</c:choose>					
+										</c:if>
                                     	<div class="rating">
 	                                       	<i class="fa fa-star-o"></i>
 	                                        <i class="fa fa-star-o"></i>
