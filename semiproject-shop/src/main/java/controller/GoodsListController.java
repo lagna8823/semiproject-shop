@@ -34,13 +34,13 @@ public class GoodsListController extends HttpServlet {
 		}
 		
 		// 마지막 페이지
-		int endRow = 10 * currentPage;	// endRow
+		int endRow = 9 * currentPage;	// endRow
 		
 		// 페이지당 보일 수
-		int realRowPerPage = 10;
+		int realRowPerPage = 9;
 		
 		// 시작 페이지
-		int beginRow = (10 * (currentPage - 1)) +1;	
+		int beginRow = (9 * (currentPage - 1)) +1;	
 		
 		// 호출
 		GoodsService goodsService = new GoodsService();
