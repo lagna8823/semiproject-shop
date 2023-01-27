@@ -1,7 +1,6 @@
 package controller;
 	
 import java.io.IOException;
-import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +26,7 @@ public class LoginController extends HttpServlet {
 		// 로그인 값 체크
 		Customer loginCustomer = (Customer)session.getAttribute("loginCustomer");
 		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
+		System.out.println(loginCustomer);
 		if(loginCustomer != null || loginEmp != null) {
 			response.sendRedirect(request.getContextPath()+"/home");
 			return;
@@ -49,7 +49,7 @@ public class LoginController extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/home");
 			return;
 		}
-				
+			
 		// request 값세팅
 		request.setCharacterEncoding("UTF-8");
 		String customerId = null;

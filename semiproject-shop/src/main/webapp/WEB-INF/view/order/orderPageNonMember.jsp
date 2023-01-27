@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>비회원 주무 페이지</title>
+		<title>비회원 주문 페이지</title>
 		
 		<!-- jQuery -->
 		<!-- CDN 주소 추가 방식 -->
@@ -18,9 +18,18 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 		<!-- Bootstrap CDN 끝 -->
 		
-		<script>
+		<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+		<script type="text/javascript">
 			$(document).ready(function() {
 				
+				setTimeout(function() {
+
+					alert("세션이 만료되었습니다.");
+
+					location.href = "${pageContext.request.contextPath}/nonMember/deleteNonMember?customerId="+'${loginCustomer.customerId}';
+
+					}, 600000) // 10분동안 주문없을시 세션만료 비회원생성된 아이디 삭제
+					
 				// 핸드폰 유효성 검사
 				/*
 					유효성체크
@@ -137,9 +146,8 @@
 			<div>
 				<h1>비회원 주문 페이지</h1>
 			</div>
-		
 			<div>
-				<form action = "${pageContext.request.contextPath }/order/orderPageNonMember" method = "post">
+				<form action = "${pageContext.request.contextPath}/order/orderPageNonMember" method = "post">
 					<div>
 						<table border = "1">
 							<input type = "hidden" name = "customerPw" id = "customerPw" value="1234"> 		
@@ -166,7 +174,7 @@
 					</div>
 				
 					<div>
-						<button type = "submit">회원가입</button>
+						<button type = "submit">주문 완료</button>
 					</div>
 				
 				</form>

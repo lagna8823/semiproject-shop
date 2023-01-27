@@ -148,11 +148,11 @@
 		            <form id="signinForm" action="${pageContext.request.contextPath}/login" method="post">
 					<div>
 						<label>Login ID&nbsp;</label>
-						<input id="custoemrId" type="text"  name="customerId">
+						<input id="custoemrId" type="text"  name="customerId" value="test">
 					</div>
 					<div>
 						<label>Password</label>
-						<input id="custoemrPw" type="password" name="customerPw">
+						<input id="custoemrPw" type="password" name="customerPw" value="1234">
 					</div>
 					<div>
 				    	<button id="signinBtn" type="button">로그인</button>
@@ -168,11 +168,11 @@
 		           <form id="empSigninForm" action="${pageContext.request.contextPath}/login" method="post">
 					<div>
 						<label>Login ID&nbsp;</label>
-						<input id="empId" type="text"  name="empId">
+						<input id="empId" type="text"  name="empId" value="emptest">
 					</div>
 					<div>
 						<label>Password</label>
-						<input id="empPw" type="password" name="empPw">
+						<input id="empPw" type="password" name="empPw" value="1234">
 					</div>
 					<div>
 				    	<button id="empSigninBtn" type="button">로그인</button>
