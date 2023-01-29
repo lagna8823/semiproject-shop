@@ -218,15 +218,15 @@ public class OrdersService {
 		return goods;
 	}
 	
-	// 주문상세보기 -- 수정중
-	public Orders getOtderOne(int boardNo,  String customerId) {
+	// 주문상세보기
+	public Orders getOrderOne(int orderCode, String customerId) {
 		orderDao = new OrderDao();
 		Connection conn = null;
 		Orders orders = null;
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
-			orders = orderDao.selectOrderOne(conn, boardNo, customerId);
+			orders = orderDao.selectOrderOne(conn, orderCode, customerId);
 			conn.commit();
 		} catch (Exception e) {
 			try {

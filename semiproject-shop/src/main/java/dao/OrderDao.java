@@ -211,45 +211,53 @@ public class OrderDao {
 	
 	// 주문상세보기
 	public Orders selectOrderOne (Connection conn, int orderCode, String customerId) throws Exception {
-		Orders orders = null;
-		
-		String sql = "SELECT o.order_code orderCode"
-				+ "			, g.goods_code, g.goods_name, g.goods_price, g.soldout"
-				+ "			, c.customer_id, c.customer_name, c.customer_phone, c.point point"
-				+ "			, ca.address_code, ca.address"
-				+ "			, o.order_quantity, o.order_price, o.order_state , o.createdate"
-				+ "			, p.point_kind pointKind, p.point pointHistory"
-				+ " 	FROM orders o INNER JOIN goods g ON o.goods_code = g.goods_code"
-				+ " 	INNER JOIN customer c ON o.customer_id = c.customer_id"
-				+ " 	INNER JOIN customer_address ca ON o.address_code = ca.address_code"
-				+ " 	INNER JOIN point_history p On o.order_code = p.order_code"
-				+ " 	WHERE o.customer_id = ? AND o.order_code = ? ORDER BY o.order_code desc;"; // WHERE rnum >=? AND rnum <=?;
+		Orders o = null;		
+
+		String sql = "SELECT r.order_code orderCode"
+				+ "			, g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.soldout soldout"
+				+ "			, gi.filename"
+				+ "			, c.customer_id customerID, c.customer_name customerName, c.customer_phone customerPhone, c.point customerPoint"
+				+ "			, ca.address_code addressCode, ca.address address"
+				+ "			, r.order_quantity orderQuantity, r.order_price orderPrice, r.order_state orderState, r.createdate createdate"
+				+ "			, p.point_kind pointKind, p.point point"
+				+ " 	FROM (SELECT ROW_NUMBER() OVER(ORDER BY order_code desc) rnum, order_code, goods_code, customer_id, address_code"
+				+ "					, order_quantity, order_price, order_state, createdate"
+				+ " 			FROM orders) r"
+				+ " 	INNER JOIN goods g ON r.goods_code = g.goods_code"
+				+ "		INNER JOIN goods_img gi ON g.goods_code = gi.goods_code"
+				+ " 	INNER JOIN customer c ON r.customer_id = c.customer_id"
+				+ " 	INNER JOIN customer_address ca ON r.address_code = ca.address_code"
+			 	+ "		INNER JOIN (SELECT order_code, point_kind, POINT"
+			 	+ "					 FROM point_history"
+			 	+ "						GROUP BY order_code"
+			 	+ "						 ORDER BY order_code asc) p ON r.order_code = p.order_code"
+				+ " 	WHERE r.order_code = ? AND r.customer_id = ? ORDER BY r.order_code desc"; // WHERE rnum >=? AND rnum <=?;
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, customerId);
-		stmt.setInt(2, orderCode);
+		stmt.setInt(1, orderCode);
+		stmt.setString(2, customerId);
 		
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {
-			orders = new Orders();
-			orders.setOrderCode(rs.getInt("orderCode"));
-			orders.setGoodsCode(rs.getInt("goodsCode"));
-			orders.setGoodsName(rs.getString("goodsName"));
-			orders.setGoodsPrice(rs.getInt("goodsPrice"));
-			orders.setSoldout(rs.getString("soldout"));
-			orders.setCustomerId(rs.getString("customerID"));
-			orders.setCustomerName(rs.getString("customerName"));
-			orders.setCustomerPhone(rs.getString("customerPhone"));
-			orders.setPoint(rs.getInt("point"));
-			orders.setAddressCode(rs.getInt("addressCode"));
-			orders.setAddress(rs.getString("address"));
-			orders.setOrderQuantity(rs.getInt("orderQuantity"));
-			orders.setOrderPrice(rs.getInt("orderPrice"));
-			orders.setOrderState(rs.getString("orderState"));
-			orders.setCreatedate(rs.getString("createdate"));
-			orders.setPointKind(rs.getString("pointKind"));
-			orders.setPoint(rs.getInt("pointHistory"));
+			o = new Orders();
+			o.setOrderCode(rs.getInt("orderCode"));
+			o.setGoodsCode(rs.getInt("goodsCode"));
+			o.setGoodsName(rs.getString("goodsName"));
+			o.setGoodsPrice(rs.getInt("goodsPrice"));
+			o.setSoldout(rs.getString("soldout"));
+			o.setFilename(rs.getString("filename"));
+			o.setCustomerId(rs.getString("customerId"));
+			o.setCustomerName(rs.getString("customerName"));
+			o.setCustomerPhone(rs.getString("customerPhone"));
+			o.setPointKind(rs.getString("pointKind"));
+			o.setPoint(rs.getInt("point"));
+			o.setAddressCode(rs.getInt("addressCode"));
+			o.setAddress(rs.getString("address"));
+			o.setOrderQuantity(rs.getInt("orderQuantity"));
+			o.setOrderPrice(rs.getInt("orderPrice"));
+			o.setOrderState(rs.getString("orderState"));
+			o.setCreatedate(rs.getString("createdate"));
 		}		
-		return orders;
+		return o;
 	}
 	
 	// 주문하기
@@ -283,6 +291,21 @@ public class OrderDao {
 			orderCode = rs.getInt("orderCode");
 		}		
 		return orderCode;
+	}
+	// 주문확정 시 포인트 적립
+	public int updatePointkind(Connection conn, int orderCode, String customerId) throws Exception {
+		int row = 0;
+
+		String sql = "DELETE FROM orders WHERE order_code = ? AND customer_id = ?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, orderCode);
+		stmt.setString(2, customerId);
+		System.out.println(orderCode + ": orderCode");
+		System.out.println(customerId + ": customerId");
+			
+		row = stmt.executeUpdate();
+		return row;
 	}
 	
 	// 주문취소(배송 전까지만 가능)

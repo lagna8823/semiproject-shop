@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -541,9 +541,11 @@
     </section>
     <!-- Latest Blog Section End -->
 
+    <!-- Footer Section Begin -->
     <div>
 		<jsp:include page = "/WEB-INF/view/inc/footer.jsp"></jsp:include>
 	</div>
+    <!-- Footer Section End -->
 
     <!-- Search Begin -->
     <div class="search-model">
@@ -566,8 +568,6 @@
     <script src="${pageContext.request.contextPath }/resources/js/jquery.slicknav.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/mixitup.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/owl.carousel.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/js/main.js"></script>
-    
+    <script src="${pageContext.request.contextPath }/resources/js/main.js"></script>    
 </body>
-
 </html>

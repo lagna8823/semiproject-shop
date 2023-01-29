@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,11 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import service.OrdersService;
 import vo.Customer;
+import vo.Orders;
 
-@WebServlet("/order/orderConfirm")
-public class OrderConfirmController extends HttpServlet {
 
+@WebServlet("/order/orderOne")
+public class OrderOneController extends HttpServlet {
+	private OrdersService ordersService;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// 로그인 여부확인, 로그인 되어있지 않으면 홈으로 이동
@@ -26,7 +32,15 @@ public class OrderConfirmController extends HttpServlet {
 			return;
 		}
 		String customerId = loginCustomer.getCustomerId();
+		int orderCode = Integer.parseInt(request.getParameter("orderCode"));
+		
+		Orders list = null;
+		this.ordersService = new OrdersService();
 
+		list = ordersService.getOrderOne(orderCode, customerId);
+		System.out.println(list);
+		request.setAttribute("orderOne", list);
 		request.getRequestDispatcher("/WEB-INF/view/order/orderOne.jsp").forward(request, response);
 	}
+
 }
