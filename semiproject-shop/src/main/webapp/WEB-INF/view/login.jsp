@@ -114,13 +114,13 @@
 				  </div>
 				  
 				  <!-- 회원가입 button -->
-				  <button class="google__btn" onclick="location.href=${pageContext.request.contextPath}/customer/addCustomer">
+				  <button class="google__btn" onClick="location.href='${pageContext.request.contextPath}/customer/addCustomer'">
 				    <i class="fa"></i>
 				    회원가입
 				  </button>
 			  
 				  <!-- 비회원 button -->
-				  <button class="github__btn" onclick="location.href=${pageContext.request.contextPath}/order/orderPageNonMember">
+				  <button class="github__btn" onClick="location.href='${pageContext.request.contextPath}/order/orderPageNonMember'">
 				    <i class="fa"></i>
 				    비회원 주문하기
 				  </button>
@@ -150,7 +150,7 @@
 				  </div>
 				  
 				  <!-- 회원가입 button -->
-				  <button class="google__btn" onclick="location.href=${pageContext.request.contextPath}/emp/addEmp">
+				  <button class="google__btn" onClick="location.href='${pageContext.request.contextPath}/emp/addEmp'">
 				    <i class="fa"></i>
 				    사원가입
 				  </button>
