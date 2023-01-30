@@ -1,4 +1,4 @@
-<jsp:include page = "/WEB-INF/view/inc/menuTest.jsp"></jsp:include>
+	<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
@@ -40,16 +40,17 @@
 
 
 	<body>
+
 		<div class="container-scroller">
 		    <div class="container-fluid">
 				<div class="row justify-content-center">
-					<div class="col-md-auto grid-margin stretch-card">
-						<div class="card">
-							<div class="card-body">
-								<div class="content-wrapper">
+					<div class="content-wrapper row justify-content-center">
+						<div class="col-md-auto grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
 									<h2 class = "font-weight-bold text-center">CUSTOMER</h2>
 									<div class="row justify-content-center mt-3">
-										<div class="col-12">
+										<div class="col-auto">
 										
 											<!-- 리스트 -->
 											<div class="table-responsive mb-5">
@@ -207,7 +208,7 @@
 				</div>
 			</div>   
 			<!-- page-body-wrapper ends -->
-			<!-- 아래 빈공간 -->
+			<jsp:include page = "/WEB-INF/view/inc/footer.jsp"></jsp:include>
 		</div>
 		<!-- container-scroller -->
 	

@@ -57,14 +57,19 @@
                     </div>
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
-                            <div class="header__top__links">                                
-								<a href = "${pageContext.request.contextPath }/login">
-									로그인
-								</a>
-								<span>&nbsp;</span>				
-								<a href = "${pageContext.request.contextPath }/logout">
-									로그아웃
-								</a>
+                            <div class="header__top__links">
+                            	<c:choose>
+	                            	<c:when test="${loginCustomer == null && loginEmp == null }">
+										<a href = "${pageContext.request.contextPath }/login">
+											로그인
+										</a>
+	                            	</c:when>
+									<c:otherwise>
+										<a href = "${pageContext.request.contextPath }/logout">
+											로그아웃
+										</a>
+									</c:otherwise>		
+                            	</c:choose>                                
                             </div>
                                 
                             <div class="header__top__hover">
@@ -126,28 +131,18 @@
 									<span>사업자/관리자 ${loginEmp.empId}님 <i class="arrow_carrot-down"></i></span>
 	                                <ul>
 	                                    <li>
-	                                    	<a href = "${pageContext.request.contextPath }/emp/empList">
-												emp회원관리
-											</a>
-										</li>
-	                                    <li>
-	                                    	<a href = "${pageContext.request.contextPath }/customer/customerList">
-												customer회원관리
-											</a>
-										</li>
-	                                    <li>
 	                                    	<a href = "${pageContext.request.contextPath }/emp/checkPw?targetUrl=/emp/modifyEmp">
-												emp 정보 수정
+												내 정보 수정
 											</a>
 										</li>
 	                                    <li>
 	                                    	<a href = "${pageContext.request.contextPath }/emp/checkPw?targetUrl=/emp/modifyEmpPw">
-												emp 비밀번호 변경
+												비밀번호 변경
 											</a>
 										</li>
 	                                    <li>
 	                                    	<a href = "${pageContext.request.contextPath }/emp/checkPw?targetUrl=/emp/deleteEmp?empCode=${loginEmp.empCode }">
-												emp 회원 탈퇴
+												회원 탈퇴
 											</a>
 										</li>
                                     </ul>
@@ -193,6 +188,17 @@
 							</c:if>
                             <li><a href="${pageContext.request.contextPath }/resources//blog.html">Blog</a></li>
                             <li><a href = "${pageContext.request.contextPath }/review/reviewList">리뷰</a></li>
+                            
+                            <!-- 관리자만 접근 가능 -->
+                            <c:if test="${loginEmp != null && loginEmp.authCode == 0 }">
+	                            <li><a href="#">관리</a>
+	                                <ul class="dropdown">
+	                                    <li><a href="${pageContext.request.contextPath }/customer/customerList">고객 관리</a></li>
+	                                    <li><a href="${pageContext.request.contextPath }/emp/empList">사원 관리</a></li>
+	                                </ul>
+	                            </li>                            
+                            </c:if>
+                            
                         </ul>
                     </nav>
                 </div>
@@ -211,7 +217,7 @@
 								<a href = "${pageContext.request.contextPath }/cart/customerCartList?action=cartList">
 									<img src="${pageContext.request.contextPath }/resources/img/icon/cart.png" alt="">
 									<!-- 카트 품목 수 -->
-									<span>0</span>
+									<span>13</span>
 								</a>
 							</c:otherwise>
 						</c:choose>
@@ -230,14 +236,6 @@
 				<a href = "${pageContext.request.contextPath }/home">
 					홈으로
 				</a>
-				<span>&nbsp;</span>
-				<a href = "${pageContext.request.contextPath }/login">
-					로그인
-				</a>
-				<span>&nbsp;</span>				
-				<a href = "${pageContext.request.contextPath }/logout">
-					로그아웃
-				</a>				
 				<span>&nbsp;</span>
 				<!-- authCode 수정되면 eq뒤에 값 1로 변경예정 -->
 				<c:choose>
@@ -291,61 +289,6 @@
 			</h3>
 		</div>
 		
-		<c:if test="${loginCustomer != null}">
-			<div>
-				<h3>
-					<a href = "${pageContext.request.contextPath }/customer/customerList">
-						customer회원관리
-					</a>				
-					<span>&nbsp;</span>			
-					<a href = "${pageContext.request.contextPath }/customer/addCustomer">
-						customer회원가입
-					</a>			
-					<span>&nbsp;</span>				
-					<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/modifyCustomer">
-						customer 정보 수정
-					</a>				
-					<span>&nbsp;</span>			
-					<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/modifyCustomerPw">
-						customer 비밀번호 변경
-					</a>				
-					<span>&nbsp;</span>				
-					<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/deleteCustomer?customerId=${loginCustomer.customerId }">
-						customer 회원 탈퇴
-					</a>				
-					<a href = "${pageContext.request.contextPath }/customer/addressList">
-						customer 배송지 관리
-					</a>
-				</h3>		
-			</div>
-		</c:if>
-		
-		<c:if test="${loginEmp != null}">
-			<div>
-				<h3>
-					<a href = "${pageContext.request.contextPath }/emp/empList">
-						emp회원관리
-					</a>				
-					<span>&nbsp;</span>			
-					<a href = "${pageContext.request.contextPath }/emp/addEmp">
-						emp회원가입
-					</a>				
-					<span>&nbsp;</span>				
-					<a href = "${pageContext.request.contextPath }/emp/checkPw?targetUrl=/emp/modifyEmp">
-						emp 정보 수정
-					</a>				
-					<span>&nbsp;</span>
-					<a href = "${pageContext.request.contextPath }/emp/checkPw?targetUrl=/emp/modifyEmpPw">
-						emp 비밀번호 변경
-					</a>			
-					<span>&nbsp;</span>				
-					<a href = "${pageContext.request.contextPath }/emp/checkPw?targetUrl=/emp/deleteEmp?empCode=${loginEmp.empCode }">
-						emp 회원 탈퇴
-					</a>									
-				</h3>
-			</div>
-		</c:if>
-		
 		<div>
 			<h3>
 				<a href = "${pageContext.request.contextPath }/question/questionList">
@@ -371,5 +314,18 @@
 			</h3>
 		</div>	
 	</div>
+	
+    <!-- Js Plugins -->
+    <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/jquery.nice-select.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/jquery.nicescroll.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/jquery.magnific-popup.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/jquery.countdown.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/jquery.slicknav.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/mixitup.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/owl.carousel.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/js/main.js"></script>
+	
 </body>
 </html>
