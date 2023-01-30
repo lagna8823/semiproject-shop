@@ -22,6 +22,10 @@ public class QuestionListController extends HttpServlet {
 	
 	// 고객센터
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// 인코딩 : UTF-8
+		request.setCharacterEncoding("UTF-8");
+				
 		// VIEW -> /WEB-INF/view/question/questionList.jsp
 		// 로그인 후에만 진입가능(세션값 request)
 		HttpSession session = request.getSession(); 
@@ -38,33 +42,43 @@ public class QuestionListController extends HttpServlet {
 		Customer customer = new Customer(); 
 		customer.setCustomerId("loginCustomer");
 		
-		// 페이징에 쓸 값 세팅
-		int cnt = 0;
-		int currentPage = 1;
-		   if(request.getParameter("currentPage") != null) {
-			   currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		   }
-		int rowPerPage = 10;
-		int beginRow = (currentPage-1) * rowPerPage;
 		String word = ("");
-		   if(request.getParameter("word") != null) {
-			   word =request.getParameter("word");
-		   } 
-		   
+		if(request.getParameter("word") != null) {
+			word =request.getParameter("word");
+		} 
+		
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}   
+		
+		int rowPerPage = 10;
+		if(request.getParameter("rowPerPage") != null) {
+			rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
+		}
+		
 		// 모델 호출
 		this.questionService = new QuestionService();
-		request.setCharacterEncoding("UTF-8"); // request 한글코딩	
 		
-		// 카운트
-		cnt = questionService.count(); 
-		int lastPage = (int)(Math.ceil((double)cnt / (double)rowPerPage));
+		// questionList
+		ArrayList<HashMap<String, Object>> list = questionService.getQuestionListByPage(currentPage, rowPerPage, word);
+				
+		// questionPage
+		ArrayList<HashMap<String, Object>> pageList = this.questionService.getPage(word, currentPage, rowPerPage); 
 		
-		// 모델 리스트 및 페이징
-		ArrayList<HashMap<String, Object>> list = questionService.getQuestionListByPage(beginRow, rowPerPage, word);
+		for(HashMap<String, Object> hm : pageList) {
+			
+			request.setAttribute("previousPage", (int) hm.get("previousPage"));
+			request.setAttribute("nextPage", (int) hm.get("nextPage"));
+			request.setAttribute("lastPage", (int) hm.get("lastPage"));
+			request.setAttribute("pageList", (ArrayList<Integer>) hm.get("pageList"));
+		}
+		
 		request.setAttribute("questionlist", list);
-		request.setAttribute("currentPage", currentPage); 
-		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("word", word);
+		request.setAttribute("currentPage", currentPage); 
+		request.setAttribute("rowPerPage", rowPerPage);
+		
 		
 		// 고객센터 폼 View
 		request.getRequestDispatcher("/WEB-INF/view/question/questionList.jsp").forward(request, response);

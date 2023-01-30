@@ -71,19 +71,19 @@
 								<c:if test="${loginCustomer != null}">
 									<span>
 										<a href = "${pageContext.request.contextPath }/question/questionList">
-											고객센터
+											<span>고객센터</span>
 										</a>
 										<i class="arrow_carrot-down"></i>
 									</span>
                                 		<ul>
 		                                    <li>
 		                                    	<a href = "${pageContext.request.contextPath }/question/questionListUser">
-													나의문의보기
+													나의문의
 												</a>
 		                                    </li>
 		                                    <li>			
 												<a href = "${pageContext.request.contextPath }/question/addQuestion">
-													고객센터 문의글작성
+													문의작성
 												</a>
 		                                    </li>
                                    		</ul>

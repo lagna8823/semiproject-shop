@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import dao.QuestionDao;
 import util.DBUtil;
+import util.Page;
 import vo.Customer;
 import vo.Question;
 
@@ -16,14 +17,18 @@ public class QuestionService {
 	
 	// questionListUser 출력
 	// 사용하는 곳 : questionListUserController
-	public ArrayList<HashMap<String, Object>> getQuestionListUserByPage(int beginRow, int rowPerPage, Customer loginCustomer, String word) {
+	public ArrayList<HashMap<String, Object>> getQuestionListUser(String word, int currentPage, int rowPerPage, Customer loginCustomer) {
+		
 		this.questionDao = new QuestionDao();
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
 		Connection conn  = null;
+		
 		try {
 			conn = DBUtil.getConnection();
 			questionDao = new QuestionDao();
-			list = questionDao.selectQuestionLisUsertByPage(conn, beginRow, rowPerPage, loginCustomer, word);
+			int beginRow = Page.getBeginRow(currentPage, rowPerPage);
+			
+			list = questionDao.selectQuestionLisUsertByPage(conn, word, beginRow, rowPerPage, loginCustomer);
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -36,27 +41,111 @@ public class QuestionService {
 		return list;
 	}
 	
+	// questionList 출력
+	// 사용하는 곳 : questionListController
+	public ArrayList<HashMap<String, Object>> getQuestionListByPage(int beginRow, int rowPerPage, String word) {
+		
+		this.questionDao = new QuestionDao();
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
+		Connection conn  = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			questionDao = new QuestionDao();
+			
+			list = questionDao.selectQuestionListByPage(conn, beginRow, rowPerPage, word);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e1){
+				e1.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+	// questionListUser 페이징
+	// 사용하는 곳 : questionListUserController
+	public ArrayList<HashMap<String, Object>> getUserPage(String word, int currentPage, int rowPerPage, Customer loginCustomer) {
+		  
+		this.questionDao = new QuestionDao();
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			questionDao = new QuestionDao();
+			
+			// 페이징 처리
+			int pageLength = 10;
+			int count = this.questionDao.countUser(conn, word, loginCustomer);
+			
+			int previousPage = Page.getPreviousPage(currentPage, pageLength);
+			int nextPage = Page.getNextPage(currentPage, pageLength);
+			int lastPage = Page.getLastPage(count, rowPerPage);
+			ArrayList<Integer> pageList = Page.getPageList(currentPage, pageLength);
+			
+			HashMap<String, Object> m1 = new HashMap<String, Object>();
+			m1.put("previousPage", previousPage);
+			m1.put("nextPage", nextPage);
+			m1.put("lastPage", lastPage);
+			m1.put("pageList", pageList);
+			list.add(m1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+			conn.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return list;
+	}
+		
 	// questionList 페이징
 	// 사용하는 곳 : questionListController
-		public int countUser(Customer loginCustomer) {
-			  this.questionDao = new QuestionDao();
-			  int cnt = 0;
-		      Connection conn = null;
-		      try {
-		         conn = DBUtil.getConnection();
-		         questionDao = new QuestionDao();
-		         cnt = questionDao.countUser(conn, loginCustomer);
-		      } catch (Exception e) {
-		         e.printStackTrace();
-		      } finally {
-		         try {
-		            conn.close();
-		         } catch (SQLException e1) {
-		            e1.printStackTrace();
-		         }
-		      }
-		      return cnt;
+	public ArrayList<HashMap<String, Object>> getPage(String word, int currentPage, int rowPerPage) {
+		  
+		this.questionDao = new QuestionDao();
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			questionDao = new QuestionDao();
+			
+			// 페이징 처리
+			int pageLength = 10;
+			int count = this.questionDao.count(conn, word);
+			
+			int previousPage = Page.getPreviousPage(currentPage, pageLength);
+			int nextPage = Page.getNextPage(currentPage, pageLength);
+			int lastPage = Page.getLastPage(count, rowPerPage);
+			ArrayList<Integer> pageList = Page.getPageList(currentPage, pageLength);
+			
+			HashMap<String, Object> m1 = new HashMap<String, Object>();
+			m1.put("previousPage", previousPage);
+			m1.put("nextPage", nextPage);
+			m1.put("lastPage", lastPage);
+			m1.put("pageList", pageList);
+			list.add(m1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+			conn.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
+		return list;
+	}
 	// modifyQuestion (문의글 수정)
 	// 사용하는 곳 : modifyQuestionController	
 	public int modifyQuestion(Question modifyQuestion, String dir) {
@@ -226,47 +315,5 @@ public class QuestionService {
 		}
 		return list;
 	}
-	// questionList 출력
-	// 사용하는 곳 : questionListController
-	public ArrayList<HashMap<String, Object>> getQuestionListByPage(int beginRow, int rowPerPage, String word) {
-		this.questionDao = new QuestionDao();
-		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
-		Connection conn  = null;
-		try {
-			conn = DBUtil.getConnection();
-			questionDao = new QuestionDao();
-			list = questionDao.selectQuestionListByPage(conn, beginRow, rowPerPage, word);
-		} catch(Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch(SQLException e1){
-				e1.printStackTrace();
-			}
-		}
-		return list;
-	}
 	
-	// questionList 페이징
-	// 사용하는 곳 : questionListController
-		public int count() {
-			  this.questionDao = new QuestionDao();
-			  int cnt = 0;
-		      Connection conn = null;
-		      try {
-		         conn = DBUtil.getConnection();
-		         questionDao = new QuestionDao();
-		         cnt = questionDao.count(conn);
-		      } catch (Exception e) {
-		         e.printStackTrace();
-		      } finally {
-		         try {
-		            conn.close();
-		         } catch (SQLException e1) {
-		            e1.printStackTrace();
-		         }
-		      }
-		      return cnt;
-		}
 }
