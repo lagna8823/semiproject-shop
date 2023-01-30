@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="zxx">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Male_Fashion Template">
@@ -68,8 +68,8 @@
     </section>
     <!-- Breadcrumb Section End -->
 
-    <!-- OrderList Section Begin -->
-    <section class="orderList spad">
+    <!-- OrderOne Section Begin -->
+    <section class="orderOne spad">
     	<div class = "container">
 			<div class="d-flex justify-content-end">
 				<form id="pageForm" method="get" action="${pageContext.request.contextPath}/order/orderList">

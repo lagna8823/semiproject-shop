@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="zxx">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Male_Fashion Template">
@@ -27,12 +27,7 @@
 	<!-- jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script>
-		$(function() {
-			$('#rowPerPage').change(function() {
-				$('#pageForm').submit();
-				alert('change');
-			})
-			
+		$(function() {			
 			/* 주문일 계산 */
 		    let now = new Date();
 		    let year = now.getFullYear();
@@ -79,35 +74,35 @@
 					<th>주문금액(수량)</th><!--  -->
 					<th colspan="2">주문상태</th>
 				</tr>
-					<tr>
-						<td>
-							<c:if test="${orderOne.filename ne null}">
-								<img src="${pageContext.request.contextPath}/upload/${orderOne.filename}" width="100" height="100">
-							</c:if>
-							<c:if test="${orderOne.filename eq null}">
-								<span>사진 준비중!</span>
-							</c:if>
-							<br>
-							<a type="button" href="${pageContext.request.contextPath}/goods/goodsOne?goodsCode=${orderOne.goodsCode}">${orderOne.goodsName}</a>
-						</td>
-						<td class="createdate">${orderOne.createdate}</td>
-						
-						<td>${orderOne.orderPrice}<br>${orderOne.orderQuantity}개</td>
-						<td>
-							<a type="button" href="${pageContext.request.contextPath}/order/orderConfirm?orderCode=${orderOne.orderCode}">구매확정</a>
-							<br>
-							${orderOne.orderState}
-						</td>
-												
-						<c:choose>
-							<c:when test="${orderOne.orderState eq '구매확정'}">
-								<td><a type="button" href="${pageContext.request.contextPath}/review/addReview?orderCode=${orderOne.orderCode}">리뷰작성</a></td>
-							</c:when>
-							<c:otherwise>
-								<td><a type="button" href="${pageContext.request.contextPath}/order/deleteOrder?orderCode=${orderOne.orderCode}&point=${orderOne.point}">주문취소</a></td>
-							</c:otherwise>
-						</c:choose>
-					</tr>
+				<tr>
+					<td>
+						<c:if test="${orderOne.filename ne null}">
+							<img src="${pageContext.request.contextPath}/upload/${orderOne.filename}" width="100" height="100">
+						</c:if>
+						<c:if test="${orderOne.filename eq null}">
+							<span>사진 준비중!</span>
+						</c:if>
+						<br>
+						<a type="button" href="${pageContext.request.contextPath}/goods/goodsOne?goodsCode=${orderOne.goodsCode}">${orderOne.goodsName}</a>
+					</td>
+					<td class="createdate">${orderOne.createdate}</td>
+					
+					<td>${orderOne.orderPrice}<br>${orderOne.orderQuantity}개</td>
+					<td>
+						<a type="button" href="${pageContext.request.contextPath}/order/orderConfirm?orderCode=${orderOne.orderCode}">구매확정</a>
+						<br>
+						${orderOne.orderState}
+					</td>
+											
+					<c:choose>
+						<c:when test="${orderOne.orderState eq '구매확정'}">
+							<td><a type="button" href="${pageContext.request.contextPath}/review/addReview?orderCode=${orderOne.orderCode}">리뷰작성</a></td>
+						</c:when>
+						<c:otherwise>
+							<td><a type="button" href="${pageContext.request.contextPath}/order/deleteOrder?orderCode=${orderOne.orderCode}&point=${orderOne.point}">주문취소</a></td>
+						</c:otherwise>
+					</c:choose>
+				</tr>
 			</table>
 		</div>
     </section>
@@ -118,8 +113,7 @@
         <div class="container">
             <div class="checkout__form">
                 <form action="#">
-                    <div class="row">
-                    	
+                    <div class="row">                    	
                         <div class="col-lg-8 col-md-6">
                             <h6 class="checkout__title">주문자 정보</h6>
                             <div class="row">
