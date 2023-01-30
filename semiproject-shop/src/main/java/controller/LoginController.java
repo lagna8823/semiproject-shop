@@ -38,6 +38,14 @@ public class LoginController extends HttpServlet {
 			return;
 		}
 		
+		// 로그아웃 상태에서 구매버튼 클릭 -> 로그인, 비회원 로그인 후 상품 정보 조회를 위한 정보 
+		int goodsCode = 0;
+		if(request.getParameter("goodsCode") != null) {
+		goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
+		}
+		System.out.println("goodsCode : " + goodsCode);
+
+		request.setAttribute("goodsCode", goodsCode);
 		// 로그인 폼 View
 		request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
 	}
@@ -81,8 +89,19 @@ public class LoginController extends HttpServlet {
 			Customer returnCustomer = customerService.login(customer);
 			// 결과값 있다면
 			session.setAttribute("loginCustomer", returnCustomer);
+			
+			// 구매 선택 후 로그인 요청 시 addOrder로 바로가기 위한 정보
+			int goodsCode = 0;
+			if(request.getParameter("goodsCode") != null) {
+				goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
+				session.setAttribute("goodsCode", goodsCode);
+				System.out.println("login goodsCode : " + goodsCode);
+			    response.sendRedirect(request.getContextPath() + "/order/addOrder");
+			    return;
+			} else {
 		    response.sendRedirect(request.getContextPath() + "/home");
 		    return;
+			}
 	     } else if((request.getParameter("empId") != null) && (request.getParameter("empPw") != null)) {
 	    	emp = new Emp(); //  
 			emp.setEmpId(request.getParameter("empId"));
@@ -96,6 +115,7 @@ public class LoginController extends HttpServlet {
 				response.sendRedirect(request.getContextPath()+"/login");
 				return;
 			    }
+			
 			// 결과값이 있다면
 			session.setAttribute("loginEmp", returnEmp);
 		    response.sendRedirect(request.getContextPath() + "/home");

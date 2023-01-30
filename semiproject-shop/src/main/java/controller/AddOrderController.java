@@ -37,7 +37,15 @@ public class AddOrderController extends HttpServlet {
 		String customerId = loginCustomer.getCustomerId();
 		
 		// 상품번호 ,고객아이디, 배송지 필요
-		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));	
+		int goodsCode = 0;
+		System.out.println("addOrder goodsCode1 : " + goodsCode);
+		if((Integer)session.getAttribute("goodsCode") != 0) {
+			goodsCode = (Integer) session.getAttribute("goodsCode");
+			System.out.println("addOrder getAAGoodsCode : " + goodsCode);
+		} else {
+			goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
+		}
+		System.out.println("addOrder goodsCode2 : " + goodsCode);
 		Customer customer = null;
 		ArrayList<CustomerAddress> customerAddress = null;
 		Goods goods = null;	

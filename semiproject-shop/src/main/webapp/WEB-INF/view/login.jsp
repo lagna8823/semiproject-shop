@@ -75,7 +75,8 @@
 	
 	<!-- partial:index.partial.html -->
 	<div class="container">
-	
+        <a href="${pageContext.request.contextPath}/home"><img src="${pageContext.request.contextPath}/resources/img/logo.png" alt=""></a>		
+                
 		<!-- Heading -->
 		<h1>LOGIN</h1>
 	  
@@ -91,41 +92,81 @@
 		<!--탭 콘텐츠 영역 -->
 		<div class="tab_container">
 		
-			<!-- Form -->
-			<div id="tab1" class="tab_content">
-				<form id="signinForm" action="${pageContext.request.contextPath}/login" method="post">
-				 <!-- ID input -->
-				 <div class="first-input input__block first-input__block">
-				    <input type="text" placeholder="ID" class="input" id="customerId" name="customerId" value="test">
-				 </div>
-				 <!-- password input -->
-				 <div class="input__block">
-				    <input type="password" placeholder="Password" class="input" id="customerPw" name="customerPw" value="1234">
-				 </div>
-				 <!-- Login button -->
-				  <button class="signin__btn" id="signinBtn" type="button">
-				    로그인
-				  </button>
-				</form>
-				
-				<!-- separator -->
-				  <div class="separator">
-				    <p>OR</p>
-				  </div>
+		<c:choose>
+			<c:when test="${goodsCode eq 0}">
+				<!-- Form -->
+				<div id="tab1" class="tab_content">
+					<form id="signinForm" action="${pageContext.request.contextPath}/login" method="post">
+					 <!-- ID input -->
+					 <div class="first-input input__block first-input__block">
+					    <input type="text" placeholder="ID" class="input" id="customerId" name="customerId" value="test">
+					 </div>
+					 <!-- password input -->
+					 <div class="input__block">
+					    <input type="password" placeholder="Password" class="input" id="customerPw" name="customerPw" value="1234">
+					 </div>
+					 <!-- Login button -->
+					  <button class="signin__btn" id="signinBtn" type="button">
+					    로그인
+					  </button>
+					</form>
+					
+					<!-- separator -->
+					  <div class="separator">
+					    <p>OR</p>
+					  </div>
+					  
+					  <!-- 회원가입 button -->
+					  <button class="google__btn" onclick="location.href='${pageContext.request.contextPath}/customer/addCustomer'">
+					    <i class="fa"></i>
+					    회원가입
+					  </button>
 				  
-				  <!-- 회원가입 button -->
-				  <button class="google__btn" onClick="location.href='${pageContext.request.contextPath}/customer/addCustomer'">
-				    <i class="fa"></i>
-				    회원가입
-				  </button>
-			  
-				  <!-- 비회원 button -->
-				  <button class="github__btn" onClick="location.href='${pageContext.request.contextPath}/order/orderPageNonMember'">
-				    <i class="fa"></i>
-				    비회원 주문하기
-				  </button>
-			</div>
-		  
+					  <!-- 비회원 button -->
+					  <button class="github__btn" onclick="location.href='${pageContext.request.contextPath}/order/selectOrderForNonMember'">
+					    <i class="fa"></i>
+					    비회원 주문조회
+					  </button>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<%-- Form --%>
+				<div id="tab1" class="tab_content">
+					<form id="signinForm" action="${pageContext.request.contextPath}/login" method="post">
+					    <input type="hidden" id="goodsCode" name="goodsCode" value="${goodsCode}">
+					 <%-- ID input --%>
+					 <div class="first-input input__block first-input__block">
+					    <input type="text" placeholder="ID" class="input" id="customerId" name="customerId" value="test">
+					 </div>
+					 <%-- password input --%>
+					 <div class="input__block">
+					    <input type="password" placeholder="Password" class="input" id="customerPw" name="customerPw" value="1234">
+					 </div>
+					 <%-- Login button --%>
+					  <button class="signin__btn" id="signinBtn" type="button">
+					    로그인
+					  </button>
+					</form>
+					
+					<%-- separator --%>
+					  <div class="separator">
+					    <p>OR</p>
+					  </div>
+					  
+					  <%-- 회원가입 button --%>
+					  <button class="google__btn" onclick="location.href='${pageContext.request.contextPath}/customer/addCustomer'">
+					    <i class="fa"></i>
+					    회원가입
+					  </button>
+				  
+					  <%-- 비회원 button --%>
+					  <button class="github__btn" onclick="location.href='${pageContext.request.contextPath}/order/orderPageNonMember?goodsCode=${goodsCode}'">
+					    <i class="fa"></i>
+					    비회원 주문하기
+					  </button>
+				</div>
+			</c:otherwise>
+		</c:choose>
 		  
 			<!-- Form -->
 			<div id="tab2" class="tab_content">
@@ -150,7 +191,7 @@
 				  </div>
 				  
 				  <!-- 회원가입 button -->
-				  <button class="google__btn" onClick="location.href='${pageContext.request.contextPath}/emp/addEmp'">
+				  <button class="google__btn" onclick="location.href='${pageContext.request.contextPath}/emp/addEmp'">
 				    <i class="fa"></i>
 				    사원가입
 				  </button>

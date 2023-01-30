@@ -35,6 +35,9 @@ public class OrderPageNonMember extends HttpServlet {
 			return;
 		}
 		
+		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
+		System.out.println("orderPageNonMember의 goodsCode : "+goodsCode);
+		
 		// 랜덤 객체 생성
 		String rdA;
 		String rdB;
