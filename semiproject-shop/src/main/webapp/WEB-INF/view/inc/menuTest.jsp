@@ -41,7 +41,7 @@
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__option">
             <div class="offcanvas__links">
-                <a href="#">Sign in</a>
+                <a href="#">Sign in123</a>
                 <a href="#">FAQs</a>
             </div>
             <div class="offcanvas__top__hover">
@@ -84,11 +84,16 @@
                             </div>
                             <div class="header__top__hover">
                                 <span>Usd <i class="arrow_carrot-down"></i></span>
-                                <ul>
-                                    <li>USD</li>
-                                    <li>EUR</li>
-                                    <li>USD</li>
-                                </ul>
+				                        <ul>
+				                            <li><a href="./index.html">111</a></li>
+				                            <li><a href="./shop.html">222</a></li>
+				                            <li><a href="#">Pages</a></li>
+				                            <li><a href="${pageContext.request.contextPath }/resources/blog.html">333</a></li>
+				                            <li><a href="${pageContext.request.contextPath }/resources/blog.html">333</a></li>
+				                            <li><a href="${pageContext.request.contextPath }/resources/contact.html">444</a></li>
+				                        </ul>
+                    
+                    
                             </div>
                         </div>
                     </div>
@@ -155,7 +160,7 @@
     <!-- Breadcrumb Section End -->	
 	
 	
-	    <!-- Js Plugins -->
+    <!-- Js Plugins -->
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery.nice-select.min.js"></script>

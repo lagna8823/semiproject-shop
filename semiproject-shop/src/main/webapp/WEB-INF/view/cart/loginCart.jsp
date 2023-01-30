@@ -4,112 +4,36 @@
 	<head>
 	    <meta charset="UTF-8">
 	    <title>Document</title>
-	
-	    <style type="text/css">
-	        
-	        body {
-	            font-family:"Malgun Gothic";
-	            font-size: 0.8em;
-	
-	        }
-	        /*TAB CSS*/
-	
-	        ul.tabs {
-	            margin: 0;
-	            padding: 0;
-	            float: left;
-	            list-style: none;
-	            height: 32px; /*--Set height of tabs--*/
-	            border-bottom: 1px solid #999;
-	            border-left: 1px solid #999;
-	            width: 100%;
-	        }
-	        ul.tabs li {
-	            float: left;
-	            margin: 0;
-	            padding: 0;
-	            height: 31px; /*--Subtract 1px from the height of the unordered list--*/
-	            line-height: 31px; /*--Vertically aligns the text within the tab--*/
-	            border: 1px solid #999;
-	            border-left: none;
-	            margin-bottom: -1px; /*--Pull the list item down 1px--*/
-	            overflow: hidden;
-	            position: relative;
-	            background: #e0e0e0;
-	        }
-	        ul.tabs li a {
-	            text-decoration: none;
-	            color: #000;
-	            display: block;
-	            font-size: 1.2em;
-	            padding: 0 20px;
-	            /*--Gives the bevel look with a 1px white border inside the list item--*/
-	            border: 1px solid #fff; 
-	            outline: none;
-	        }
-	        ul.tabs li a:hover {
-	            background: #ccc;
-	        }
-	        html ul.tabs li.active, html ul.tabs li.active a:hover  {
-	             /*--Makes sure that the active tab does not listen to the hover properties--*/
-	            background: #fff;
-	            /*--Makes the active tab look like it's connected with its content--*/
-	            border-bottom: 1px solid #fff; 
-	        }
-	
-	        /*Tab Conent CSS*/
-	        .tab_container {
-	            border: 1px solid #999;
-	            border-top: none;
-	            overflow: hidden;
-	            clear: both;
-	            float: left; 
-	            width: 100%;
-	            background: #fff;
-	        }
-	        .tab_content {
-	            padding: 20px;
-	            font-size: 1.2em;
-	        }
-	    </style>
-	
-	
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:500,800" rel="stylesheet">
+		<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dist/style.css">
+		
 	    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	    
 	    <script type="text/javascript">
 	        $(document).ready(function() {
-	
-	            // When page loads...
-	            $(".tab_content").hide(); //Hide all content
-	            $("ul.tabs li:first").addClass("active").show(); //Activate first tab
-	            $(".tab_content:first").show(); //Show first tab content
-	
-	            // On Click Event
-	            $("ul.tabs li").click(function() {
-	
-	                $("ul.tabs li").removeClass("active"); //Remove any "active" class
-	                $(this).addClass("active"); //Add "active" class to selected tab
-	                $(".tab_content").hide(); //Hide all tab content
-	
-	                var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
-	                $(activeTab).fadeIn(); //Fade in the active ID content
-	                return false;
-	            });
+	        	
 				// 페이지에 바로 버턴 누름을 방지하기 위해
 				// 고객 로그인
 				$('#signinBtn').click(function() {
 					
+					// 디버깅
+					// console.log($('#customerId').val());
+					// console.log($('#customerPw').val());
+					
 					// ID 유효성 체크
-					if( ($('#custoemrId').val().length) < 1) {
+					if( $('#customerId').val().length < 1) {
 						alert('아이디가 입력되지 않았습니다.');
-						$('#custoemrId').focus();
+						$('#customerId').focus();
 						return;
 					}	
 					// PW 유효성 체크
-					if( ($('#custoemrPw').val().length) < 1) {
+					if( ($('#customerPw').val().length) < 1) {
 						alert('비밀번호가 입력되지 않았습니다.');
-						$('#custoemrPw').focus();
+						$('#customerPw').focus();
 						return;
 					}	
+					
 					$('#signinForm').submit();
 				});
 	        });
@@ -118,29 +42,67 @@
 	<body>
 		<div id="wrapper">    
 		
-		    <!--탭 콘텐츠 영역 -->
-		    <div class="tab_container">
-		    
-				<!--Customer 로그인-->
-		        <div id="tab1" class="tab_content">
-		            <form id="signinForm" action="${pageContext.request.contextPath}/cart/loginCart" method="post">
-					<div>
-						<label>Login ID&nbsp;</label>
-						<input id="custoemrId" type="text"  name="customerId">
-					</div>
-					<div>
-						<label>Password</label>
-						<input id="custoemrPw" type="password" name="customerPw">
-					</div>
-					<div>
-				    	<button id="signinBtn" type="button">로그인</button>
-				    </div>
-				    </form>
-						<div>
-						 	<a href="${pageContext.request.contextPath}/customer/addCustomer">회원가입</a>  
-					    </div>
-		        </div>
-		    </div>
+			<!-- Heading -->
+			<h1>LOGIN</h1>			
+		
+			<!-- Form -->
+			<form id="signinForm" action="${pageContext.request.contextPath}/cart/loginCart" method="post">
+			 <!-- ID input -->
+			 <div class="first-input input__block ">
+			    <input type="text" placeholder="ID" class="input" id="customerId" name="customerId" value="test">
+			 </div>
+			 <!-- password input -->
+			 <div class="input__block">
+			    <input type="password" placeholder="Password" class="input" id="customerPw" name="customerPw" value="1234">
+			 </div>
+			 <!-- Login button -->
+			  <button class="signin__btn" id="signinBtn" type="button">
+			    로그인
+			  </button>
+			</form>
+			
+			<!-- separator -->
+			  <div class="separator">
+			    <p>OR</p>
+			  </div>
+			  
+			  <!-- 회원가입 button -->
+			  <button class="google__btn" onClick="location.href='${pageContext.request.contextPath}/customer/addCustomer'">
+			    <i class="fa"></i>
+			    회원가입
+			  </button>
+		  
+			  <!-- 비회원 button -->
+			  <button class="github__btn" onClick="location.href='${pageContext.request.contextPath}/order/orderPageNonMember'">
+			    <i class="fa"></i>
+			    비회원 주문하기
+			  </button>
+			
+			<footer>
+			  <p>
+			    Thank you for watching
+			    <i class="fa fa-heart"></i> 
+			  </p>
+			  <p>
+			    SNS :
+			    <a href="https://www.facebook.com/chouaib45" >
+			      <i class="fa fa-facebook"></i>
+			    </a>
+			    <a href="http://twitter.com/chouaibblgn45">
+			      <i class="fa fa-twitter"></i> 
+			    </a>
+			    <a href="http://instagram.com/chouaib_blgn">
+			      <i class="fa fa-instagram"></i> 
+			    </a>
+			    <a href="http://linkedin.com/in/chouaibblgn/">
+			      <i class="fa fa-linkedin"></i>
+			    </a>
+			    <a href="https://www.behance.net/geek30">
+			      <i class="fa fa-behance"></i>
+			    </a>
+			  </p>
+			</footer>			
+				
 		</div>
 	</body>
 </html>
