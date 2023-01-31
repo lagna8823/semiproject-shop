@@ -11,7 +11,7 @@
 		<!-- Required meta tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<title>고객 관리</title>
+		<title>고객센터</title>
 		
 		<!-- plugins:css -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath }/resources2/vendors/feather/feather.css">
@@ -30,7 +30,7 @@
 		<!-- endinject -->
 		
 		<link rel="shortcut icon" href="${pageContext.request.contextPath }/resources2/images/favicon.png" />
-	  
+	  	
 		<!-- jQuery -->
 		<!-- CDN 주소 추가 방식 -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -70,10 +70,13 @@
 										<div class="col-12">
 										
 											<!-- 문의글 작성 링크-->
-											<div>
-												<a href="${pageContext.request.contextPath}/question/addQuestion">문의글 작성</a>
+											<div class="input-group-append">
+												<button  class="btn btn-sm btn-primary" onClick="location.href='${pageContext.request.contextPath}/question/addQuestion'">
+													문의작성
+												</button>
 											</div>
-										
+											<br>
+											
 											<!-- 리스트 -->
 											<div class="table-responsive mb-5">
 												<table class = "table expandable-table table-hover text-center">
@@ -83,6 +86,7 @@
 															<th>카테고리</th>
 															<th>상품명</th>
 															<th>문의 메모</th>
+															<th>작성자</th>
 															<th>작성일</th>
 															<th>답변</th>
 														</tr>
@@ -103,6 +107,7 @@
 																		${q.questionMemo}	
 																	</a>
 																</td>
+																<td>${q.customerId}</td>
 																<td>${q.createdate}</td>
 																<td>
 																	<c:if test="${q.commentMemo == null}">답변전</c:if> 

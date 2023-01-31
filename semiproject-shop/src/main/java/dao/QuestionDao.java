@@ -152,10 +152,10 @@ public class QuestionDao {
 		HashMap<String, Object> q = null;
 		String sql = "SELECT r.question_code questionCode, r.category category, r.question_memo questionMemo, r.question_img questionImg"
 				+ "				, r.createdate createdate, r.comment_memo commentMemo, r.commentCreatedate commentCreatedate"
-				+ "				, r.order_code orderCode, g.goods_code goodsCode, g.goods_Name goodsName"
+				+ "				, r.order_code orderCode, r.customer_id customerId, g.goods_code goodsCode, g.goods_Name goodsName"
 				+ "		FROM "
 				+ "				(SELECT r.question_code, r.category, r.question_memo, r.createdate, r.comment_memo, r.question_img"
-				+ "						, r.commentCreatedate commentCreatedate, o.order_code, o.goods_code"
+				+ "						, r.commentCreatedate commentCreatedate, o.order_code, o.goods_code, o.customer_id"
 				+ "				FROM "
 				+ "						(SELECT q.question_code, q.orders_code, q.category, q.question_memo, q.question_img"
 				+ "								, q.createdate, qc.comment_memo, qc.createdate commentCreatedate"
@@ -178,6 +178,7 @@ public class QuestionDao {
 			q.put("questionMemo", rs.getString("questionMemo"));
 			q.put("questionImg", rs.getString("questionImg"));
 			q.put("createdate", rs.getString("createdate"));
+			q.put("customerId", rs.getString("customerId"));
 			q.put("commentMemo", rs.getString("commentMemo"));
 			q.put("commentCreatedate", rs.getString("commentCreatedate"));
 			q.put("goodsCode", rs.getInt("goodsCode"));
@@ -233,11 +234,11 @@ public class QuestionDao {
 	public ArrayList<HashMap<String, Object>> selectQuestionListByPage(Connection conn, int beginRow, int rowPerPage, String word) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
 		String sql = "SELECT r.rnum rnum, r.question_code questionCode, r.category category, r.question_memo questionMemo "
-				+ "			, r.createdate createdate, r.comment_memo commentMemo, r.order_code orderCode "
+				+ "			, r.createdate createdate, r.comment_memo commentMemo, r.order_code orderCode, r.customer_id customerId "
 				+ "			, g.goods_code goodsCode, g.goods_name goodsName"
 				+ "		FROM"
 				+ "			(SELECT r.rnum , r.question_code, r.category , r.question_memo , r.createdate, r.comment_memo"
-				+ "					, o.order_code, o.goods_code"
+				+ "					, o.order_code, o.goods_code, o.customer_id"
 				+ "				 FROM"
 				+ "				 	(SELECT r.rnum, r.question_code, r.orders_code, r.category, r.question_memo, r.createdate"
 				+ "					 		, qc.comment_memo"
@@ -264,6 +265,7 @@ public class QuestionDao {
 			q.put("category", rs.getString("category"));
 			q.put("questionMemo", rs.getString("questionMemo"));
 			q.put("createdate", rs.getString("createdate"));
+			q.put("customerId", rs.getString("customerId"));
 			q.put("commentMemo", rs.getString("commentMemo"));
 			q.put("goodsCode", rs.getInt("goodsCode"));
 			q.put("goodsName", rs.getString("goodsName"));

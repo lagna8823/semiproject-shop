@@ -117,7 +117,7 @@ public class ModifyQuestionController extends HttpServlet {
 				
 		// 글작성 성공 
 		if(resultRow !=0) {
-			response.sendRedirect(request.getContextPath()+"/question/questionOne?questionCode="+questionCode);
+			response.sendRedirect(request.getContextPath()+"/question/questionList");
 			return;
 		}
 		// 작성실패(입력값 확인)
