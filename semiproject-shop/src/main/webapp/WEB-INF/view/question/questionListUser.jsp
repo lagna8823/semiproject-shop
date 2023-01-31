@@ -177,7 +177,6 @@
 															</a>
 														</c:if>
 														
-																</li>
 														
 													</c:forEach>
 											

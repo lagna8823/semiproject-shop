@@ -87,7 +87,7 @@
 															<th>답변</th>
 														</tr>
 													</thead>
-												<!--  content ( 문의번호, 카테고리, 상품명, 문의메모, 작성일, 답변유무 -->
+												<!--  content ( 문의번호, 카테고리, 상품명, 문의메모, 작성일, 답변유무 ) -->
 													<tbody>
 														<c:forEach var="q" items="${questionlist}">
 															<tr>
@@ -174,8 +174,6 @@
 																<span>${i }</span>
 															</a>
 														</c:if>
-														
-																</li>
 														
 													</c:forEach>
 											

@@ -26,6 +26,7 @@ public class QuestionService {
 		try {
 			conn = DBUtil.getConnection();
 			questionDao = new QuestionDao();
+			
 			int beginRow = Page.getBeginRow(currentPage, rowPerPage);
 			
 			list = questionDao.selectQuestionLisUsertByPage(conn, word, beginRow, rowPerPage, loginCustomer);
@@ -43,7 +44,7 @@ public class QuestionService {
 	
 	// questionList 출력
 	// 사용하는 곳 : questionListController
-	public ArrayList<HashMap<String, Object>> getQuestionListByPage(int beginRow, int rowPerPage, String word) {
+	public ArrayList<HashMap<String, Object>> getQuestionListByPage(int currentPage, int rowPerPage, String word) {
 		
 		this.questionDao = new QuestionDao();
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
@@ -52,6 +53,8 @@ public class QuestionService {
 		try {
 			conn = DBUtil.getConnection();
 			questionDao = new QuestionDao();
+			
+			int beginRow = Page.getBeginRow(currentPage, rowPerPage);
 			
 			list = questionDao.selectQuestionListByPage(conn, beginRow, rowPerPage, word);
 			
@@ -146,6 +149,7 @@ public class QuestionService {
 		}
 		return list;
 	}
+	
 	// modifyQuestion (문의글 수정)
 	// 사용하는 곳 : modifyQuestionController	
 	public int modifyQuestion(Question modifyQuestion, String dir) {

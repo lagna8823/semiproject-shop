@@ -1,17 +1,14 @@
 package service;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import dao.QuestionCommentDao;
-import dao.QuestionDao;
 import util.DBUtil;
-import vo.Customer;
+import util.Page;
 import vo.Emp;
-import vo.Question;
 import vo.QuestionComment;
 
 public class QuestionCommentService {
@@ -159,14 +156,15 @@ public class QuestionCommentService {
 	}
 	
 	// questionList 출력
-	// 사용하는 곳 : questionListController
-	public ArrayList<HashMap<String, Object>> getQuestionListByPage(int beginRow, int rowPerPage, String word, String search, String category, String sort) {
+	// 사용하는 곳 : questionListController 
+	public ArrayList<HashMap<String, Object>> getQuestionListByPage(int currentPage, int rowPerPage, String word, String search, String category, String sort) {
 		this.questionCommentDao = new QuestionCommentDao();
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
 		Connection conn  = null;
 		try {
 			conn = DBUtil.getConnection();
 			questionCommentDao = new QuestionCommentDao();
+			int beginRow = Page.getBeginRow(currentPage, rowPerPage);
 			list = questionCommentDao.selectQuestionListByPage(conn, beginRow, rowPerPage, word, search, category, sort);
 			
 		} catch(Exception e) {
@@ -181,25 +179,44 @@ public class QuestionCommentService {
 		return list;
 	}
 	
-	// questionList 페이징
-	// 사용하는 곳 : questionListController
-		public int count() {
-			  this.questionCommentDao = new QuestionCommentDao();
-			  int cnt = 0;
-		      Connection conn = null;
-		      try {
-		         conn = DBUtil.getConnection();
-		         questionCommentDao = new QuestionCommentDao();
-		         cnt = questionCommentDao.count(conn);
-		      } catch (Exception e) {
-		         e.printStackTrace();
-		      } finally {
-		         try {
-		            conn.close();
-		         } catch (SQLException e1) {
-		            e1.printStackTrace();
-		         }
-		      }
-		      return cnt;
+	// questionCommentList 페이징
+	// 사용하는 곳 : questionCommentListController
+	public ArrayList<HashMap<String, Object>> getPage(String word, int currentPage, int rowPerPage, String search, String category, String sort) {
+		  
+		this.questionCommentDao = new QuestionCommentDao();
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			questionCommentDao = new QuestionCommentDao();
+			
+			// 페이징 처리
+			int pageLength = 10;
+			int count = this.questionCommentDao.count(conn, word, search, category, sort);
+			
+			int previousPage = Page.getPreviousPage(currentPage, pageLength);
+			int nextPage = Page.getNextPage(currentPage, pageLength);
+			int lastPage = Page.getLastPage(count, rowPerPage);
+			ArrayList<Integer> pageList = Page.getPageList(currentPage, pageLength);
+			
+			HashMap<String, Object> m1 = new HashMap<String, Object>();
+			m1.put("previousPage", previousPage);
+			m1.put("nextPage", nextPage);
+			m1.put("lastPage", lastPage);
+			m1.put("pageList", pageList);
+			list.add(m1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+			conn.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
+		return list;
+	}
+
 }

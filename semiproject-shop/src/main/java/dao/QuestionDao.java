@@ -82,7 +82,7 @@ public class QuestionDao {
 				+ "					WHERE o.customer_id = ?) r"
 				+ "				INNER JOIN goods g"
 				+ "				ON r.goods_code = g.goods_code"
-				+ "		WHERE g.goods_name LIKE ?) r";
+				+ "		WHERE g.goods_name LIKE ? ORDER BY r.createdate DESC) r";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, loginCustomer.getCustomerId());
 		stmt.setString(2, "%"+word+"%");
@@ -297,7 +297,7 @@ public class QuestionDao {
 				+ "							ON r.orders_code = o.order_code) r"
 				+ "					INNER JOIN  goods g"
 				+ "					ON r.goods_code = g.goods_code"
-				+ "				WHERE g.goods_name LIKE ?) r ";
+				+ "				WHERE g.goods_name LIKE ? ORDER BY createdate DESC) r ";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, "%"+word+"%");
 		ResultSet rs = stmt.executeQuery();
