@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
@@ -36,14 +37,12 @@
 	</head>
 	
 	<body>
-		<div>
+		<div class = "container">
 			<div>
 				<h1>비밀번호 확인</h1>
 			</div>
 			
-			
-			<div id="wrapper">    
-		
+			<div class = "wrapper">    
 				<!-- Form -->
 				<form id="signinForm" action="${pageContext.request.contextPath}/customer/checkPw" method="post">
 					<div>
