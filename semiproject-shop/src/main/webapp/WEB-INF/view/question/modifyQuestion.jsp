@@ -30,7 +30,6 @@
 	  	
 	  	<!-- jQuery -->
 		<!-- CDN 주소 추가 방식 -->
-		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 		<script>
 			$(document).ready(function() {
@@ -103,9 +102,9 @@
 											
 											<!-- 문의 수정 리스트-->
 											<div class="table-responsive mb-5">
-												<form id="modifyForm" method="post" action="${pageContext.request.contextPath}/notice/modifyNotice">
-													<input type="hidden" name="questionCode" value="${q.questionCode}">
+												<form id="modifyForm" method="post" action="${pageContext.request.contextPath}/question/modifyQuestion" enctype="multipart/form-data">
 													<table border="1" class = "table expandable-table table-hover text-center">
+														<input type="hidden" name="questionCode" value="${q.questionCode}">
 														<tr>
 															<th>문의번호</th>
 															<td>${q.questionCode}</td>

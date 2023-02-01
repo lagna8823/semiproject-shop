@@ -31,7 +31,6 @@
 	  	
 	  	<!-- jQuery -->
 		<!-- CDN 주소 추가 방식 -->
-		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 		<script>
 			<!-- 문의글 내용 유효성체크 -->
@@ -91,6 +90,8 @@
 									<div class="row justify-content-center mt-3">
 										<div class="col-12">
 											<br>
+											
+											<!-- 글자수 상태바 -->
 											<div align="center" style="padding-left: 50em"> 
 												글자수 : <span id="count">0</span> / 500
 											</div>
@@ -132,14 +133,13 @@
 														</tr>
 													</table>
 													<br>
+													
 													<!-- button -->
 													<div class="input-group-append justify-content-center">
 														<button class="btn btn-sm btn-primary" id="addBtn" type="button" >작성 하기</button>
 													</div>	
 												</form>	
 											</div>	
-												
-												
 										</div>
 									</div>
 								</div>

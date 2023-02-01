@@ -1,51 +1,56 @@
+<jsp:include page = "/WEB-INF/view/inc/menuTest.jsp"></jsp:include>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 	<head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<style>
-		body {
-		  padding:1.5em;
-		  background: #f5f5f5
-		}
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>문의 작성</title>
 		
-		table {
-		  border: 1px #a39485 solid;
-		  font-size: .9em;
-		  box-shadow: 0 2px 5px rgba(0,0,0,.25);
-		  width: 40%;
-		  border-collapse: collapse;
-		  border-radius: 5px;
-		  overflow: hidden;
-		}
-		th {
-		  border: 1px solid rgba(0,0,0,.1);
-		  text-align: center;
-		}
-		  
-		thead {
-		  font-weight: bold;
-		  color: #fff;
-		}
-		  
-		 td, th {
-		  padding: 1em .5em;
-		  vertical-align: middle;
-		}
-		  
-		 td {
-		  border-bottom: 1px solid rgba(0,0,0,.1);
-		  text-align: center
-		}
-		a {
-		  text-decoration: none;
-		}
-	</style>
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<!-- plugins:css -->
+		<link rel="stylesheet" href="${pageContext.request.contextPath }/resources2/vendors/feather/feather.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath }/resources2/vendors/ti-icons/css/themify-icons.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath }/resources2/vendors/css/vendor.bundle.base.css">
+		<!-- endinject -->
+		
+		<!-- Plugin css for this page -->
+		<link rel="stylesheet" href="${pageContext.request.contextPath }/resources2/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath }/resources2/vendors/ti-icons/css/themify-icons.css">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources2/js/select.dataTables.min.css">
+		<!-- End plugin css for this page -->
+		
+		<!-- inject:css -->
+		<link rel="stylesheet" href="${pageContext.request.contextPath }/resources2/css/vertical-layout-light/style.css">
+		<!-- endinject -->
+		
+		<link rel="shortcut icon" href="${pageContext.request.contextPath }/resources2/images/favicon.png" />
+	  	
+	  	<!-- style -->
+	  	<style>
+	  	
+	  		.tr {
+	  			text-align:center;
+	  			align:center;
+	  		}
+	  		
+	  		.th {
+	  			text-align:center;
+	  			align:center;
+	  		}
+	  		
+	  		.td {
+	  			text-align:center;
+	  			align:center;
+	  		}
+	  	</style>
+	  	
+	  	<!-- jQuery -->
+		<!-- CDN 주소 추가 방식 -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 			<script>
 				<!-- 문의글 내용 유효성체크 -->
 				$(document).ready(function() {
@@ -87,79 +92,100 @@
 						
 				});
 	    </script>
-	    
 	</head>
 	
 	<body>
-		<header>
-			<a href="${pageContext.request.contextPath}/home">홈으로</a>
-			<a href="${pageContext.request.contextPath}/logout">로그아웃</a>
-			<a href="${pageContext.request.contextPath}/question/questionList">고객센터</a>
-			<a href="${pageContext.request.contextPath}/question/questionList">나의문의</a>
-			<a href="${pageContext.request.contextPath}/questionComment/questionCommentList">고객센터(관리자 페이지)</a>
-		</header>
-		<h2 align="center">답변 작성</h2>
-		<div align="center" style="padding-right: 42em"> 
-			<button onclick="history.back()">뒤로가기</button>
-		</div>
-		<div align="center" style="padding-left: 38em"> 
-				글자수 : <span id="count">0</span> /500
-			</div>
-		<div>
-			<!-- 문의글 작성 페이지-->
-			<div align="center">
-			<form id="addForm" action="${pageContext.request.contextPath}/questionComment/addQuestionComment" method="post">
-				<table border>
-				<input type="hidden" name="questionCode" value="${q.questionCode}">
-					<!-- 사용자 문의 정보 -->
-					<tr>
-						<th>문의번호/카테고리</th>
-						<td>
-							${q.questionCode}/${q.category}
-						</td>
-					</tr>
-					<tr>
-						<th>주문번호/상품명</th>
-						<td>
-							${q.orderCode} : ${q.goodsName}
-						</td>
-					</tr>
-					<tr>
-						<th>문의날짜</th>
-						<td>
-							${q.createdate}
-						</td>
-					</tr>
-					<tr>
-						<th>문의내용</th>
-						<td>
-							${q.questionMemo}
-						</td>
-					</tr>
-					<!-- 첨부 파일 있을시에만 보임 -->
-					<c:if test="${q.questionImg == null}">
-						<div>&nbsp;</div>
-					</c:if> 
-					<c:if test="${q.questionImg != null}">
-						<tr>
-							<th>첨부파일</th>
-							<td>
-								<div><img src="${pageContext.request.contextPath}/upload/${q.questionImg}" width="200" height="200"></div>
-							</td>
-						</tr>
-					</c:if> 
-					<!-- 문의에 대한 답변 작성란 -->
-					<tr>
-						<th>답변내용</th>
-						<td>
-							<textarea id="commentMemo" rows="8" cols="80" name="commentMemo"></textarea>
-						</td>
-					</tr>
-				</table>
-				<br>
-				<button id="addBtn" type="button">답변 작성</button>
-			</form>
-			</div>
+		<body>
+		<div class="container-scroller">
+		    <div class="container-fluid">
+				<div class="row justify-content-center">
+					<div class="col-md-auto grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<div class="content-wrapper">
+									<div align="center" style="padding-right: 55em"> 
+										<button class="btn btn-sm btn-primary" onclick="history.back()">뒤로가기</button>
+									</div>	
+									<h2 class = "font-weight-bold text-center" style="padding-left: 3em">답변 작성</h2>
+									<div class="row justify-content-center mt-3">
+										<div class="col-12">
+										<br>
+											
+											<!-- 글자수 상태바 -->
+											<div align="center" style="padding-left: 50em"> 
+												글자수 : <span id="count">0</span> / 500
+											</div>
+											
+											<!-- 답변글 작성 페이지-->
+											<div class="table-responsive mb-5">
+											<form id="addForm" method="post" action="${pageContext.request.contextPath}/questionComment/addQuestionComment">
+												<table border="1" class = "expandable-table table-hover text-center" align="center">
+													<input type="hidden" name="questionCode" value="${q.questionCode}">
+													
+													<!-- 고객 문의내용 -->
+													<tr class="tr">
+														<th>문의번호/주문번호</th>
+														<td>
+															${q.questionCode}번 문의 / ${q.orderCode}번 주문
+														</td>
+													</tr>
+													<tr class="tr">
+														<th>카테고리/상품명</th>
+														<td>
+															${q.category} : ${q.goodsName}
+														</td>
+													</tr>
+													<tr class="tr">
+														<th>문의날짜</th>
+														<td>
+															${q.createdate}
+														</td>
+													</tr>
+													<tr class="tr">
+														<th>문의내용</th>
+														<td>
+															<textarea id="questionMemo" rows="8" cols="100" name="questionMemo" readonly="readonly">
+																${q.questionMemo}
+															</textarea>
+														</td>
+													</tr>
+													<!-- 첨부 파일 있을시에만 보임 -->
+													<c:if test="${q.questionImg == null}">
+														<div>&nbsp;</div>
+													</c:if> 
+													<c:if test="${q.questionImg != null}">
+														<tr class="tr">
+															<th>첨부파일</th>
+															<td>
+																<div><img src="${pageContext.request.contextPath}/upload/${q.questionImg}" width="200" height="200"></div>
+															</td>
+														</tr>
+													</c:if> 
+					
+													<!-- 문의에 대한 답변 작성란 -->
+													<tr class="tr">
+														<th>답변내용</th>
+														<td>
+															<textarea id="commentMemo" rows="8" cols="100" name="commentMemo"></textarea>
+														</td>
+													</tr>
+												</table>
+												<br>
+												
+												<!-- button -->
+												<div class="input-group-append justify-content-center" style="padding-left: 7em">
+													<button class="btn btn-sm btn-primary" id="addBtn" type="button" >답변 작성</button>
+												</div>	
+											</form>	
+											</div>	
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>   
 		</div>
 	</body>
-</html>
+</html>	

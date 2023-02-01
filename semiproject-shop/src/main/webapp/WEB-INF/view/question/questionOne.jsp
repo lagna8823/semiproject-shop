@@ -61,11 +61,11 @@
 									<div class="row justify-content-center mt-3">
 										<div class="col-12">
 										<br>
-										<div align="center" style="padding-left: 50em">작성일 : ${q.createdate}</div>
+										<div align="center" style="padding-left: 40em">작성일 : ${q.createdate}</div>
 										
 										<!-- 문의 상세보기 (문의 종류, 문의내용, 답변일, 답변내용)-->
 										<div class="table-responsive mb-5">
-											<table border="1" class = "table expandable-table table-hover text-center">
+											<table border="1" class = "expandable-table table-hover text-center" align="center">
 												<tr>
 													<th>문의 종류</th>
 													<td>${q.category} 문의 </td>
