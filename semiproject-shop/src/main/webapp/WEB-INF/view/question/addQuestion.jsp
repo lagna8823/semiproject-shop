@@ -90,7 +90,8 @@
 									<h2 class = "font-weight-bold text-center">문의 작성</h2>
 									<div class="row justify-content-center mt-3">
 										<div class="col-12">
-											<div align="center" style="padding-left: 38em"> 
+											<br>
+											<div align="center" style="padding-left: 50em"> 
 												글자수 : <span id="count">0</span> / 500
 											</div>
 											

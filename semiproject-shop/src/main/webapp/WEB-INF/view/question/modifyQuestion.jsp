@@ -92,10 +92,12 @@
 									<div align="center" style="padding-right: 55em"> 
 										<button class="btn btn-sm btn-primary" onclick="history.back()">뒤로가기</button>
 									</div>	
-									<h2 class = "font-weight-bold text-center">문의 수정</h2>
+									<h2 class = "font-weight-bold text-center" align="center" style="padding-left: 3em">문의 수정</h2>
 									<div class="row justify-content-center mt-3">
 										<div class="col-12">
-											<div align="center" style="padding-left: 38em"> 
+										
+											<br>
+											<div align="center" style="padding-left: 50em"> 
 												글자수 : <span id="count">0</span> / 500
 											</div>
 											

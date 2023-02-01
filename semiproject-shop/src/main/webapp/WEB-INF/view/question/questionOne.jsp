@@ -57,13 +57,11 @@
 									<div align="center" style="padding-right: 55em"> 
 										<button class="btn btn-sm btn-primary" onclick="history.back()">뒤로가기</button>
 									</div>	
-									<h2 class = "font-weight-bold text-center">${q.customerId}님의 문의 ( ${q.questionCode} ) </h2>
+									<h2 class = "font-weight-bold text-center" align="center" style="padding-left: 3em">${q.customerId}님의 문의 ( ${q.questionCode} ) </h2>
 									<div class="row justify-content-center mt-3">
 										<div class="col-12">
 										<br>
-										<div align="center" style="padding-left: 42em"> 
-											작성일 : ${q.createdate}
-										</div>
+										<div align="center" style="padding-left: 50em">작성일 : ${q.createdate}</div>
 										
 										<!-- 문의 상세보기 (문의 종류, 문의내용, 답변일, 답변내용)-->
 										<div class="table-responsive mb-5">
