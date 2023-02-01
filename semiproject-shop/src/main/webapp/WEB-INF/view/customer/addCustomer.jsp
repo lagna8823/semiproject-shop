@@ -192,47 +192,39 @@
 									<h2 class = "font-weight-bold text-center text-primary">고객 회원가입</h2>
 									<div class="row justify-content-center mt-3">
 										<div class="col-auto">
-										
-											
-											
-												<div>
-													<form class = "pt-3" action = "${pageContext.request.contextPath }/customer/addCustomer" method = "post">
-														<div class="form-group">
-															<input type = "text" name = "customerId" id = "customerId"
-																	class="form-control form-control-lg" placeholder="ID">
-														</div>
-														<div class="form-group">
-															<input type = "password" name = "customerPw" id = "customerPw"
-																	class="form-control form-control-lg" placeholder="Password">
-														</div>
-														<div class="form-group">
-															<input type = "text" name = "customerName" id = "customerName"
-																	class="form-control form-control-lg" placeholder="Name">
-														</div>
-														<div class="form-group">
-															<input type = "text" name = "customerPhone" id = "customerPhone"
-																	class="form-control form-control-lg" placeholder="Phone">
-														</div>
-														<div class="form-group">
-															<textarea rows = "3" cols = "50" name = "address" id = "address"
-																		class="form-control form-control-lg" placeholder="Address"></textarea>
-														</div>
-										                <div class="mt-5">
-															<button type = "submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">회원가입</button>
-														</div>
-													
-													</form>
-												</div>
-											
-											
-											
-											
-											
-											
-											
-											
-											
-											
+											<div>
+												<form class = "pt-3" action = "${pageContext.request.contextPath }/customer/addCustomer" method = "post">
+													<div class="form-group">
+														<label for = "customerId">ID</label>
+														<input type = "text" name = "customerId" id = "customerId"
+																class="form-control form-control-lg" placeholder="ID">
+													</div>
+													<div class="form-group">
+														<label for = "customerPw">Password</label>
+														<input type = "password" name = "customerPw" id = "customerPw"
+																class="form-control form-control-lg" placeholder="Password">
+													</div>
+													<div class="form-group">
+														<label for = "customerName">Name</label>
+														<input type = "text" name = "customerName" id = "customerName"
+																class="form-control form-control-lg" placeholder="Name">
+													</div>
+													<div class="form-group">
+														<label for = "customerPhone">Phone</label>
+														<input type = "text" name = "customerPhone" id = "customerPhone"
+																class="form-control form-control-lg" placeholder="Phone">
+													</div>
+													<div class="form-group">
+														<label for = "address">Address</label>
+														<textarea rows = "3" cols = "50" name = "address" id = "address"
+																	class="form-control form-control-lg" placeholder="Address"></textarea>
+													</div>
+									                <div class="mt-5">
+														<button type = "submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">회원가입</button>
+													</div>
+												
+												</form>
+											</div>
 										</div>
 									</div>
 								</div>

@@ -67,11 +67,11 @@
 			
 			<div>
 				<button type = "button" 
-					onClick="location.href='${pageContext.request.contextPath }/emp/modifyEmpByAdmin?empId=${emp.empId }'">
+					onClick="location.href='${pageContext.request.contextPath }/emp/modifyEmpByAdmin?empCode=${emp.empCode }'">
 						수정
 				</button>
 				<button type = "button" 
-					onClick="location.href='${pageContext.request.contextPath }/emp/deleteEmp?empId=${emp.empId }'">
+					onClick="location.href='${pageContext.request.contextPath }/emp/deleteEmp?empCode=${emp.empCode }'">
 						삭제
 				</button>
 			</div>

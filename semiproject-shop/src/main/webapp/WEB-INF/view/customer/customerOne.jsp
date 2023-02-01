@@ -43,84 +43,65 @@
 		    <div class="container-fluid">
 				<div class="row justify-content-center">
 					<div class="content-wrapper row justify-content-center">
-						<div class="col-md-auto grid-margin stretch-card">
+						<div class="col-lg-4 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
 									<h2 class = "font-weight-bold text-center text-primary">${customer.customerName }님 상세정보</h2>
 									<div class="row justify-content-center mt-3">
-										<div class="col-auto">
-										
+										<div class="col mt-3">
 											<!-- CustomerCode -->
-											<div class="form-group row pt-3">
-												<label for="exampleInputUsername2" class="col-sm-4 col-form-label text-center">No</label>
-												<div class="col-sm-8">
-													<input type = "text" name = "customerCode" id = "customerCode" value = "${customer.customerCode }" readonly = "readonly"
-															class="form-control" id="exampleInputUsername2">											
-												</div>
+											<div class="form-group">
+												<label for="customerCode">No</label>
+												<input type = "text" name = "customerCode" id = "customerCode" value = "${customer.customerCode }" readonly = "readonly"
+														class="form-control">											
 											</div>
 											
 											<!--  CustomerId -->
-											<div class="form-group row">
-												<label for="exampleInputUsername2" class="col-sm-4 col-form-label text-center">ID</label>
-												<div class="col-sm-8">
-													<input type = "text" name = "customerId" id = "customerId" value = "${customer.customerId }" readonly = "readonly"
-															class="form-control" id="exampleInputUsername2">											
-												</div>
+											<div class="form-group">
+												<label for="customerId">ID</label>
+												<input type = "text" name = "customerId" id = "customerId" value = "${customer.customerId }" readonly = "readonly"
+														class="form-control">											
 											</div>
 											
 											<!-- customerName -->
-											<div class="form-group row">
-												<label for="exampleInputUsername2" class="col-sm-4 col-form-label text-center">Name</label>
-												<div class="col-sm-8">
-													<input type = "text" name = "customerName" value = "${customer.customerName }" readonly = "readonly"
-															class="form-control" id="exampleInputUsername2">										
-												</div>
+											<div class="form-group">
+												<label for="customerName">Name</label>
+												<input type = "text" name = "customerName" id = "customerName" value = "${customer.customerName }" readonly = "readonly"
+														class="form-control">										
 											</div>
 											
 											<!-- customerPhone -->
-											<div class="form-group row">
-												<label for="exampleInputUsername2" class="col-sm-4 col-form-label text-center">Phone</label>
-												<div class="col-sm-8">
-													<input type = "text" name = "customerPhone" value = "${customer.customerPhone }" readonly = "readonly"
-															class="form-control" id="exampleInputUsername2">										
-												</div>
+											<div class="form-group">
+												<label for="customerPhone">Phone</label>
+												<input type = "text" name = "customerPhone" id = "customerPhone" value = "${customer.customerPhone }" readonly = "readonly"
+														class="form-control">										
 											</div>
 											
 											<!-- point -->
-											<div class="form-group row">
-												<label for="exampleInputUsername2" class="col-sm-4 col-form-label text-center">Point</label>
-												<div class="col-sm-8">
-													<input type = "text" name = "point" value = "${customer.point }" readonly = "readonly"
-															class="form-control" id="exampleInputUsername2">										
-												</div>
+											<div class="form-group">
+												<label for="point">Point</label>
+												<input type = "text" name = "point" id = "point" value = "${customer.point }" readonly = "readonly"
+														class="form-control">										
 											</div>
 											
 											<!-- createdate -->
-											<div class="form-group row">
-												<label for="exampleInputUsername2" class="col-sm-4 col-form-label text-center">Create Date</label>
-												<div class="col-sm-8">
+											<div class="form-group">
+												<label for="createdate">Create Date</label>
 												<input type = "text" name = "createdate" id = "createdate" value = "${customer.createdate }" readonly = "readonly"
-														class="form-control" id="exampleInputUsername2">									
-												</div>
+														class="form-control">									
 											</div>
 											
 			
-			<div>
-				<button type = "button" 
-					onClick="location.href='${pageContext.request.contextPath }/customer/modifyCustomerByAdmin?customerId=${customer.customerId }'">
-						수정
-				</button>
-				<button type = "button" 
-					onClick="location.href='${pageContext.request.contextPath }/customer/deleteCustomer?customerId=${customer.customerId }'">
-						삭제
-				</button>
-			</div>
-											
-											
-											
-											
-											
-											
+											<div class = "row justify-content-between">
+												<button type = "button" class = "btn btn-lg btn-primary ml-3"
+													onClick="location.href='${pageContext.request.contextPath }/customer/modifyCustomerByAdmin?customerId=${customer.customerId }'">
+														수정
+												</button>
+												<button type = "button" class = "btn btn-lg btn-danger mr-3"
+													onClick="location.href='${pageContext.request.contextPath }/customer/deleteCustomer?customerId=${customer.customerId }'">
+														삭제
+												</button>
+											</div>
 										</div>
 									</div>
 								</div>
