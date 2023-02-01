@@ -46,8 +46,9 @@ public class NoticeDao {
 		ArrayList<Notice> list = new ArrayList<Notice>();
 		String sql = "SELECT notice_code noticeCode"
 				+ "			, notice_title noticeTitle"
-				+ "			, notice_content noticeContent"
+				+ "			, notice_content noticeContent"				
 				+ "			, emp_id empId"
+				+ "			, DATE_FORMAT(createdate, '%Y-%m-%d')"
 				+ " FROM notice "
 				+ "	WHERE notice_code = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -59,6 +60,7 @@ public class NoticeDao {
 			n.setNoticeTitle(rs.getString("noticeTitle"));
 			n.setNoticeContent(rs.getString("noticeContent"));
 			n.setEmpId(rs.getString("empId"));
+			n.setCreatedate(rs.getString("DATE_FORMAT(createdate, '%Y-%m-%d')"));
 			list.add(n);
 		}
 		return list;

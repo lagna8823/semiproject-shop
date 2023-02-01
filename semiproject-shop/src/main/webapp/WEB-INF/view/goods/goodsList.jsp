@@ -166,18 +166,7 @@
 	                                        <i class="fa fa-star-o"></i>
 	                                        <i class="fa fa-star-o"></i>
 	                                    </div>
-                                    	<div><fmt:formatNumber value="${m.goodsPrice}" pattern="#,###"/>원</div>
-	                                    <div class="product__color__select">
-	                                        <label for="pc-4">
-	                                            <input type="radio" id="pc-4">
-	                                        </label>
-	                                        <label class="active black" for="pc-5">
-	                                            <input type="radio" id="pc-5">
-	                                        </label>
-	                                        <label class="grey" for="pc-6">
-	                                            <input type="radio" id="pc-6">
-	                                        </label>
-	                                    </div>
+                                    	<div><fmt:formatNumber value="${m.goodsPrice}" pattern="#,###"/>원</div>	                                 
                                 	</div>
                             	</div>
                         	</div>

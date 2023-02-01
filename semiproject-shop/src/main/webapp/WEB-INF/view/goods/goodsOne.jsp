@@ -179,18 +179,31 @@
 	                                cuff tabs, adjustable asymmetric hem with elastic side tabs and a front zip fastening
 	                            with placket.</p>
 
-	                            <div class="product__details__cart__option">
+	                            <div class="product__details__cart__option">	                 
+	                                <!-- 상품 품절상태일 경우 메세지 출력 -->
+									<c:if test="${m.soldout eq 'Y'}">
+										<span style=color:red;><strong>죄송합니다! 상품이 품절되었습니다.</strong></span>
+									</c:if>
+	                                <c:if test="${m.soldout eq 'N'}">
 	                                <div class="quantity">
 	                                    <div class="pro-qty">
 	                                        <input type="text" value="1">
 	                                    </div>
 	                                </div>
-	                                <a href="#" class="primary-btn">add to cart</a>
-	                            </div>
-	                            <div class="product__details__btns__option">
-	                                <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
-	                                <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>
-	                            </div>
+	                                <!-- 장바구니(비회원, 회원) 분기 -->
+	                                <div class="product__details__btns__option">
+	                                <c:choose>
+										<c:when test="${loginCustomer == null }">
+											<a href="${pageContext.request.contextPath }/cart/nonMemberCartList?action=addCart&goodsCode=${m.goodsCode}"><i class="fa fa-heart"></i> Add To Cart</a>
+										</c:when>
+										<c:otherwise>
+											<a href="${pageContext.request.contextPath }/cart/customerCartList?action=addCart&goodsCode=${m.goodsCode}"><i class="fa fa-heart"></i> Add To Cart</a>
+										</c:otherwise>
+									</c:choose>	                                         	
+	                            	</div>										
+										<a href="${pageContext.request.contextPath}/order/addOrder?goodsCode=${m.goodsCode}" class="primary-btn">Buy Now</a>		
+									</c:if>
+	                            </div>	                            
 	                            <div class="product__details__last__option">
 	                                <h5><span>Guaranteed Safe Checkout</span></h5>
 	                                <img src="${pageContext.request.contextPath}/resources/img/shop-details/details-payment.png" alt="">
