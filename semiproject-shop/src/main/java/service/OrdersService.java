@@ -317,6 +317,34 @@ public class OrdersService {
 		return point;
 	}
 	
+	// 구매확정 시 포인트 적립	// 주문하기 - 포인트 적립만
+	public int orderConfirmService(int orderCode, String customerId) {
+		orderDao = new OrderDao();
+		Connection conn = null;
+		int row = 0;
+		try {
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			row = orderDao.updatePointByOrderConfirm(conn, orderCode, customerId);
+			System.out.println(row + " : 구매확정 OrdersService");
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
+	
 	// 주문취소(배송 전까지만 가능) - 포인트 사용 후, 적립만 했었다면 2차부터
 	public int deleteOrderService(Orders orders, Customer customer) {
 		orderDao = new OrderDao();

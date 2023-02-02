@@ -278,6 +278,7 @@ public class OrderDao {
 		row = stmt.executeUpdate();
 		return row;
 	}
+	
 	// 포인트 처리를 위한 검색
 	public int selectOrderForPoint (Connection conn, String customerId) throws Exception {
 		int orderCode = 0;
@@ -292,11 +293,16 @@ public class OrderDao {
 		}		
 		return orderCode;
 	}
-	// 주문확정 시 포인트 적립
-	public int updatePointkind(Connection conn, int orderCode, String customerId) throws Exception {
+	
+	// 구매확정 시 포인트 적립
+	public int updatePointByOrderConfirm(Connection conn, int orderCode, String customerId) throws Exception {
 		int row = 0;
 
-		String sql = "DELETE FROM orders WHERE order_code = ? AND customer_id = ?";
+		String sql = "UPDATE orders o"
+				+ "			JOIN customer c ON o.customer_id = c.customer_id"
+				+ "			JOIN point_history p ON o.order_code = p.order_code"
+				+ "			SET c.point = 5000, p.point_kind='적립', o.order_state='구매확정'"
+				+ "			WHERE o.order_code = ? AND c.customer_id = ? AND p.point_kind='적립예정'";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, orderCode);

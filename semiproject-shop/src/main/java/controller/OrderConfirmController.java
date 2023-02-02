@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import service.OrdersService;
 import vo.Customer;
 
 @WebServlet("/order/orderConfirm")
@@ -26,7 +27,11 @@ public class OrderConfirmController extends HttpServlet {
 			return;
 		}
 		String customerId = loginCustomer.getCustomerId();
+		int orderCode = Integer.parseInt(request.getParameter("orderCode"));
+		OrdersService oredersService = new OrdersService();
+		int row = oredersService.orderConfirmService(orderCode, customerId);
+		System.out.println(row + "OrderConfirm 값");
 
-		request.getRequestDispatcher("/WEB-INF/view/order/orderOne.jsp").forward(request, response);
+		response.sendRedirect(request.getContextPath()+"/order/orderList");
 	}
 }
