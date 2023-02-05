@@ -37,7 +37,7 @@ public class QuestionListController extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/login");
 			return;
 		}
-		
+		System.out.println(loginCustomer+"test1");
 		// 세션의 ID 매개값으로 세팅
 		Customer customer = new Customer(); 
 		customer.setCustomerId("loginCustomer");

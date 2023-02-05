@@ -142,9 +142,7 @@
 														<tr class="tr">
 															<th>문의내용</th>
 															<td>
-																<textarea id="questionMemo" rows="8" cols="100" name="questionMemo" readonly="readonly">
-																	${q.questionMemo}
-																</textarea>
+																<textarea id="questionMemo" rows="8" cols="100" name="questionMemo" readonly="readonly">${q.questionMemo}</textarea>
 															</td>
 														</tr>
 														<!-- 첨부 파일 있을시에만 보임 -->
@@ -170,9 +168,7 @@
 														<tr class="tr">
 															<th>답변내용</th>
 															<td>
-																<textarea id="commentMemo" rows="8" cols="100" name="commentMemo">
-																	${q.commentMemo}
-																</textarea>
+																<textarea id="commentMemo" rows="8" cols="100" name="commentMemo">${q.commentMemo}</textarea>
 															</td>
 														</tr>
 													</table>

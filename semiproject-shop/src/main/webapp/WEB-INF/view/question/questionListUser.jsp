@@ -67,9 +67,12 @@
 										<div class="col-12">
 										
 										<!-- 문의글 작성 링크-->
-										<div>
-											<a href="${pageContext.request.contextPath}/question/addQuestion">문의글 작성</a>
+										<div class="input-group-append">
+											<button  class="btn btn-sm btn-primary" onClick="location.href='${pageContext.request.contextPath}/question/addQuestion'">
+												문의작성
+											</button>
 										</div>
+										<br>
 										
 										<!-- 리스트 -->
 										<div class="table-responsive mb-5">

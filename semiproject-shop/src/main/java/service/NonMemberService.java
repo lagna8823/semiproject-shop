@@ -174,6 +174,7 @@ public class NonMemberService {
 			conn.setAutoCommit(false);
 
 			this.customerDao = new CustomerDao();
+			this.pwHistoryDao = new PwHistoryDao();		// customer 비밀번호 이력 추가
 			this.customerAddressDao = new CustomerAddressDao();	// customer 주소 추가
 			this.empDao = new EmpDao();		// ID 중복 확인
 			this.outidDao = new OutidDao();	// ID 중복 확인
