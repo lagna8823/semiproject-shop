@@ -97,7 +97,11 @@ a:hover,
 a:focus {
 	text-decoration: none;
 	outline: none;
-	color: #ffffff;
+	color: #FF0000;
+}
+
+a {
+	color: #4B49AC;	
 }
 
 ul,
@@ -320,7 +324,7 @@ ol {
 }
 
 .header__top {
-	background: #111111;
+	background: #4B49AC;
 	padding: 10px 0;
 }
 
@@ -354,6 +358,11 @@ ol {
 .header__top__hover {
 	display: inline-block;
 	position: relative;
+	margin-left: 15px;
+}
+
+.header__top__hover > span > a{	
+	color: #ffffff;
 }
 
 .header__top__hover:hover ul {
@@ -383,7 +392,7 @@ ol {
 	display: inline-block;
 	padding: 2px 0;
 	position: absolute;
-	left: 0;
+	right: 0;
 	top: 44px;
 	opacity: 0;
 	visibility: hidden;
@@ -393,6 +402,9 @@ ol {
 	-webkit-transition: all, 0.3s;
 	-o-transition: all, 0.3s;
 	transition: all, 0.3s;
+	min-width: 80px;
+	width: max-content;
+	text-align: center;
 }
 
 .header__top__hover ul li {
@@ -421,6 +433,7 @@ ol {
 	display: inline-block;
 	margin-right: 45px;
 	position: relative;
+	text-align: center;
 }
 
 .header__menu ul li.active a:after {
@@ -533,7 +546,6 @@ ol {
 	display: inline-block;
 	margin-left: -20px;
 	position: relative;
-	top: 3px;
 }
 
 .offcanvas-menu-wrapper {
@@ -1937,7 +1949,7 @@ ol {
 -----------------------*/
 
 .footer {
-	background: #111111;
+	background: #000000;
 	padding-top: 70px;
 }
 

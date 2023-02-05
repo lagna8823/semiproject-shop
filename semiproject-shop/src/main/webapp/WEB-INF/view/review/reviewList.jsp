@@ -102,7 +102,7 @@
 				</tr>		
 				<c:forEach var="r" items="${reviewList}">
 					<tr>				
-						<td><img src="${pageContext.request.contextPath}/upload/${r.filename}" width="200" height="200"><br>${r.goodsName}</td>
+						<td><img src="${pageContext.request.contextPath}/upload/${r.filename}" width="200" height="200">${r.goodsName}</td>
 						
 						<td>${r.reviewMemo}</td>
 						<td>${r.customerId}</td>

@@ -14,7 +14,7 @@ public class ReviewDao {
 		
 		String sql = "SELECT rnum, o.order_code orderCode"
 				+ "			, g.goods_code goodsCode, g.goods_name goodsName"
-				+ "			, gi.filename"
+				+ "			, gi.filename filename"
 				+ "			, c.customer_id customerId, c.point point"
 				+ "			, r.review_memo reviewMemo, r.createdate createdate"
 				+ "		 FROM (SELECT ROW_NUMBER() OVER(ORDER BY order_code desc) rnum, order_code, review_memo, createdate"
@@ -36,6 +36,7 @@ public class ReviewDao {
 			r.setOrderCode(rs.getInt("orderCode"));
 			r.setGoodsCode(rs.getInt("goodsCode"));
 			r.setGoodsName(rs.getString("goodsName"));
+			r.setFilename(rs.getString("filename"));
 			r.setCustomerId(rs.getString("customerId"));
 			r.setPoint(rs.getInt("point"));
 			r.setReviewMemo(rs.getString("reviewMemo"));

@@ -207,12 +207,11 @@
 									</a>
 								</li>
 							</c:if>
-                            <li><a href="${pageContext.request.contextPath }/resources//blog.html">Blog</a></li>
                             <li><a href = "${pageContext.request.contextPath }/review/reviewList">리뷰</a></li>
                             
                             <!-- 관리자만 접근 가능 -->
                             <c:if test="${loginEmp != null && loginEmp.authCode == 0 }">
-	                            <li><a href="#">관리</a>
+	                            <li><a href="#">관리 <i class="arrow_carrot-down"></i></a>
 	                                <ul class="dropdown">
 	                                    <li><a href="${pageContext.request.contextPath }/customer/customerList">고객 관리</a></li>
 	                                    <li><a href="${pageContext.request.contextPath }/emp/empList">사원 관리</a></li>
@@ -225,24 +224,23 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="${pageContext.request.contextPath }/resources/img/icon/search.png" alt=""></a>
                         <c:choose>
 							<c:when test="${loginCustomer == null }">
 								<a href = "${pageContext.request.contextPath }/cart/nonMemberCartList?action=cartList">
-									<img src="${pageContext.request.contextPath }/resources/img/icon/cart.png" alt="">
+									<img src="${pageContext.request.contextPath }/resources/img/icon/cart.png" alt="">&nbsp;장바구니
 									<!-- 카트 품목 수 -->
-									<span>0</span>
+									<span></span>
 								</a>								
 							</c:when>
 							<c:otherwise>
-								<a href = "${pageContext.request.contextPath }/cart/customerCartList?action=cartList">
-									<img src="${pageContext.request.contextPath }/resources/img/icon/cart.png" alt="">
+								<a class="price" href = "${pageContext.request.contextPath }/cart/customerCartList?action=cartList">
+									<img src="${pageContext.request.contextPath }/resources/img/icon/cart.png" alt="">&nbsp;장바구니
 									<!-- 카트 품목 수 -->
-									<span>13</span>
+									<span></span>
 								</a>
 							</c:otherwise>
 						</c:choose>
-                        <div class="price">$0.00</div>
+                        <div class="price">| Point 0.00</div>
                     </div>
                 </div>
             </div>
