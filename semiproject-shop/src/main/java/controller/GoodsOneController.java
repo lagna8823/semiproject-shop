@@ -27,11 +27,17 @@ public class GoodsOneController extends HttpServlet {
 		ArrayList<HashMap<String, Object>> list = null;
 		list = goodsService.getGoodsOne(goodsCode);
 		
+		// hit 상품 리스트 초기화
+		ArrayList<HashMap<String, Object>> topList = null;
+		topList = goodsService.getItemListByTop();
+		
 		for(HashMap<String, Object> hm : list) {
 			
 			request.setAttribute("soldout", (String) hm.get("soldout"));
 		}
+		
 		request.setAttribute("list", list);
+		request.setAttribute("topList", topList);
 		
 		request.getRequestDispatcher("/WEB-INF/view/goods/goodsOne.jsp").forward(request, response);
 	}
