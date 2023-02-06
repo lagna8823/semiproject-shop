@@ -63,16 +63,23 @@
 			<input type="hidden" id="loginId" name="loginId" value="${loginId}">
 			<!-- 주문상태 -->
 			<input type="hidden" id="orderState" name="orderState" value="결제"> <!-- 일단 결제 -->
+			
+			<c:forEach var="g" items="${goodslist}">
 			<!-- 상품번호 -->
-			<input type="hidden" id="goodsCode" name="goodsCode" value="${goodsCode}" readonly>
+			<input type="hidden" id="goodsCode" name="goodsCode" value="${g.goodsCode}" readonly>
 			<tr>
 				<th>상품이름</th>
-				<td><input type="text" id="goodsName" name="goodsName" value="${goodsName}" readonly></td>				
+				<td><input type="text" id="goodsName" name="goodsName" value="${g.goodsName}" readonly></td>				
 			</tr>
 			<tr>
 				<th>상품가격</th>
-				<td><input type="text" id="goodsPrice" name="goodsPrice" value="${goodsPrice}" readonly></td>				
+				<td><input type="text" id="goodsPrice" name="goodsPrice" value="${g.goodsPrice}" readonly></td>				
 			</tr>
+			<tr>
+				<th>주문수량</th><!-- 추후 최대 수량 재고로 제한 -->
+				<td><input type="number" id="orderQuantity" name="orderQuantity" min="1" value="${g.cartQuantity}"></td>
+			</tr>
+			</c:forEach>
 			<tr>
 				<th>주문자</th>
 				<td><input type="text" id="customerName" name="customerName" value="${customerName}" readonly></td>				
@@ -105,10 +112,6 @@
 				    <label for="usePoint">사용 포인트</label>
 			    </td>		    
 		    </tr>
-			<tr>
-				<th>주문수량</th><!-- 추후 최대 수량 재고로 제한 -->
-				<td><input type="number" id="orderQuantity" name="orderQuantity" min="1" value="0"></td>
-			</tr>
 			<tr>
 				<th>결제가격</t0h>
 				<td><input type="number" id="orderPrice" name="orderPrice" min="0" readonly></td> <!-- goods에서 받아옴 -->

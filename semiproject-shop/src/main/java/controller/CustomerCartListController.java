@@ -53,6 +53,9 @@ public class CustomerCartListController extends HttpServlet {
 	        case "deleteCart":	// 장바구니 1개 삭제
 	        	this.deleteCart(request, response);
 	        	break;
+	        case "doOrder":	// 주문하기
+	        	this.doOrder(request, response);
+	        	break;
 	        default:
 	            break;
 	        }
@@ -87,6 +90,26 @@ public class CustomerCartListController extends HttpServlet {
             break;
         }		
 		
+	}
+	
+	protected void doOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// 로그인 후 진입가능
+		HttpSession session = request.getSession();
+		
+		// 로그인 값 체크
+		Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
+		
+		if(loginCustomer == null) {
+			response.sendRedirect(request.getContextPath()+"/cart/customerCartList");
+			return;
+		}
+
+	    ArrayList<HashMap<String, Object>> strList = (ArrayList<HashMap<String, Object>>) session.getAttribute("customerCartList");
+	      
+	    System.out.println(strList.toString() + " <-- strList.toString() doOrder");
+	    
+		response.sendRedirect(request.getContextPath()+"/order/addOrder");
 	}
 	
 	
@@ -161,7 +184,7 @@ public class CustomerCartListController extends HttpServlet {
 		}
 		
 		// 마지막으로 세션에 다시 저장
-		request.setAttribute("customerCartList", customerCartList);
+		session.setAttribute("customerCartList", customerCartList);
 		
 		// 디버깅
 		//System.out.println(customerCartList.toString() + "<-- customerCartList.toString");

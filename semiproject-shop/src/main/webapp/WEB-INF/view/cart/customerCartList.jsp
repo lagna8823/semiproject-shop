@@ -327,8 +327,8 @@
                         <ul>
                             <li>Subtotal <span>$ 169.50</span></li>
                             <li>Total <span><i class="fa fa-won"></i> ${sumTotalPrice }</span></li>
-                        </ul>
-                        <a href="${pageContext.request.contextPath }" class="primary-btn">Proceed to checkout(경로설정X)</a>
+                        </ul>                       
+                        	<a type="button" class="primary-btn" href = "${pageContext.request.contextPath }/cart/customerCartList?action=doOrder">Proceed to checkout(경로설정X)</a>
                     </div>
                 </div>
             </div>

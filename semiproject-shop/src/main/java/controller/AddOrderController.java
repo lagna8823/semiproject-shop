@@ -2,6 +2,9 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import service.GoodsService;
 import service.OrdersService;
+import vo.Cart;
 import vo.Customer;
 import vo.CustomerAddress;
 import vo.Goods;
@@ -34,36 +38,49 @@ public class AddOrderController extends HttpServlet {
 			System.out.println("로그인 값 없음");
 			return;
 		}
-		String customerId = loginCustomer.getCustomerId();
+		String customerId = loginCustomer.getCustomerId();	   	   
 		
 		// 상품번호 ,고객아이디, 배송지 필요
 		int goodsCode = 0;
-		System.out.println("addOrder goodsCode1 : " + goodsCode);
-		if((Integer)session.getAttribute("goodsCode") != 0) {
-			goodsCode = (Integer) session.getAttribute("goodsCode");
-			System.out.println("addOrder getAAGoodsCode : " + goodsCode);
-		} else {
-			goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
-		}
+		int cartQuantity = 0;
+		//	goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		System.out.println("addOrder goodsCode2 : " + goodsCode);
 		Customer customer = null;
 		ArrayList<CustomerAddress> customerAddress = null;
-		Goods goods = null;	
+		ArrayList<Goods> list = null;
+		ArrayList<Cart> cartQuantityList = null;
+		Cart cart = null;
+		Goods goods = null;
 		
 		this.ordersService = new OrdersService();
 		customer = ordersService.getCustomerInfoForOrderService(customerId);
 		customerAddress = ordersService.getCustomerAddressForOrderService(customerId);
-		goods = ordersService.getGoodsForOrderService(goodsCode);
 
-		
+		ArrayList<HashMap<String, Object>> cartList = (ArrayList<HashMap<String, Object>>) session.getAttribute("customerCartList");
+/*
+		if(cartList != null) {
+    		list = new ArrayList<Goods>();
+    		cartQuantityList = new ArrayList<Cart>();
+    		for(int i=0; i<cartList.size(); i+=1) {
+    			cart = new Cart();
+    			goodsCode = (int) cartList.get(i).get("goodsCode");
+    			cartQuantity = (int) cartList.get(i).get("cartQuantity");
+    			System.out.println(goodsCode + "굿즈코드");
+    			System.out.println(cartQuantity + "장바구니 수량");
+	    		goods = ordersService.getGoodsForOrderService(goodsCode);
+	    		cart.setCartQuantity(cartQuantity);
+	    		list.add(goods);
+	    		cartQuantityList.add(cart);
+	    	}
+	    }
+*/
 		System.out.println("customer : " + customer);
 		System.out.println("customerAddress : " + customerAddress);
-		System.out.println("goods : " + goods);
+		System.out.println("goods : " + list);
+		System.out.println("cartQuantityList : " + cartQuantityList);
 		
 		// view와 공유할 모델데이터 설정
-		request.setAttribute("goodsCode", goods.getGoodsCode());
-		request.setAttribute("goodsName", goods.getGoodsName());
-		request.setAttribute("goodsPrice", goods.getGoodsPrice());
+		request.setAttribute("goodslist", cartList);
 		request.setAttribute("loginId", customerId);
 		request.setAttribute("customerName", customer.getCustomerName());
 		request.setAttribute("customerPhone", customer.getCustomerPhone());
@@ -85,7 +102,7 @@ public class AddOrderController extends HttpServlet {
 			System.out.println("로그인 값 없음");
 			return;
 		}
-		
+
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		String customerId = loginCustomer.getCustomerId();
 		int addressCode = Integer.parseInt(request.getParameter("addressCode"));
