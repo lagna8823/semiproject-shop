@@ -89,16 +89,24 @@ public class LoginController extends HttpServlet {
 			Customer returnCustomer = customerService.login(customer);
 			// 결과값 있다면
 			session.setAttribute("loginCustomer", returnCustomer);
-			
-			// 구매 선택 후 로그인 요청 시 addOrder로 바로가기 위한 정보
+
 			int goodsCode = 0;
-			if(request.getParameter("goodsCode") != null) {
+			
+			if(request.getParameter("goodsCode").equals("0") && session.getAttribute("nonMemberCartList") != null) {
+				// 비회원 장바구니 담은 후 로그인 성공시 회원 장바구니로 옮기기 위해
+				
+				response.sendRedirect(request.getContextPath() + "/cart/customerCartList?action=cartList");
+				return;
+				
+			} else if(request.getParameter("goodsCode") != null) {
+				// 구매 선택 후 로그인 요청 시 addOrder로 바로가기 위한 정보
 				goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 				session.setAttribute("goodsCode", goodsCode);
 				System.out.println("login goodsCode : " + goodsCode);
 			    response.sendRedirect(request.getContextPath() + "/order/addOrder");
 			    return;
-			} else {
+			} else {	
+				
 		    response.sendRedirect(request.getContextPath() + "/home");
 		    return;
 			}

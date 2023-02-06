@@ -332,7 +332,7 @@
                             <li>Subtotal <span>$ 169.50</span></li>
                             <li>Total <span><i class="fa fa-won"></i> ${sumTotalPrice }</span></li>
                         </ul>
-                        <a href="${pageContext.request.contextPath }/cart/loginCart" class="primary-btn">Proceed to checkout</a>
+                        <a href="${pageContext.request.contextPath }/login" class="primary-btn">Proceed to checkout</a>
                     </div>
                 </div>
             </div>

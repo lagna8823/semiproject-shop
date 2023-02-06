@@ -85,15 +85,17 @@
 		  <li>
 		    <a href="#tab1" id="signin">고객 로그인</a>
 		  </li>
-		  <li>
-		    <a href="#tab2" id="signinEmp">판매자 로그인</a>
-		  </li>
+		  <c:if test="${nonMemberCartList == null }">
+			  <li>
+			    <a href="#tab2" id="signinEmp">판매자 로그인</a>
+			  </li>
+		  </c:if>
 		</ul>
 		<!--탭 콘텐츠 영역 -->
 		<div class="tab_container">
 		
 		<c:choose>
-			<c:when test="${goodsCode eq 0}">
+			<c:when test="${goodsCode eq 0 && nonMemberCartList == null }">
 				<!-- Form -->
 				<div id="tab1" class="tab_content">
 					<form id="signinForm" action="${pageContext.request.contextPath}/login" method="post">

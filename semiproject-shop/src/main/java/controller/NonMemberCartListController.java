@@ -116,7 +116,7 @@ public class NonMemberCartListController extends HttpServlet {
 			}
 			
 			// 비회원 장바구니의 상품, 이미지 리스트를 세션에 추가
-			request.setAttribute("nonMemberCartList", nonMemberCartList);
+			session.setAttribute("nonMemberCartList", nonMemberCartList);
 			
 		} 
 		
