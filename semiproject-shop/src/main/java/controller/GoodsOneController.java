@@ -26,6 +26,7 @@ public class GoodsOneController extends HttpServlet {
 		goodsService = new GoodsService();
 		ArrayList<HashMap<String, Object>> list = null;
 		list = goodsService.getGoodsOne(goodsCode);
+		System.out.println("list:"+list);
 		
 		// hit 상품 리스트 초기화
 		ArrayList<HashMap<String, Object>> topList = null;

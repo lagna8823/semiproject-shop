@@ -51,6 +51,7 @@ public class AddGoodsController extends HttpServlet {
 		int price = Integer.parseInt(mreq.getParameter("goodsPrice"));
 		// System.out.println(price+"<-상품가격");
 		String goodsName = mreq.getParameter("goodsName");
+		String goodsMemo = mreq.getParameter("goodsMemo");
 		String soldout = mreq.getParameter("soldout");
 		String empId = mreq.getParameter("empId");
 		String fileName = mreq.getFilesystemName("goodsImg"); // 서버에 실제 업로드된 파일명
@@ -60,6 +61,7 @@ public class AddGoodsController extends HttpServlet {
 
 		Goods goods = new Goods();
 		goods.setGoodsName(goodsName);
+		goods.setGoodsMemo(goodsMemo);
 		goods.setGoodsPrice(price);
 		goods.setEmpId(empId);
 		goods.setSoldout(soldout);

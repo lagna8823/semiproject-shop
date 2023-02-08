@@ -54,6 +54,10 @@
 															<td><input type="text" name="goodsName"></td>
 														</tr>
 														<tr>
+															<td>상품 설명</td>
+															<td><input type="text" name="goodsMemo"></td>
+														</tr>
+														<tr>
 															<td>상품 가격</td>
 															<td><input type="text" name="goodsPrice"></td>
 														</tr>

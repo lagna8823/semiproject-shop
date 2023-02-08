@@ -166,13 +166,6 @@
 													</c:otherwise>
 												</c:choose>					
 											</c:if>
-	                                    	<div class="rating">
-		                                       	<i class="fa fa-star-o"></i>
-		                                        <i class="fa fa-star-o"></i>
-		                                        <i class="fa fa-star-o"></i>
-		                                        <i class="fa fa-star-o"></i>
-		                                        <i class="fa fa-star-o"></i>
-		                                    </div>
 	                                    	<div><fmt:formatNumber value="${m.goodsPrice}" pattern="#,###"/>원</div>	                                 
 	                                	</div>
 	                            	</div>

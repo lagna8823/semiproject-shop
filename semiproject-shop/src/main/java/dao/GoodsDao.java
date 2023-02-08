@@ -32,6 +32,7 @@ public class GoodsDao {
 				+ "			, gs.goods_name goodsName"
 				+ "			, gs.goods_price goodsPrice"
 				+ "			, gs.hit hit"
+				+ "			, gs.soldout soldout"
 				+ "			, gs.emp_id empId"
 				+ " 		, gs.createdate createdate"
 				+ "			, img.filename filename"
@@ -48,6 +49,7 @@ public class GoodsDao {
 			m.put("goodsCode", rs.getInt("goodsCode"));
 			m.put("goodsName", rs.getString("goodsName"));
 			m.put("goodsPrice", rs.getInt("goodsPrice"));
+			m.put("soldout", rs.getString("soldout"));
 			m.put("empId", rs.getString("empId"));
 			m.put("hit", rs.getInt("hit"));
 			m.put("createdate", rs.getString("createdate"));
@@ -62,16 +64,18 @@ public class GoodsDao {
 		int row = 0;
 		String sql = "UPDATE goods"
 				+ "			SET goods_name = ?"
+				+ "				, goods_memo = ?"
 				+ "				, goods_price = ?"
 				+ "				, soldout = ?"
 				+ "				, hit = ?"
 				+ " WHERE goods_code = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, goods.getGoodsName());
-		stmt.setInt(2, goods.getGoodsPrice());
-		stmt.setString(3, goods.getSoldout());
-		stmt.setString(4, goods.getHit());
-		stmt.setInt(5, goods.getGoodsCode());
+		stmt.setString(2, goods.getGoodsMemo());
+		stmt.setInt(3, goods.getGoodsPrice());
+		stmt.setString(4, goods.getSoldout());
+		stmt.setString(5, goods.getHit());
+		stmt.setInt(6, goods.getGoodsCode());
 		System.out.println("goods.getGoodsName()"+goods.getGoodsName());
 		System.out.println("goods.getGoodsCode()"+goods.getGoodsCode());
 		row = stmt.executeUpdate();
@@ -465,6 +469,7 @@ public class GoodsDao {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
 		String sql = "SELECT gs.goods_code goodsCode"
 				+ "			, gs.goods_name goodsName"
+				+ "			, gs.goods_memo goodsMemo"
 				+ " 		, gs.goods_price goodsPrice"
 				+ "			, gs.emp_id empId, gs.hit hit"
 				+ "			, gs.soldout soldout"
@@ -484,6 +489,7 @@ public class GoodsDao {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 			m.put("goodsCode", rs.getInt("goodsCode"));
 			m.put("goodsName", rs.getString("goodsName"));
+			m.put("goodsMemo", rs.getString("goodsMemo"));
 			m.put("goodsPrice", rs.getInt("goodsPrice"));
 			m.put("empId", rs.getString("empId"));
 			m.put("hit", rs.getString("hit"));
@@ -498,13 +504,14 @@ public class GoodsDao {
 	
 	// 상품추가
 	public HashMap<String, Integer> insertItem(Connection conn, Goods goods, String empId) throws Exception {
-		String sql = "INSERT INTO goods(goods_name, goods_price, soldout, emp_id, createdate) VALUES(?,?,?,?,NOW())";
+		String sql = "INSERT INTO goods(goods_name, goods_memo, goods_price, soldout, emp_id, createdate) VALUES(?,?,?,?,?,NOW())";
 		// PreparedStatement.RETURN_GENERATED_KEYS 쿼리실행 후 생성된 auto_increment값을 ResultSet에 반환
 		PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 		stmt.setString(1, goods.getGoodsName());
-		stmt.setInt(2, goods.getGoodsPrice());
-		stmt.setString(3, goods.getSoldout());
-		stmt.setString(4, goods.getEmpId());
+		stmt.setString(2, goods.getGoodsMemo());
+		stmt.setInt(3, goods.getGoodsPrice());
+		stmt.setString(4, goods.getSoldout());
+		stmt.setString(5, goods.getEmpId());
 		
 		int row = stmt.executeUpdate();
 		ResultSet rs = stmt.getGeneratedKeys();
