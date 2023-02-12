@@ -42,7 +42,6 @@ public class AddOrderController extends HttpServlet {
 		
 		// 상품번호 ,고객아이디, 배송지 필요
 		int goodsCode = 0;
-		int cartQuantity = 0;
 		//	goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		System.out.println("addOrder goodsCode2 : " + goodsCode);
 		Customer customer = null;
@@ -57,7 +56,18 @@ public class AddOrderController extends HttpServlet {
 		customerAddress = ordersService.getCustomerAddressForOrderService(customerId);
 
 		ArrayList<HashMap<String, Object>> cartList = (ArrayList<HashMap<String, Object>>) session.getAttribute("customerCartList");
-/*
+		int goodsPrice = 0;
+		int cartQuantity = 0;
+		int sumGoodsPrice = 0;
+		for(int i=0; i < cartList.size() ;i++) {
+			goodsPrice = (int) cartList.get(i).get("goodsPrice");
+			cartQuantity = (int) cartList.get(i).get("cartQuantity");
+			sumGoodsPrice += goodsPrice * cartQuantity;
+		}
+		System.out.println(goodsPrice + "goodsPrice");
+		System.out.println(cartQuantity + "cartQuantity");				
+		System.out.println(sumGoodsPrice + "sumGoodsPrice");
+		/*
 		if(cartList != null) {
     		list = new ArrayList<Goods>();
     		cartQuantityList = new ArrayList<Cart>();
@@ -87,6 +97,7 @@ public class AddOrderController extends HttpServlet {
 		request.setAttribute("customerAddress", customerAddress);
 		request.setAttribute("point", customer.getPoint());
 		request.setAttribute("customer", customer);
+		request.setAttribute("sumGoodsPrice", sumGoodsPrice);
 		request.getRequestDispatcher("/WEB-INF/view/order/addOrderForm.jsp").forward(request, response);
 	}
 
@@ -115,6 +126,16 @@ public class AddOrderController extends HttpServlet {
 		int earnPoint = 0;
 		int point = Integer.parseInt(request.getParameter("point"));
 		int usePoint = Integer.parseInt(request.getParameter("usePoint"));
+		
+		System.out.println("goodsCode : "+goodsCode);
+		System.out.println("customerId : "+customerId);
+		System.out.println("addressCode : "+addressCode);
+		System.out.println("orderQuantity : "+orderQuantity);
+		System.out.println("orderPrice : "+orderPrice);
+		System.out.println("orderState : "+orderState);
+		System.out.println("createdate : "+createdate);
+		System.out.println("point : "+point);
+		System.out.println("usePoint : "+usePoint);
 		
 		
 		Orders orders = new Orders();

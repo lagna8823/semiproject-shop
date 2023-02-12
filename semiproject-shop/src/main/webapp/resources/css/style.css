@@ -30,6 +30,20 @@
 /* Template default CSS
 /*----------------------------------------*/
 
+/* Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance : none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance : none;
+}
+
 html,
 body {
 	height: 100%;
@@ -2310,6 +2324,10 @@ ol {
 /*---------------------
   Shopping Cart
 -----------------------*/
+.imgCart {
+	width : 150px;
+	height : 150px;
+}
 
 .shopping__cart__table {
 	margin-bottom: 30px;
