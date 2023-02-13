@@ -191,7 +191,7 @@ public class OrdersService {
 		return list;
 	}
 	// 주문 시 필요 : 주문할 상품 정보 조회
-	public Goods getGoodsForOrderService(int goodsCode) {
+	public Goods getGoodsForOrder(int goodsCode) {
 		orderDao = new OrderDao();
 		Connection conn = null;
 		Goods goods = null;

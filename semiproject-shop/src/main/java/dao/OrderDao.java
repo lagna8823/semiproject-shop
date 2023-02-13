@@ -194,7 +194,11 @@ public class OrderDao {
 	public Goods selectGoodsForOrder (Connection conn, int goodsCode) throws Exception {
 		Goods goods= null;
 		
-		String sql = " SELECT goods_code goodsCode, goods_name goodsName, goods_price goodsPrice, soldout FROM goods WHERE goods_code = ?";
+		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.soldout"
+				+ "			, gi.filename filename"
+				+ "		 FROM goods g"
+				+ "		 INNER JOIN goods_img gi ON g.goods_code = gi.goods_code"
+				+ "		 WHERE g.goods_code = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, goodsCode);
 		
@@ -205,7 +209,8 @@ public class OrderDao {
 			goods.setGoodsName(rs.getString("goodsName"));
 			goods.setGoodsPrice(rs.getInt("goodsPrice"));
 			goods.setSoldout(rs.getString("soldout"));
-		}		
+			goods.setFilename(rs.getString("filename"));
+		}
 		return goods;
 	}
 	

@@ -3,8 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +30,7 @@ public class AddOrderController extends HttpServlet {
 		// 로그인 여부확인, 로그인 되어있지 않으면 홈으로 이동
 		HttpSession session = request.getSession();		
 		// 로그인 값 체크  - 비 로그인 시 로그인 창으로
+		System.out.println("부검0");
 		Customer loginCustomer = (Customer)session.getAttribute("loginCustomer");
 		System.out.println(loginCustomer + "아이디");
 		if(loginCustomer == null) {
@@ -40,64 +40,89 @@ public class AddOrderController extends HttpServlet {
 		}
 		String customerId = loginCustomer.getCustomerId();	   	   
 		
-		// 상품번호 ,고객아이디, 배송지 필요
-		int goodsCode = 0;
-		//	goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
-		System.out.println("addOrder goodsCode2 : " + goodsCode);
 		Customer customer = null;
+		List<Goods> goodsList = new ArrayList<Goods>();
 		ArrayList<CustomerAddress> customerAddress = null;
-		ArrayList<Goods> list = null;
-		ArrayList<Cart> cartQuantityList = null;
-		Cart cart = null;
-		Goods goods = null;
+		ArrayList<HashMap<String, Object>> cartList = null;
+		int sumGoodsPrice = 0;
+		//ArrayList<Goods> list = null;
+		//ArrayList<Cart> cartQuantityList = null;
 		
 		this.ordersService = new OrdersService();
 		customer = ordersService.getCustomerInfoForOrderService(customerId);
 		customerAddress = ordersService.getCustomerAddressForOrderService(customerId);
-
-		ArrayList<HashMap<String, Object>> cartList = (ArrayList<HashMap<String, Object>>) session.getAttribute("customerCartList");
-		int goodsPrice = 0;
+		
+		
+		// 상품번호 ,고객아이디, 배송지 필요
+		int goodsCode = 0;
 		int cartQuantity = 0;
-		int sumGoodsPrice = 0;
-		for(int i=0; i < cartList.size() ;i++) {
-			goodsPrice = (int) cartList.get(i).get("goodsPrice");
-			cartQuantity = (int) cartList.get(i).get("cartQuantity");
-			sumGoodsPrice += goodsPrice * cartQuantity;
-		}
-		System.out.println(goodsPrice + "goodsPrice");
-		System.out.println(cartQuantity + "cartQuantity");				
-		System.out.println(sumGoodsPrice + "sumGoodsPrice");
+		// 단품 구매
+		if(request.getParameter("goodsCode") != null) {
+			System.out.println("부검1");
+			goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
+			cartQuantity = Integer.parseInt(request.getParameter("cartQuantity"));
+			goodsList.add(ordersService.getGoodsForOrder(goodsCode));
+			
+			System.out.println("단품구매 goodsCode : " + goodsCode);
+			System.out.println("단품구매 goodsList : " + cartQuantity);
+			System.out.println("단품구매 goodsList : " + goodsList);
+			
+
+			// view와 공유할 모델데이터 설정
+			request.setAttribute("goodsList", goodsList); //단품 goodsList, 장바구니 cartList
+			request.setAttribute("loginId", customerId);
+			request.setAttribute("customerName", customer.getCustomerName());
+			request.setAttribute("customerPhone", customer.getCustomerPhone());
+			request.setAttribute("customerAddress", customerAddress);
+			request.setAttribute("point", customer.getPoint());
+			request.setAttribute("g.cartQuantity", cartQuantity);
+			request.setAttribute("sumGoodsPrice", goodsList.get(0).getGoodsPrice()); //단품 goodsPrice, 장바구니 sumGoodsPrice
+			
+		// 장바구니 구매
+		} else if (session.getAttribute("customerCartList") != null) {
+			System.out.println("부검2");
+			cartList = (ArrayList<HashMap<String, Object>>) session.getAttribute("customerCartList");
+			int goodsPrice = 0;
+			for(int i=0; i < cartList.size() ;i++) {
+				goodsPrice = (int) cartList.get(i).get("goodsPrice");
+				cartQuantity = (int) cartList.get(i).get("cartQuantity");
+				sumGoodsPrice += goodsPrice * cartQuantity;
+			}
+			System.out.println(goodsPrice + "goodsPrice");
+			System.out.println(cartQuantity + "cartQuantity");				
+			System.out.println(sumGoodsPrice + "sumGoodsPrice");	
+			
+
+			// view와 공유할 모델데이터 설정
+			request.setAttribute("goodsList", cartList); //단품 goodsList, 장바구니 cartList
+			request.setAttribute("loginId", customerId);
+			request.setAttribute("customerName", customer.getCustomerName());
+			request.setAttribute("customerPhone", customer.getCustomerPhone());
+			request.setAttribute("customerAddress", customerAddress);
+			request.setAttribute("point", customer.getPoint());
+			request.setAttribute("sumGoodsPrice", sumGoodsPrice); //단품 goodsPrice, 장바구니 sumGoodsPrice
+			
+		}		
 		/*
-		if(cartList != null) {
-    		list = new ArrayList<Goods>();
-    		cartQuantityList = new ArrayList<Cart>();
-    		for(int i=0; i<cartList.size(); i+=1) {
-    			cart = new Cart();
-    			goodsCode = (int) cartList.get(i).get("goodsCode");
-    			cartQuantity = (int) cartList.get(i).get("cartQuantity");
-    			System.out.println(goodsCode + "굿즈코드");
-    			System.out.println(cartQuantity + "장바구니 수량");
-	    		goods = ordersService.getGoodsForOrderService(goodsCode);
-	    		cart.setCartQuantity(cartQuantity);
-	    		list.add(goods);
-	    		cartQuantityList.add(cart);
-	    	}
-	    }
-*/
+			if(cartList != null) {
+	    		list = new ArrayList<Goods>();
+	    		cartQuantityList = new ArrayList<Cart>();
+	    		for(int i=0; i<cartList.size(); i+=1) {
+	    			cart = new Cart();
+	    			goodsCode = (int) cartList.get(i).get("goodsCode");
+	    			cartQuantity = (int) cartList.get(i).get("cartQuantity");
+	    			System.out.println(goodsCode + "굿즈코드");
+	    			System.out.println(cartQuantity + "장바구니 수량");
+		    		goods = ordersService.getGoodsForOrderService(goodsCode);
+		    		cart.setCartQuantity(cartQuantity);
+		    		list.add(goods);
+		    		cartQuantityList.add(cart);
+		    	}
+		    }
+		*/
 		System.out.println("customer : " + customer);
 		System.out.println("customerAddress : " + customerAddress);
-		System.out.println("goods : " + list);
-		System.out.println("cartQuantityList : " + cartQuantityList);
 		
-		// view와 공유할 모델데이터 설정
-		request.setAttribute("goodslist", cartList);
-		request.setAttribute("loginId", customerId);
-		request.setAttribute("customerName", customer.getCustomerName());
-		request.setAttribute("customerPhone", customer.getCustomerPhone());
-		request.setAttribute("customerAddress", customerAddress);
-		request.setAttribute("point", customer.getPoint());
-		request.setAttribute("customer", customer);
-		request.setAttribute("sumGoodsPrice", sumGoodsPrice);
 		request.getRequestDispatcher("/WEB-INF/view/order/addOrderForm.jsp").forward(request, response);
 	}
 

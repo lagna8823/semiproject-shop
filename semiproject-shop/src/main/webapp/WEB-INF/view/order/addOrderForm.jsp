@@ -27,7 +27,11 @@
 	<!-- jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script>
-		$(document).ready(function(){		
+		$(document).ready(function(){
+			$(function(){
+			    parseInt($('.orderPrice').val(parseInt($('.sumGoodsPrice').text())));				
+			})
+			
 			/* 입력 값 제한 */
 			$( '#usePoint' ).on("input", function() {
 			    let point = Number($('#point').val());
@@ -46,7 +50,7 @@
 	
 			/* 결제가격 계산 */
 			$( '#usePoint' ).on("blur", function() {
-			    let sumGoodsPrice = parseInt($('.sumGoodsPrice').text())
+			    let sumGoodsPrice = parseInt($('.sumGoodsPrice').text());
 			    console.log(sumGoodsPrice);
 			    let usePoint = Number($('#usePoint').val());
 			    console.log(usePoint);
@@ -118,7 +122,7 @@
 	                       	<th>합계</th>
                    		</tr>
                     </thead>
-					<c:forEach var="g" items="${goodslist}">
+					<c:forEach var="g" items="${goodsList}">
 						<!-- 상품번호 -->
 						<input type="hidden" id="goodsCode" name="goodsCode" value="${g.goodsCode}" readonly>
                         <tbody>
@@ -132,7 +136,7 @@
                                         <h5><i class="fa fa-won"></i> ${g.goodsPrice}</h5>
                                     </div>
                                 </td>
-                                <td class="quantity__item "><input type="number" name="orderQuantity" style="border:none;" value="${g.cartQuantity}"></td>                                    
+                                <td class="quantity__item "><input type="number" name="orderQuantity" style="border:none;" value="${g.cartQuantity}"></td>
                                 <td class="cart__price"><i class="fa fa-won"></i> ${g.goodsPrice * g.cartQuantity}</td>
                             </tr>
                         </tbody>
@@ -188,7 +192,7 @@
                            	</ul>
                            	<ul class="checkout__total__all">
                                	<li>최종결제 금액 <span class="orderPrice"></span>
-                               	<input type="hidden" class="orderPrice" name="orderPrice" min="0" style="border:none;" value="0" readonly></li>
+                               	<input type="hidden" class="orderPrice" name="orderPrice" min="0" style="border:none;" value="${sumGoodsPrice}" readonly></li>
                            	</ul>
                            	<button type="submit" class="site-btn">PLACE ORDER</button>
                        	</div>
