@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 
 
+
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -53,10 +54,6 @@ public class NoticeListController extends HttpServlet {
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		request.getRequestDispatcher("/WEB-INF/view/notice/noticeList.jsp").forward(request, response);
-
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	}
 

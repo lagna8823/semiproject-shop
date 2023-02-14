@@ -45,7 +45,6 @@ public class ModifyGoodsController extends HttpServlet {
 	
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8"); // 한글 인코딩
 		
 		String dir = request.getServletContext().getRealPath("/upload");
 		int maxFileSize = 1024 * 1024 * 100;
@@ -56,6 +55,7 @@ public class ModifyGoodsController extends HttpServlet {
 		// 값 받아오기
 		int goodsCode = Integer.parseInt(mreq.getParameter("goodsCode"));
 		String goodsName = mreq.getParameter("goodsName");
+		String goodsMemo = mreq.getParameter("goodsMemo");
 		int goodsPrice = Integer.parseInt(mreq.getParameter("goodsPrice"));
 		String hit = mreq.getParameter("hit");
 		String empId = mreq.getParameter("empId");
@@ -68,6 +68,7 @@ public class ModifyGoodsController extends HttpServlet {
 		Goods goods = new Goods();
 		goods.setGoodsCode(goodsCode);
 		goods.setGoodsName(goodsName);
+		goods.setGoodsMemo(goodsMemo);
 		goods.setGoodsPrice(goodsPrice);
 		goods.setHit(hit);
 		goods.setEmpId(empId);

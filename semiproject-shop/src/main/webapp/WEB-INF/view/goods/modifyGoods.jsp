@@ -62,7 +62,11 @@
 															</tr>
 															<tr>
 																<td>상품명</td>
-																<td><input type="text" name="goodsName" value="${m.goodsName}"></td>
+																<td><textarea rows="3" cols="30" name="goodsName">${m.goodsName}</textarea></td>
+															</tr>
+															<tr>
+																<td>상품 설명</td>
+																<td><textarea rows="5" cols="50" name="goodsMemo">${m.goodsMemo}</textarea></td>
 															</tr>
 															<tr>
 																<td>상품 가격</td>

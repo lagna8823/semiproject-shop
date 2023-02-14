@@ -51,11 +51,11 @@
 														</tr>
 														<tr>
 															<td>상품명</td>
-															<td><input type="text" name="goodsName"></td>
+															<td><textarea rows="3" cols="30" name="goodsName"></textarea></td>
 														</tr>
 														<tr>
 															<td>상품 설명</td>
-															<td><input type="text" name="goodsMemo"></td>
+															<td><textarea rows="5" cols="50" name="goodsMemo"></textarea></td>
 														</tr>
 														<tr>
 															<td>상품 가격</td>

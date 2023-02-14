@@ -48,14 +48,8 @@
 		                    </div>
 		                </div>
 		                <div class="row">
-		                    <div class="col-lg-12 col-md-9">
-		                        <div class="tab-content">
-		                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
-		                                <div class="product__details__pic__item">
-		                                    <img src="${pageContext.request.contextPath}/upload/${m.filename}" alt="">
-		                                </div>
-		                            </div>                          
-		                        </div>
+		                    <div class="col-lg-12 col-md-12">		                     
+								<img src="${pageContext.request.contextPath}/upload/${m.filename}" alt="">             
 		                    </div>
 		                </div>
 		            </div>
@@ -126,7 +120,7 @@
 		                                    <div class="product__details__tab__content">
 		                                        <div class="product__details__tab__content__item">
 		                                            <h5>조립 과정</h5>
-		                                            <p><img src="${pageContext.request.contextPath}/upload/recom.jpg"></p>
+		                                            <p><img src="${pageContext.request.contextPath}/upload/recom.png"></p>
 		                                        </div>
 		                                    </div>
 		                                </div>
@@ -188,7 +182,7 @@
 	                </div>
 	            </div>
 	            <div class="row">
-	            <c:forEach var="m" items="${topList}">
+	            <c:forEach var="m" items="${topList}" begin="1" end="4">
 	                <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
 	                    <div class="product__item">
 	                        <div class="product__item__pic set-bg" data-setbg="${pageContext.request.contextPath}/upload/${m.filename}">
