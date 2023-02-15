@@ -43,7 +43,7 @@
 
 				location.href = "${pageContext.request.contextPath}/nonMember/deleteNonMember?customerId="+'${loginCustomer.customerId}';
 
-				}, 600000) // 10분동안 주문없을시 세션만료 비회원생성된 아이디 삭제
+				}, 100) // 10분동안 주문없을시 세션만료 비회원생성된 아이디 삭제
 				
 			// 핸드폰 유효성 검사
 			/*

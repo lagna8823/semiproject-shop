@@ -213,7 +213,7 @@ public class QuestionDao {
 				+ "					INNER JOIN orders o"
 				+ "					ON q.orders_code = o.order_code"
 				+ "			WHERE o.customer_id = ?) r"
-				+ "		INNER JOIN goods g"
+				+ "		LEFT OUTER goods g"
 				+ "		ON r.goods_code = g.goods_code"
 				+ "		ORDER BY r.createdate DESC";
 		PreparedStatement stmt = conn.prepareStatement(sql);
