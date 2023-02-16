@@ -208,12 +208,10 @@ public class QuestionDao {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
 		String sql = "SELECT r.order_code orderCode, g.goods_name goodsName"
 				+ "		FROM "
-				+ "			(SELECT o.order_code, o.goods_code, o.createdate"
-				+ "				FROM question q"
-				+ "					INNER JOIN orders o"
-				+ "					ON q.orders_code = o.order_code"
-				+ "			WHERE o.customer_id = ?) r"
-				+ "		LEFT OUTER goods g"
+				+ "			(SELECT order_code, goods_code, createdate"
+				+ "				FROM orders	"
+				+ "			WHERE customer_id = ?) r"
+				+ "		LEFT OUTER JOIN goods g"
 				+ "		ON r.goods_code = g.goods_code"
 				+ "		ORDER BY r.createdate DESC";
 		PreparedStatement stmt = conn.prepareStatement(sql);
