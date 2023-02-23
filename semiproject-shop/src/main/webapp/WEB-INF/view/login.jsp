@@ -175,7 +175,7 @@
 				<form id="empSigninForm" action="${pageContext.request.contextPath}/login" method="post">
 				 <!-- ID input -->
 				 <div class="first-input input__block first-input__block">
-				    <input type="text" placeholder="ID" class="input" id="empId" name="empId" value="emptest">
+				    <input type="text" placeholder="ID" class="input" id="empId" name="empId" value="test">
 				 </div>
 				 <!-- password input -->
 				 <div class="input__block">
