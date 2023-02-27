@@ -1,4 +1,4 @@
-<jsp:include page = "/WEB-INF/view/inc/menuTest.jsp"></jsp:include>
+<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -33,54 +33,61 @@
 		<div class="container-scroller">
 		    <div class="container-fluid">
 				<div class="row justify-content-center">
-					<div class="col-md-auto grid-margin stretch-card">
-						<div class="card">
-							<div class="card-body">
-								<div class="content-wrapper">
-									<div align="center" style="padding-right: 55em"> 
-										<button class="btn btn-sm btn-primary" onclick="history.back()">뒤로가기</button>
-									</div>	
-									<h2 class = "font-weight-bold text-center" align="center" style="padding-left: 3em">공지사항 자세히보기</h2>
-									<div class="row justify-content-center mt-3">
-										<c:forEach var="n" items="${list}">
-											<div class="col-12">
-											<br>
-												<div align="center" style="padding-left: 50em">작성일 : ${n.createdate}</div>
-											
-												<!-- 공지 상세보기 (공지 종류, 공지 내용)-->
-												<div class="table-responsive mb-5">
-														<table border="1" class = "table expandable-table table-hover text-center">
-															<tr>
-																<th>공지제목</th>
-																<td>${n.noticeTitle}</td>
-															</tr>
-															<tr>
-																<th>공지내용</th>
-																<td>${n.noticeContent}</td>
-															</tr>
+					<div class="content-wrapper row justify-content-center">
+						<div class="col-md-auto grid-margin stretch-card notice" style="width: 100%">
+							<div class="card">
+								<div class="card-body">
+										<h2 class = "font-weight-bold text-center">공지사항</h2>
+										<div class="row justify-content-center mt-3">
+											<c:forEach var="n" items="${list}">
+												<div class="col-12">
+													<div align="left"> 
+														<button class="btn btn-sm btn-primary" onclick="history.back()">목록</button>
+													</div>
+													<div align="right">작성일 : ${n.createdate}</div>
+												
+													<!-- 공지 상세보기 (공지 종류, 공지 내용)-->
+													<div class="table-responsive mb-5">
+														<table class = "table expandable-table table-hover text-center">
+															<thead>
+																<tr>
+																	<th></th>
+																	<th class="col-12">${n.noticeTitle}</th>
+																	<th></th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td></td>
+																	<td>${n.noticeContent}</td>
+																	<td></td>
+																</tr>
+															</tbody>
 														</table>												
+													</div>
+														
+													<div class="input-group-append justify-content-end">
+														<!-- 공지수정, 관리자만 접근가능 -->
+														<c:if test="${loginEmp != null}">
+															<button  class="btn btn-sm btn-primary" onClick="location.href='${pageContext.request.contextPath}/notice/modifyNotice?noticeCode=${n.noticeCode}'">
+																<span>수정하기</span> 
+															</button>	
+															<button id="remove" class="btn btn-sm btn-primary" onClick="location.href='${pageContext.request.contextPath}/emp/checkPw?targetUrl=/notice/deleteNotice?noticeCode=${n.noticeCode}'">
+																<span>삭제하기</span> 
+															</button>
+														</c:if>
+													</div>
 												</div>
-													
-												<div class="input-group-append justify-content-center" style="padding-left: 8em">
-													<!-- 공지수정, 관리자만 접근가능 -->
-													<c:if test="${loginEmp != null}">
-														<button  class="btn btn-sm btn-primary" onClick="location.href='${pageContext.request.contextPath}/notice/modifyNotice?noticeCode=${n.noticeCode}'">
-															<span>수정하기</span> 
-														</button>	
-														<button id="remove" class="btn btn-sm btn-primary" onClick="location.href='${pageContext.request.contextPath}/emp/checkPw?targetUrl=/notice/deleteNotice?noticeCode=${n.noticeCode}'">
-															<span>삭제하기</span> 
-														</button>
-													</c:if>
-												</div>
-											</div>
-										</c:forEach>
-									</div>
+											</c:forEach>
+										</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<!-- page-body-wrapper ends -->
+			<jsp:include page = "/WEB-INF/view/inc/footer.jsp"></jsp:include>
 		</div>
 	</body>
 </html>

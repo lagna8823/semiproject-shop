@@ -1,4 +1,5 @@
 <jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -33,12 +34,12 @@
 		    <div class="container-fluid">
 				<div class="row justify-content-center">
 					<div class="content-wrapper row justify-content-center">
-						<div class="col-md-auto grid-margin stretch-card">
+						<div class="col-md-auto grid-margin stretch-card notice" style="width: 100%">
 							<div class="card">
 								<div class="card-body">
-									<h2 class = "font-weight-bold text-center">Notice</h2>
+									<h2 class = "font-weight-bold text-center">공지사항</h2>
 									<div class="row justify-content-center mt-3">
-										<div class="col-auto">
+										<div class="col-auto" style="width: 100%; min-width: 100%">
 											<!-- 관리자 이상만 공지 작성 가능 -->
 											<c:if test="${loginEmp != null}">
 												<div>
@@ -51,9 +52,9 @@
 												<table class = "table expandable-table table-hover text-center">
 													<thead>
 														<tr>
-															<th>공지번호</th>
-															<th>공지 제목</th>
-															<th>날짜</th>
+															<th class="col-2">공지번호</th>
+															<th class="col-7">공지 제목</th>
+															<th class="col-3">날짜</th>
 														</tr>
 													</thead>
 													<tbody>
