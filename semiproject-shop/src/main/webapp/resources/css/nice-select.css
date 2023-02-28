@@ -7,11 +7,11 @@
   clear: both;
   cursor: pointer;
   display: block;
-  float: left;
+  float: right;
   font-family: inherit;
   font-size: 14px;
   font-weight: normal;
-  height: 42px;
+  height: 35px;
   line-height: 40px;
   outline: none;
   padding-left: 18px;
@@ -25,7 +25,8 @@
       -ms-user-select: none;
           user-select: none;
   white-space: nowrap;
-  width: auto; }
+  width: auto;
+  bottom: 5px; }
   .nice-select:hover {
     border-color: #dbdbdb; }
   .nice-select:active, .nice-select.open, .nice-select:focus {

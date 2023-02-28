@@ -103,24 +103,23 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="content-wrapper">
-									<div align="center" style="padding-right: 55em"> 
+									<h2 class = "font-weight-bold text-center">답변 작성</h2>
+									<div align="left"> 
 										<button class="btn btn-sm btn-primary" onclick="history.back()">뒤로가기</button>
 									</div>	
-									<h2 class = "font-weight-bold text-center" style="padding-left: 3em">답변 작성</h2>
-									<div class="row justify-content-center mt-3">
+									<div class="row justify-content-center">
 										<div class="col-12">
-										<br>
-											
+										<br>											
 											<!-- 글자수 상태바 -->
-											<div align="center" style="padding-left: 50em"> 
+											<div align="right"> 
 												글자수 : <span id="count">0</span> / 500
 											</div>
 											
 											<!-- 답변글 작성 페이지-->
 											<div class="table-responsive mb-5">
 											<form id="addForm" method="post" action="${pageContext.request.contextPath}/questionComment/addQuestionComment">
-												<table border="1" class = "expandable-table table-hover text-center" align="center">
-													<input type="hidden" name="questionCode" value="${q.questionCode}">
+												<input type="hidden" name="questionCode" value="${q.questionCode}">
+												<table class = "table expandable-table table-hover text-center">
 													
 													<!-- 고객 문의내용 -->
 													<tr class="tr">
@@ -144,7 +143,7 @@
 													<tr class="tr">
 														<th>문의내용</th>
 														<td>
-															<textarea id="questionMemo" rows="8" cols="100" name="questionMemo" readonly="readonly">${q.questionMemo}</textarea>
+															<textarea class="form-control" id="questionMemo" rows="8" cols="100" name="questionMemo" readonly="readonly">${q.questionMemo}</textarea>
 														</td>
 													</tr>
 													<!-- 첨부 파일 있을시에만 보임 -->
@@ -164,15 +163,15 @@
 													<tr class="tr">
 														<th>답변내용</th>
 														<td>
-															<textarea id="commentMemo" rows="8" cols="100" name="commentMemo"></textarea>
+															<textarea class="form-control" id="commentMemo" rows="8" cols="100" name="commentMemo"></textarea>
 														</td>
 													</tr>
 												</table>
 												<br>
 												
 												<!-- button -->
-												<div class="input-group-append justify-content-center" style="padding-left: 7em">
-													<button class="btn btn-sm btn-primary" id="addBtn" type="button" >답변 작성</button>
+												<div class="input-group-append justify-content-center">
+													<button class="btn btn-block btn-primary" id="addBtn" type="button" >답변 작성</button>
 												</div>	
 											</form>	
 											</div>	
@@ -187,16 +186,5 @@
 			<!-- page-body-wrapper ends -->
 			<jsp:include page = "/WEB-INF/view/inc/footer.jsp"></jsp:include> 
 		</div>
-		<!-- container-scroller -->
-	
-		<!-- plugins:js -->
-		<!-- endinject -->
-		<!-- Plugin js for this page -->
-		
-		<!-- End plugin js for this page -->
-		<!-- inject:js -->
-		<!-- endinject -->
-		<!-- Custom js for this page-->
-		<!-- End custom js for this page-->
 	</body>
 </html>	

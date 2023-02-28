@@ -1,4 +1,4 @@
-<jsp:include page = "/WEB-INF/view/inc/menuTest.jsp"></jsp:include>
+<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -36,47 +36,47 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="content-wrapper">
-									<div align="center" style="padding-right: 55em"> 
-										<button class="btn btn-sm btn-primary" onclick="history.back()">뒤로가기</button>
-									</div>	
 									<h2 class = "font-weight-bold text-center">상품 추가</h2>
+									<div align="left"> 
+										<button class="btn btn-sm btn-primary" onclick="history.back()">뒤로가기</button>
+									</div>
 									<div class="row justify-content-center mt-3">
 										<div class="col-12">
 											<div class="table-responsive mb-5">
 												<form id="addForm" action="${pageContext.request.contextPath}/goods/addGoods" method="post" enctype="multipart/form-data">
-													<table border="1" class = "table expandable-table table-hover text-center">
+													<table class = "table expandable-table table-hover text-center">
 														<tr>
 															<td>상품 등록자 ID</td>
-															<td><input type="text" name="empId" value="${loginEmp.empId}" readonly="readonly"></td>
+															<td><input class="form-control" type="text" name="empId" value="${loginEmp.empId}" readonly="readonly"></td>
 														</tr>
 														<tr>
 															<td>상품명</td>
-															<td><textarea rows="3" cols="30" name="goodsName"></textarea></td>
+															<td><textarea class="form-control" rows="3" cols="30" name="goodsName"></textarea></td>
 														</tr>
 														<tr>
 															<td>상품 설명</td>
-															<td><textarea rows="5" cols="50" name="goodsMemo"></textarea></td>
+															<td><textarea class="form-control" rows="5" cols="50" name="goodsMemo"></textarea></td>
 														</tr>
 														<tr>
 															<td>상품 가격</td>
-															<td><input type="text" name="goodsPrice"></td>
+															<td><input class="form-control" type="number" name="goodsPrice"></td>
 														</tr>
 														<tr>
 															<td>상품 재고(Y선택시 품절)</td>
 															<td>
-																<input type="radio" name="soldout" value="Y">Y
-																<input type="radio" name="soldout" value="N" checked="checked">N
+																	<input type="radio" name="soldout" value="Y">Y
+																	<input type="radio" name="soldout" value="N" checked="checked">N
 															</td>
 														</tr>
 														<tr>
 															<td>상품 이미지</td>
-															<td><input type="file" name="goodsImg"></td>
+															<td><input class="form-control" type="file" name="goodsImg"></td>
 														</tr>
 													</table>
 													<br>
 													<!-- button -->
 													<div class="input-group-append justify-content-center">
-														<button class="btn btn-sm btn-primary" type="submit" >상품 추가</button>
+														<button class="btn btn-block btn-primary" type="submit" >상품 추가</button>
 													</div>	
 												</form>	
 											</div>																		
@@ -87,7 +87,8 @@
 						</div>
 					</div>
 				</div>
-			</div>   
-		</div>>
+			</div>
+			<jsp:include page = "/WEB-INF/view/inc/footer.jsp"></jsp:include> 
+		</div>
 	</body>
 </html>

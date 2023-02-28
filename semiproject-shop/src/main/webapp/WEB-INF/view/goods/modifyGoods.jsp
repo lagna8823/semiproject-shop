@@ -1,4 +1,4 @@
-<jsp:include page = "/WEB-INF/view/inc/menuTest.jsp"></jsp:include>
+<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -38,10 +38,10 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="content-wrapper">
-									<div align="center" style="padding-right: 55em"> 
+									<h2 class = "font-weight-bold text-center">상품 수정</h2>
+									<div align="left"> 
 										<button class="btn btn-sm btn-primary" onclick="history.back()">뒤로가기</button>
 									</div>	
-									<h2 class = "font-weight-bold text-center" align="center" style="padding-left: 3em">상품 수정</h2>
 									<div class="row justify-content-center mt-3">
 										<div class="col-12">										
 											<div class="table-responsive mb-5">
@@ -51,26 +51,26 @@
 														<div>
 															<img src="${pageContext.request.contextPath}/upload/${m.filename}" style="display: block; margin: 0 auto; width:300px; height:300px;">
 														</div>
-														<table border="1" class = "table expandable-table table-hover text-center">
+														<table class = "table expandable-table table-hover text-center mt-3">
 															<tr>
 																<td>상품 번호</td>
-																<td><input type="text" name="goodsCode" value="${m.goodsCode}" readonly="readonly"></td>
+																<td><input class="form-control" type="text" name="goodsCode" value="${m.goodsCode}" readonly="readonly"></td>
 															</tr>
 															<tr>
 																<td>상품 등록자 ID</td>
-																<td><input type="text" name="empId" value="${m.empId}" readonly="readonly"></td>
+																<td><input class="form-control" type="text" name="empId" value="${m.empId}" readonly="readonly"></td>
 															</tr>
 															<tr>
 																<td>상품명</td>
-																<td><textarea rows="3" cols="30" name="goodsName">${m.goodsName}</textarea></td>
+																<td><textarea class="form-control" rows="3" cols="30" name="goodsName">${m.goodsName}</textarea></td>
 															</tr>
 															<tr>
 																<td>상품 설명</td>
-																<td><textarea rows="5" cols="50" name="goodsMemo">${m.goodsMemo}</textarea></td>
+																<td><textarea class="form-control" rows="5" cols="50" name="goodsMemo">${m.goodsMemo}</textarea></td>
 															</tr>
 															<tr>
 																<td>상품 가격</td>
-																<td><input type="text" name="goodsPrice" value="${m.goodsPrice}"></td>
+																<td><input class="form-control" type="number" name="goodsPrice" value="${m.goodsPrice}"></td>
 															</tr>
 															<tr>
 																<td>상품 재고(Y선택시 품절)</td>
@@ -81,17 +81,17 @@
 															</tr>
 															<tr>
 																<td>상단 등록 레벨</td>
-																<td><input type="text" name="hit" value="${m.hit}"></td>
+																<td><input class="form-control" type="number" name="hit" value="${m.hit}"></td>
 															</tr>
 															<tr>
 																<td>상품 이미지</td>
-																<td><input type="file" name="goodsImg" value="${m.filename}"></td>
+																<td><input class="form-control" type="file" name="goodsImg" value="${m.filename}"></td>
 															</tr>														
 														</table>
 													</c:forEach>
 													<br>
-													<div class="input-group-append justify-content-center" style="padding-left: 8em">
-														<button class="btn btn-sm btn-primary" type="submit" >수정하기</button>
+													<div class="input-group-append justify-content-center"">
+														<button class="btn btn-block btn-primary" type="submit" >수정하기</button>
 													</div>
 												</form>
 											</div>
@@ -102,7 +102,8 @@
 						</div>
 					</div>
 				</div>
-			</div>   
+			</div>
+			<jsp:include page = "/WEB-INF/view/inc/footer.jsp"></jsp:include> 
 		</div>
 	</body>
 </html>

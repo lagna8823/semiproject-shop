@@ -149,7 +149,7 @@
 																</select>  
 																
 																<!-- 검색 기능(search: 주문번호 / 상품명 / 고객ID / 사원 ID)-->
-																<select class = "form-control" name="search" id="search" value="${search}">
+																<select class = "form-control" name="search" id="search">
 																	<c:if test="${search == ('search')}">
 																		<option value="search" selected="selected">-선택-</option>
 																		<option value="orderCode" >주문번호</option>
