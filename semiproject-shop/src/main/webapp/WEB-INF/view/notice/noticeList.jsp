@@ -127,16 +127,5 @@
 			<!-- page-body-wrapper ends -->
 			<jsp:include page = "/WEB-INF/view/inc/footer.jsp"></jsp:include>
 		</div>
-		<!-- container-scroller -->
-		
-		<!-- plugins:js -->
-		<!-- endinject -->
-		<!-- Plugin js for this page -->
-		
-		<!-- End plugin js for this page -->
-		<!-- inject:js -->
-		<!-- endinject -->
-		<!-- Custom js for this page-->
-		<!-- End custom js for this page-->
 	</body>
 </html>

@@ -44,7 +44,7 @@ public class LoginController extends HttpServlet {
 		goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		}
 		System.out.println("goodsCode : " + goodsCode);
-
+		
 		request.setAttribute("goodsCode", goodsCode);
 		// 로그인 폼 View
 		request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
@@ -63,7 +63,7 @@ public class LoginController extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/home");
 			return;
 		}
-			
+		
 		// request 값세팅
 		request.setCharacterEncoding("UTF-8");
 		String customerId = null;
@@ -72,6 +72,8 @@ public class LoginController extends HttpServlet {
 		String empId = null;
 		String empPw = null;
 		Emp emp = null; // 메서드 호출시 매개변수
+
+		int goodsCode = 0;
 		
 		//System.out.println(request.getParameter("customerId"));
 		//System.out.println(request.getParameter("customerPw"));
@@ -87,29 +89,16 @@ public class LoginController extends HttpServlet {
 			// 모델 호출
 			this.customerService = new CustomerService();			
 			Customer returnCustomer = customerService.login(customer);
+			// Result
+			if(returnCustomer == null){ // 결과값이 없다면
+				response.sendRedirect(request.getContextPath()+"/login");
+				return;
+			    }
 			// 결과값 있다면
 			session.setAttribute("loginCustomer", returnCustomer);
-
-			int goodsCode = 0;
-			
-			if(request.getParameter("goodsCode").equals("0") && session.getAttribute("nonMemberCartList") != null) {
-				// 비회원 장바구니 담은 후 로그인 성공시 회원 장바구니로 옮기기 위해
-				
-				response.sendRedirect(request.getContextPath() + "/cart/customerCartList?action=cartList");
-				return;
-				
-			} else if(request.getParameter("goodsCode") != null) {
-				// 구매 선택 후 로그인 요청 시 addOrder로 바로가기 위한 정보
-				goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
-				session.setAttribute("goodsCode", goodsCode);
-				System.out.println("login goodsCode : " + goodsCode);
-			    response.sendRedirect(request.getContextPath() + "/order/addOrder");
-			    return;
-			} else {	
-				
 		    response.sendRedirect(request.getContextPath() + "/home");
-		    return;
-			}
+
+			
 	     } else if((request.getParameter("empId") != null) && (request.getParameter("empPw") != null)) {
 	    	emp = new Emp(); //  
 			emp.setEmpId(request.getParameter("empId"));
@@ -127,6 +116,26 @@ public class LoginController extends HttpServlet {
 			// 결과값이 있다면
 			session.setAttribute("loginEmp", returnEmp);
 		    response.sendRedirect(request.getContextPath() + "/home");
-	     } 
+	    } else {
+	    	 if(request.getParameter("goodsCode").equals("0") && session.getAttribute("nonMemberCartList") != null) {
+				// 비회원 장바구니 담은 후 로그인 성공시 회원 장바구니로 옮기기 위해
+				
+				response.sendRedirect(request.getContextPath() + "/cart/customerCartList?action=cartList");
+				return;				
+
+				
+			} else if(request.getParameter("goodsCode") != null) {
+				// 구매 선택 후 로그인 요청 시 addOrder로 바로가기 위한 정보
+				goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
+				session.setAttribute("goodsCode", goodsCode);
+				System.out.println("login goodsCode : " + goodsCode);
+			    response.sendRedirect(request.getContextPath() + "/order/addOrder");
+			    return;
+			} else {
+				
+		    response.sendRedirect(request.getContextPath() + "/home");
+		    return;
+			}
+	    }
 	}
 }

@@ -1,15 +1,14 @@
+<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
-<html lang="zxx">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Male_Fashion Template">
-    <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>PC-Mall</title>
 
     <!-- Google Font -->
@@ -31,10 +30,6 @@
 </head>
 
 <body>
-    <div>
-		<jsp:include page = "/WEB-INF/view/inc/menu.jsp"></jsp:include>
-	</div>
-
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="hero__slider owl-carousel">
@@ -482,6 +477,6 @@
     <script src="${pageContext.request.contextPath }/resources/js/jquery.slicknav.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/mixitup.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/owl.carousel.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/js/main.js"></script>    
+    <script src="${pageContext.request.contextPath }/resources/js/main.js"></script>
 </body>
 </html>

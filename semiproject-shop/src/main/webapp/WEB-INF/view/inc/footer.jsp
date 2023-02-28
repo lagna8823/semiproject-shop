@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,36 +35,13 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__logo">
-                            <a href="#"><img src="${pageContext.request.contextPath }/resources/img/footer-logo.png" alt=""></a>
-                        </div>
+	        				<a href="${pageContext.request.contextPath}/home"><img src="${pageContext.request.contextPath}/resources/img/footer-logo.png" alt=""></a>
+                        </div>                        
                         <p>The customer is at the heart of our unique business model, which includes design.</p>
                         <a href="#"><img src="${pageContext.request.contextPath }/resources/img/payment.png" alt=""></a>
                     </div>
                 </div>
-                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Clothing Store</a></li>
-                            <li><a href="#">Trending Shoes</a></li>
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">Sale</a></li>
-							<li><a href = "${pageContext.request.contextPath }/notice/noticeList">공지사항</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Payment Methods</a></li>
-                            <li><a href="#">Delivary</a></li>
-                            <li><a href="#">Return & Exchanges</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                <div class="col-lg-5 offset-lg-1 col-md-6 col-sm-6">
                     <div class="footer__widget">
                         <h6>NewLetter</h6>
                         <div class="footer__newslatter">
@@ -73,6 +51,23 @@
                                 <button type="submit"><span class="icon_mail_alt"></span></button>
                             </form>
                         </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href = "${pageContext.request.contextPath }/goods/goodsList">상품리스트</a></li>
+							<c:if test="${loginCustomer != null}">
+								<li>
+									<a href = "${pageContext.request.contextPath }/order/orderList">
+										내주문
+									</a>
+								</li>
+							</c:if>
+                            <li><a href = "${pageContext.request.contextPath }/review/reviewList">리뷰</a></li>
+							<li><a href = "${pageContext.request.contextPath }/notice/noticeList">공지사항</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>

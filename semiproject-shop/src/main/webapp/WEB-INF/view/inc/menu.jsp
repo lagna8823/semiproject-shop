@@ -41,21 +41,98 @@
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
-            </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
+            <div class="offcanvas__top__hover">            
+				<c:if test="${loginCustomer != null}">
+					<span>
+						<a href = "${pageContext.request.contextPath }/question/questionList">
+							고객센터
+						</a>
+						<i class="arrow_carrot-down"></i>
+					</span>
+                    <ul>
+                        <li>
+                            <a href = "${pageContext.request.contextPath }/question/questionListUser">
+								나의문의
+							</a>
+                        </li>
+                        <li>			
+							<a href = "${pageContext.request.contextPath }/question/addQuestion">
+								문의작성
+							</a>
+                        </li>
+                	</ul>
+            	</c:if>
+				<c:if test="${loginEmp != null}">
+					<span>
+						<a href = "${pageContext.request.contextPath }/questionComment/questionCommentList">
+							고객센터(관리자)
+						</a>
+					</span>
+				</c:if>
+			</div>			
+            <div class="offcanvas__top__hover">  
+				<c:if test="${loginCustomer != null}">
+					<span>${loginCustomer.customerId}님 <i class="arrow_carrot-down"></i></span>
+                   	<ul>
+                       	<li>
+                           	<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/modifyCustomer">
+                               	내 정보 수정
+							</a>
+						</li>
+                        <li>
+                           	<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/modifyCustomerPw">
+								비밀번호 변경
+							</a>
+						</li>
+                        <li>
+                           	<a href = "${pageContext.request.contextPath }/customer/checkPw?targetUrl=/customer/deleteCustomer?customerId=${loginCustomer.customerId }">
+								회원 탈퇴
+							</a>
+						</li>
+                        <li>
+                          	<a href = "${pageContext.request.contextPath }/customer/addressList">
+								배송지 관리
+							</a>
+						</li>
+                    </ul>
+				</c:if>
+				<c:if test="${loginEmp != null}">
+					<span>사업자/관리자 ${loginEmp.empId}님 <i class="arrow_carrot-down"></i></span>
+                   	<ul>
+                       	<li>
+                           	<a href = "${pageContext.request.contextPath }/emp/checkPw?targetUrl=/emp/modifyEmp">
+								내 정보 수정
+							</a>
+						</li>
+                        <li>
+                        	<a href = "${pageContext.request.contextPath }/emp/checkPw?targetUrl=/emp/modifyEmpPw">
+								비밀번호 변경
+							</a>
+						</li>
+                        <li>
+                           	<a href = "${pageContext.request.contextPath }/emp/checkPw?targetUrl=/emp/deleteEmp?empCode=${loginEmp.empCode }">
+								회원 탈퇴
+							</a>
+						</li>
+                    </ul>
+				</c:if>
             </div>
         </div>
+        <div class="offcanvas__links">
+        </div>
         <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="${pageContext.request.contextPath }/resources/img/icon/search.png" alt=""></a>
+            	<c:choose>
+            		<c:when test="${loginCustomer == null && loginEmp == null }">
+						<a href = "${pageContext.request.contextPath }/login">
+							로그인
+						</a>
+					</c:when>
+					<c:otherwise>
+						<a href = "${pageContext.request.contextPath }/logout">
+							로그아웃
+						</a>
+					</c:otherwise>
+                </c:choose>
             <a href="#"><img src="${pageContext.request.contextPath }/resources/img/icon/cart.png" alt=""> <span>0</span></a>
             <div class="price">$0.00</div>
         </div>
@@ -90,20 +167,20 @@
 											로그아웃
 										</a>
 									</c:otherwise>		
-                            	</c:choose>                                
+                            	</c:choose>
                             </div>
                                 
                             <div class="header__top__hover">
 								<c:if test="${loginCustomer != null}">
 									<span>
 										<a href = "${pageContext.request.contextPath }/question/questionList">
-											<span>고객센터</span>
+											고객센터
 										</a>
 										<i class="arrow_carrot-down"></i>
 									</span>
                                 		<ul>
 		                                    <li>
-		                                    	<a href = "${pageContext.request.contextPath }/question/questionListUser">
+		                                    	<a href = "${pageContext.request.contextPath }/question/questionListUser"> 
 													나의문의
 												</a>
 		                                    </li>
@@ -113,7 +190,7 @@
 												</a>
 		                                    </li>
                                    		</ul>
-                               	</c:if>								
+                               	</c:if>
 								<c:if test="${loginEmp != null}">
 									<span>
 										<a href = "${pageContext.request.contextPath }/questionComment/questionCommentList">
@@ -184,7 +261,11 @@
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                            <li class="active"><a href="./index.html">Home</a></li>
+                            <li>
+                            	<a href = "${pageContext.request.contextPath }/notice/noticeList">
+                            		공지사항
+                            	</a>
+                            </li>
                             <li>
                             	<!-- authCode 수정되면 eq뒤에 값 1로 변경예정 -->
 								<c:choose>
@@ -199,7 +280,7 @@
 										</a>
 									</c:otherwise>
 								</c:choose>
-							</li>						
+							</li>
 							<c:if test="${loginCustomer != null}">
 								<li>
 									<a href = "${pageContext.request.contextPath }/order/orderList">
