@@ -191,14 +191,14 @@ public class OrdersService {
 		return list;
 	}
 	// 주문 시 필요 : 주문할 상품 정보 조회
-	public Goods getGoodsForOrder(int goodsCode) {
+	public Goods getGoodsForOrder(int goodsCode, int cartQuantity) {
 		orderDao = new OrderDao();
 		Connection conn = null;
 		Goods goods = null;
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
-			goods = orderDao.selectGoodsForOrder(conn, goodsCode);
+			goods = orderDao.selectGoodsForOrder(conn, goodsCode, cartQuantity);
 			System.out.println("goods service : " + goods);
 			conn.commit();
 		} catch (Exception e) {

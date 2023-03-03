@@ -61,10 +61,10 @@ public class AddOrderController extends HttpServlet {
 			System.out.println("부검1");
 			goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 			cartQuantity = Integer.parseInt(request.getParameter("cartQuantity"));
-			goodsList.add(ordersService.getGoodsForOrder(goodsCode));
+			goodsList.add(ordersService.getGoodsForOrder(goodsCode, cartQuantity));
 			
 			System.out.println("단품구매 goodsCode : " + goodsCode);
-			System.out.println("단품구매 goodsList : " + cartQuantity);
+			System.out.println("단품구매 cartQuantity : " + cartQuantity);
 			System.out.println("단품구매 goodsList : " + goodsList);
 			
 
@@ -75,7 +75,6 @@ public class AddOrderController extends HttpServlet {
 			request.setAttribute("customerPhone", customer.getCustomerPhone());
 			request.setAttribute("customerAddress", customerAddress);
 			request.setAttribute("point", customer.getPoint());
-			request.setAttribute("g.cartQuantity", cartQuantity);
 			request.setAttribute("sumGoodsPrice", goodsList.get(0).getGoodsPrice()); //단품 goodsPrice, 장바구니 sumGoodsPrice
 			
 		// 장바구니 구매

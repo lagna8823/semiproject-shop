@@ -191,7 +191,7 @@ public class OrderDao {
 	}
 	
 	// 주문 시 필요 : 상품정보
-	public Goods selectGoodsForOrder (Connection conn, int goodsCode) throws Exception {
+	public Goods selectGoodsForOrder (Connection conn, int goodsCode, int cartQuantity) throws Exception {
 		Goods goods= null;
 		
 		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.soldout"
@@ -210,6 +210,7 @@ public class OrderDao {
 			goods.setGoodsPrice(rs.getInt("goodsPrice"));
 			goods.setSoldout(rs.getString("soldout"));
 			goods.setFilename(rs.getString("filename"));
+			goods.setCartQuantity(cartQuantity);
 		}
 		return goods;
 	}

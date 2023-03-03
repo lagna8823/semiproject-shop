@@ -73,7 +73,7 @@
 			                                <div class="quantity">
 			                                    <div class="pro-qty">
 			                                        <input type="text" name="cartQuantity" value="1">
-			                                        <input type="hidden" name="goodsCode" value="${m.goodsCode}">
+			                                        <input type="text" name="goodsCode" value="${m.goodsCode}">
 			                                    </div>
 			                                </div>
 			                                <!-- 장바구니(비회원, 회원) 분기 -->
