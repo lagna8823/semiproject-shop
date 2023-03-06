@@ -23,7 +23,7 @@ public class OrderDao {
 				+ "			, gi.filename"
 				+ "			, c.customer_id customerID, c.customer_name customerName, c.customer_phone customerPhone, c.point customerPoint"
 				+ "			, ca.address_code addressCode, ca.address address"
-				+ "			, r.order_quantity orderQuantity, r.order_price orderPrice, r.order_state orderState, r.createdate createdate"
+				+ "			, r.order_quantity orderQuantity, r.order_price orderPrice, r.order_state orderState, date_format(r.createdate, '%Y-%m-%d') createdate"
 				+ "			, p.point_kind pointKind, p.point point"
 				+ " 	FROM (SELECT ROW_NUMBER() OVER(ORDER BY order_code desc) rnum, order_code, goods_code, customer_id, address_code"
 				+ "					, order_quantity, order_price, order_state, createdate"
@@ -154,7 +154,7 @@ public class OrderDao {
 	public Customer selectCustomerInfoForOrder (Connection conn, String customerId) throws Exception {
 		Customer customer = null;
 		
-		String sql = "SELECT customer_id customerId, customer_name customerName, customer_phone customerPhone, point FROM customer c WHERE customer_id = ?";
+		String sql = "SELECT customer_id customerId, customer_name customerName, customer_phone customerPhone, point FROM customer WHERE customer_id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customerId);
 		

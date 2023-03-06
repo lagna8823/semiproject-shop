@@ -63,7 +63,8 @@
 		                            <h3><fmt:formatNumber value="${m.goodsPrice}" pattern="#,###"/>원</h3>
 		                            <p>${m.goodsMemo}</p>
 									
-									<form method="get" action="${pageContext.request.contextPath}/order/addOrder">									
+									<form method="get" action="${pageContext.request.contextPath}/order/addOrder">
+									    <input type="hidden" name="goodsCode" value="${m.goodsCode}">
 			                            <div class="product__details__cart__option">	                 
 			                                <!-- 상품 품절상태일 경우 메세지 출력 -->
 											<c:if test="${m.soldout eq 'Y'}">
@@ -73,7 +74,6 @@
 			                                <div class="quantity">
 			                                    <div class="pro-qty">
 			                                        <input type="text" name="cartQuantity" value="1">
-			                                        <input type="text" name="goodsCode" value="${m.goodsCode}">
 			                                    </div>
 			                                </div>
 			                                <!-- 장바구니(비회원, 회원) 분기 -->

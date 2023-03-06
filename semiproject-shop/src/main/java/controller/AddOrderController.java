@@ -51,11 +51,13 @@ public class AddOrderController extends HttpServlet {
 		this.ordersService = new OrdersService();
 		customer = ordersService.getCustomerInfoForOrderService(customerId);
 		customerAddress = ordersService.getCustomerAddressForOrderService(customerId);
-		
+
+		System.out.println("고객정보 customer : " + customer);
 		
 		// 상품번호 ,고객아이디, 배송지 필요
 		int goodsCode = 0;
 		int cartQuantity = 0;
+		
 		// 단품 구매
 		if(request.getParameter("goodsCode") != null) {
 			System.out.println("부검1");
@@ -63,10 +65,12 @@ public class AddOrderController extends HttpServlet {
 			cartQuantity = Integer.parseInt(request.getParameter("cartQuantity"));
 			goodsList.add(ordersService.getGoodsForOrder(goodsCode, cartQuantity));
 			
+			sumGoodsPrice = goodsList.get(0).getGoodsPrice()*cartQuantity;
+			
 			System.out.println("단품구매 goodsCode : " + goodsCode);
 			System.out.println("단품구매 cartQuantity : " + cartQuantity);
 			System.out.println("단품구매 goodsList : " + goodsList);
-			
+			System.out.println("단품구매 sumGoodsPrice : " + sumGoodsPrice);
 
 			// view와 공유할 모델데이터 설정
 			request.setAttribute("goodsList", goodsList); //단품 goodsList, 장바구니 cartList
@@ -75,7 +79,7 @@ public class AddOrderController extends HttpServlet {
 			request.setAttribute("customerPhone", customer.getCustomerPhone());
 			request.setAttribute("customerAddress", customerAddress);
 			request.setAttribute("point", customer.getPoint());
-			request.setAttribute("sumGoodsPrice", goodsList.get(0).getGoodsPrice()); //단품 goodsPrice, 장바구니 sumGoodsPrice
+			request.setAttribute("sumGoodsPrice", sumGoodsPrice); //단품 goodsPrice, 장바구니 sumGoodsPrice
 			
 		// 장바구니 구매
 		} else if (session.getAttribute("customerCartList") != null) {

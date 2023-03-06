@@ -26,23 +26,6 @@
     
 	<!-- jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-	<script>
-		$(function() {
-			$('#rowPerPage').change(function() {
-				$('#pageForm').submit();
-				alert('change');
-			})
-			
-			/* 주문일 계산 */
-		    let now = new Date();
-		    let year = now.getFullYear();
-		    let month = ('0' + (now.getMonth() + 1)).slice(-2);
-		    let day = ('0' + now.getDate()).slice(-2);
-
-		    let today = year + '.' + month  + '.' + day;
-		    $('.createdate').text(today); 
-		});
-	</script>
 </head>
 <body>
 	<div>
