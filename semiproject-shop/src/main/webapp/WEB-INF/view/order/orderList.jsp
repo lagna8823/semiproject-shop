@@ -26,6 +26,14 @@
     
 	<!-- jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			$('#rowPerPage').change(function(){
+				$('#pageForm').submit();
+				alert('change')
+			})
+		});
+	</script>
 </head>
 <body>
 	<div>
@@ -57,7 +65,7 @@
 			<div class="d-flex justify-content-end">
 				<form id="pageForm" method="get" action="${pageContext.request.contextPath}/order/orderList">
 					<!-- n개씩 보는 선택폼 -->
-					<select class="form-control" name="rowPerPage" id="rowPerPage">
+					<select class="nice-select" name="rowPerPage" id="rowPerPage">
 						<c:if test="${rowPerPage == 10}">
 							<option value="10" selected="selected">10개씩</option>
 							<option value="20">20개씩</option>
@@ -217,7 +225,6 @@
     <!-- Js Plugins -->
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/js/jquery.nice-select.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery.nicescroll.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery.magnific-popup.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery.countdown.min.js"></script>

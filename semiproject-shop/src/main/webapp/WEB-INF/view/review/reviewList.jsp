@@ -27,7 +27,13 @@
 	<!-- jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script>
-		$(function() {			
+		$(document).ready(function(){
+			$('#rowPerPage').change(function(){
+				$('#pageForm').submit();
+				alert('change')
+			})
+		});
+		$(function() {
 			/* 주문일 계산 */
 		    let now = new Date();
 		    let year = now.getFullYear();
@@ -70,7 +76,7 @@
 				<form id="pageForm" method="get" action="${pageContext.request.contextPath}/review/reviewList">
 					<div align="right">
 						<!-- n개씩 보는 선택폼 -->
-						<select class="form-control" name="rowPerPage" id="rowPerPage">
+						<select class="nice-select" name="rowPerPage" id="rowPerPage">
 							<c:if test="${rowPerPage == 10}">
 								<option value="10" selected="selected">10개씩</option>
 								<option value="20">20개씩</option>
@@ -187,7 +193,6 @@
     <!-- Js Plugins -->
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/js/jquery.nice-select.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery.nicescroll.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery.magnific-popup.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery.countdown.min.js"></script>
