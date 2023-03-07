@@ -6,7 +6,7 @@
 		<!-- Required meta tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<title>고객 관리</title>
+		<title>PC-Mall</title>
 		
 		<!-- plugins:css -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath }/resources2/vendors/feather/feather.css">
@@ -329,92 +329,6 @@
         </div>
     </header>
     <!-- Header Section End -->
-    
-	<div>
-		<div>
-			<h3>
-				<a href = "${pageContext.request.contextPath }/home">
-					홈으로
-				</a>
-				<span>&nbsp;</span>
-				<!-- authCode 수정되면 eq뒤에 값 1로 변경예정 -->
-				<c:choose>
-					<c:when test="${loginEmp != null && loginEmp.empId eq 'compuzone'}">
-						<a href = "${pageContext.request.contextPath }/goods/goodsListByCompany">
-							사업자용리스트
-						</a>
-					</c:when>
-					<c:otherwise>
-						<a href = "${pageContext.request.contextPath }/goods/goodsList">
-							상품리스트
-						</a>
-					</c:otherwise>
-				</c:choose>
-				<c:if test="${loginCustomer != null}">
-					<span>&nbsp;</span>
-					<a href = "${pageContext.request.contextPath }/order/orderList">
-						내주문
-					</a>
-				</c:if>
-				
-					<span>&nbsp;</span>
-					
-				<c:choose>
-					<c:when test="${loginCustomer == null }">
-						<a href = "${pageContext.request.contextPath }/cart/nonMemberCartList?action=cartList">
-							장바구니(비회원)
-						</a>
-						
-						<span>&nbsp;</span>
-						
-					</c:when>
-					<c:otherwise>
-						<a href = "${pageContext.request.contextPath }/cart/customerCartList?action=cartList">
-							장바구니(회원)
-						</a>
-					
-						<span>&nbsp;</span>
-						
-					</c:otherwise>
-				</c:choose>					
-				
-				
-				<a href = "${pageContext.request.contextPath }/notice/noticeList">
-					공지사항
-				</a>
-				<span>&nbsp;</span>
-				<a href = "${pageContext.request.contextPath }/review/reviewList">
-					리뷰
-				</a>
-			</h3>
-		</div>
-		
-		<div>
-			<h3>
-				<a href = "${pageContext.request.contextPath }/question/questionList">
-					고객센터
-				</a>				
-				<c:if test="${loginCustomer != null}">
-					<span>&nbsp;</span>				
-					<a href = "${pageContext.request.contextPath }/question/questionListUser">
-						나의문의보기
-					</a>
-					<span>&nbsp;</span>				
-					<a href = "${pageContext.request.contextPath }/question/addQuestion">
-						고객센터 문의글작성
-					</a>
-				</c:if>
-				
-				<c:if test="${loginEmp != null}">	
-					<span>&nbsp;</span>			
-					<a href = "${pageContext.request.contextPath }/questionComment/questionCommentList">
-						고객센터(관리자)
-					</a>			
-				</c:if>	
-			</h3>
-		</div>	
-	</div>
-	
     <!-- Js Plugins -->
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
