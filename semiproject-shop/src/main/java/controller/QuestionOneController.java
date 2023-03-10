@@ -47,7 +47,7 @@ public class QuestionOneController extends HttpServlet {
 		// 고객일경우 고객ID값 , 사원일경우 사원ID값 보냄(view에서 수정,삭제시 필요)
 		if(loginCustomer != null) {
 			request.setAttribute("customerId", customerId);
-			request.setAttribute("loginCustomer", loginCustomer.getCustomerId());
+			request.setAttribute("loginCustomer", loginCustomer);
 		} else {
 			request.setAttribute("loginEmp", loginEmp);
 		}

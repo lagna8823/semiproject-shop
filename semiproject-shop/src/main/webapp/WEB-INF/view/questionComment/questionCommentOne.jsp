@@ -119,22 +119,22 @@
 										
 										<div class="input-group-append justify-content-center" style="padding-left: 8em">
 											<!-- 문의글 수정 button -->
-											<c:if test="${loginEmp == empId}">
+											<c:if test="${loginEmp.empId == empId}">
 												<button  class="btn btn-sm btn-primary" onClick="location.href='${pageContext.request.contextPath}/questionComment/modifyQuestionComment?questionCode=${q.questionCode}'">
 													<span>수정하기</span> 
 												</button>	
-											</c:if>
-											<c:if test="${loginEmp != empId}">
+											</c:if> 
+											<c:if test="${loginEmp.empId != empId}">
 												<span>&nbsp;</span>
 											</c:if>
 											
 											<!-- 문의글 삭제 button -->	
-											<c:if test="${loginEmp == empId}">
+											<c:if test="${loginEmp.empId == empId}">
 												<button id="remove" class="btn btn-sm btn-primary" onClick="location.href='${pageContext.request.contextPath}/questionComment/removeCommentQuestion?commentCode=${q.commentCode}'">
 													<span>삭제하기</span> 
 												</button>
 											</c:if>
-											<c:if test="${loginEmp == empId}">
+											<c:if test="${loginEmp.empId != empId}">
 												<span>&nbsp;</span>
 											</c:if>
 											</div>

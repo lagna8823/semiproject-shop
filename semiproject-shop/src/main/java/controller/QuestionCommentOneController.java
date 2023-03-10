@@ -48,7 +48,7 @@ public class QuestionCommentOneController extends HttpServlet {
 		// view에서 필요한 값 
 		request.setAttribute("q", q);
 		request.setAttribute("empId", empId);
-		request.setAttribute("loginEmp", loginEmp.getEmpId());
+		request.setAttribute("loginEmp", loginEmp);
 		
 		// 고객센터(관리자) 답변 상세보기 View
 		request.getRequestDispatcher("/WEB-INF/view/questionComment/questionCommentOne.jsp").forward(request, response);

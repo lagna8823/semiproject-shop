@@ -117,22 +117,22 @@
 											
 											<div class="input-group-append justify-content-center" style="padding-left: 8em">
 												<!-- 문의글 수정 button -->
-												<c:if test="${loginCustomer == customerId and q.commentMemo == null and loginEmp == null}">
+												<c:if test="${loginCustomer.customerId == customerId and q.commentMemo == null and loginEmp == null}">
 													<button  class="btn btn-sm btn-primary" onClick="location.href='${pageContext.request.contextPath}/question/modifyQuestion?questionCode=${q.questionCode}'">
 														<span>수정하기</span> 
 													</button>	
 												</c:if>
-												<c:if test="${(loginCustomer != customerId and q.commentMemo != null) or (loginEmp != null  and q.commentMemo != null)}">
+												<c:if test="${(loginCustomer.customerId != customerId and q.commentMemo != null) or (loginEmp != null  and q.commentMemo != null)}">
 													<span>&nbsp;</span>
 												</c:if>
 												
 												<!-- 문의글 삭제 button -->	
-												<c:if test="${loginCustomer == customerId and q.commentMemo == null and loginEmp == null}">
+												<c:if test="${loginCustomer.customerId == customerId and q.commentMemo == null and loginEmp == null}">
 													<button id="remove" class="btn btn-sm btn-primary" onClick="location.href='${pageContext.request.contextPath}/question/removeQuestion?questionCode=${q.questionCode}'">
 														<span>삭제하기</span> 
 													</button>
 												</c:if>
-												<c:if test="${(loginCustomer != customerId and q.commentMemo != null) or (loginEmp != null and q.commentMemo != null)}">
+												<c:if test="${(loginCustomer.customerId != customerId and q.commentMemo != null) or (loginEmp != null and q.commentMemo != null)}">
 													<span>&nbsp;</span>
 												</c:if>
 											</div>
