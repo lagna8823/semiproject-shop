@@ -38,7 +38,7 @@ public class DeleteOrderController extends HttpServlet {
 		Customer customer = new Customer();
 		customer.setCustomerId(customerId);
 		customer.setPoint(point);
-		Orders orders = new Orders();
+		Orders orders = new Orders();	
 		orders.setOrderCode(orderCode);
 
 	    // 모델호출

@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,7 +46,7 @@ public class OrderListController extends HttpServlet {
 		
 		// 총 게시글 수
 		int resultCnt = 0;
-		ArrayList<Orders> list = null;
+		ArrayList<HashMap<String, Object>> list = null;
 		String word = request.getParameter("word");
 		this.ordersService = new OrdersService();
 

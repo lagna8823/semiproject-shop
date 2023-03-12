@@ -3,6 +3,7 @@ package service;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import dao.OrderDao;
 import dao.PointDao;
@@ -19,12 +20,12 @@ public class OrdersService {
 	private PointDao pointDao;
 	
 	// 주문목록
-	public ArrayList<Orders> getOrderListByPage(int currentPage, int rowPerPage, String customerId) {
+	public ArrayList<HashMap<String, Object>> getOrderListByPage(int currentPage, int rowPerPage, String customerId) {
 		/*
 		 	1) connection 생성 <- DBUtil.class
 		 	2) beginRow, endRow 생성 <- currentPage,rowPerPage를 가공
 		 */
-		ArrayList<Orders> list = null;
+		ArrayList<HashMap<String, Object>> list = null;
 		Connection conn = null;
 		try {
 			int beginRow = (currentPage-1)*rowPerPage+1;
@@ -51,12 +52,12 @@ public class OrdersService {
 	}
 	
 	// 주문목록 검색추가
-	public ArrayList<Orders> getOrderListByPage(int currentPage, int rowPerPage, String customerId, String word) {
+	public ArrayList<HashMap<String, Object>> getOrderListByPage(int currentPage, int rowPerPage, String customerId, String word) {
 		/*
 		 	1) connection 생성 <- DBUtil.class
 		 	2) beginRow, endRow 생성 <- currentPage,rowPerPage를 가공
 		 */
-		ArrayList<Orders> list = null;
+		ArrayList<HashMap<String, Object>> list = null;
 		Connection conn = null;
 		try {
 			int beginRow = (currentPage-1)*rowPerPage+1;
@@ -219,10 +220,10 @@ public class OrdersService {
 	}
 	
 	// 주문상세보기
-	public Orders getOrderOne(int orderCode, String customerId) {
+	public ArrayList<HashMap<String, Object>> getOrderOne(int orderCode, String customerId) {
 		orderDao = new OrderDao();
 		Connection conn = null;
-		Orders orders = null;
+		ArrayList<HashMap<String, Object>> orders = null;
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
@@ -245,16 +246,29 @@ public class OrdersService {
 		return orders;
 	}
 	
-	// 주문하기 - 포인트 적립만
-	public int addOrderService(Orders orders, PointHistory pointHistory) {
+	// 주문하기
+	public int addOrderService(Orders orders, PointHistory pointHistory, Customer customer) {
 		orderDao = new OrderDao();
 		pointDao = new PointDao();
 		int orderCode = 0;
+		int point = 0;
 		Connection conn = null;
 		int row = 0;
+		int row2 = 0;
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
+			// 주문하기 - 포인트 사용
+			if(pointHistory.getPointKind() == "사용") {
+				orderCode = orderDao.selectOrderForPoint(conn, orders.getCustomerId());
+				System.out.println(orderCode + " : 1차 주문생성 후 주문번호 가져오기");
+				pointHistory.setOrderCode(orderCode);
+				row2 = pointDao.addPointHistory(conn, pointHistory);
+				System.out.println(row2 + " : 2차 포인트 사용 기록");
+				point = pointDao.updatePoint(conn, customer);
+				System.out.println(point + " : 3차 사용 포인트 업데이트");
+			}
+			pointHistory.setPointKind("적립예정");
 			row = orderDao.addOrder(conn, orders);
 			System.out.println(row + " : 1차 주문");
 			orderCode = orderDao.selectOrderForPoint(conn, orders.getCustomerId());
@@ -262,6 +276,8 @@ public class OrdersService {
 			pointHistory.setOrderCode(orderCode);
 			row = pointDao.addPointHistory(conn, pointHistory);
 			System.out.println(row + " : 3차 포인트 기록");
+			
+			
 			conn.commit();
 		} catch (Exception e) {
 			try {
@@ -278,43 +294,6 @@ public class OrdersService {
 			}
 		}
 		return row;
-	}
-	
-	// 주문하기 - 포인트 사용
-	public int addOrderService(Orders orders, PointHistory pointHistory, Customer customer) {
-		orderDao = new OrderDao();
-		pointDao = new PointDao();
-		int orderCode = 0;
-		int point = 0;
-		Connection conn = null;
-		int row = 0;
-		int row2 = 0;
-		try {
-			conn = DBUtil.getConnection();
-			conn.setAutoCommit(false);
-			orderCode = orderDao.selectOrderForPoint(conn, customer.getCustomerId());
-			System.out.println(orderCode + " : 1차 주문생성 후 주문번호 가져오기");
-			pointHistory.setOrderCode(orderCode);
-			row2 = pointDao.addPointHistory(conn, pointHistory);
-			System.out.println(row2 + " : 2차 포인트 사용 기록");
-			point = pointDao.updatePoint(conn, customer);
-			System.out.println(point + " : 3차 사용 포인트 업데이트");
-			conn.commit();
-		} catch (Exception e) {
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return point;
 	}
 	
 	// 구매확정 시 포인트 적립	// 주문하기 - 포인트 적립만

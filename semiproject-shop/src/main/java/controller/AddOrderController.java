@@ -189,16 +189,11 @@ public class AddOrderController extends HttpServlet {
 			pointHistory.setPointKind(pointKind);
 			pointHistory.setPoint(earnPoint);
 			System.out.println(earnPoint + " : 포인트 적립");
-			ordersService.addOrderService(orders, pointHistory);
+			ordersService.addOrderService(orders, pointHistory, customer);
 			
 		} else { // 포인트 사용 및 기록 : point update, pointHistory
 			System.out.println("포인트사용");
-			
-			pointHistory.setPointKind(pointKind);
-			pointHistory.setPoint(earnPoint);
-			System.out.println(earnPoint + " : 포인트 적립");
-			ordersService.addOrderService(orders, pointHistory);
-			
+						
 			pointKind = "사용";
 			point = point - usePoint;
 			pointHistory.setPointKind(pointKind);

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import vo.Customer;
 import vo.CustomerAddress;
@@ -14,14 +15,13 @@ import vo.PointHistory;
 
 public class OrderDao {
 	// 주문목록
-	public ArrayList<Orders> selectOrderListByPage(Connection conn, int beginRow, int endRow, String customerId) throws Exception {
-		Orders o = null;
+	public ArrayList<HashMap<String, Object>> selectOrderListByPage(Connection conn, int beginRow, int endRow, String customerId) throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		
-		ArrayList<Orders> list = new ArrayList<Orders>();
 		String sql = "SELECT r.order_code orderCode"
 				+ "			, g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.soldout soldout"
-				+ "			, gi.filename"
-				+ "			, c.customer_id customerID, c.customer_name customerName, c.customer_phone customerPhone, c.point customerPoint"
+				+ "			, gi.filename filename"
+				+ "			, c.customer_id customerId, c.customer_name customerName, c.customer_phone customerPhone, c.point customerPoint"
 				+ "			, ca.address_code addressCode, ca.address address"
 				+ "			, r.order_quantity orderQuantity, r.order_price orderPrice, r.order_state orderState, date_format(r.createdate, '%Y-%m-%d') createdate"
 				+ "			, p.point_kind pointKind, p.point point"
@@ -44,39 +44,40 @@ public class OrderDao {
 		
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
-			o = new Orders();
-			o.setOrderCode(rs.getInt("orderCode"));
-			o.setGoodsCode(rs.getInt("goodsCode"));
-			o.setGoodsName(rs.getString("goodsName"));
-			o.setGoodsPrice(rs.getInt("goodsPrice"));
-			o.setSoldout(rs.getString("soldout"));
-			o.setFilename(rs.getString("filename"));
-			o.setCustomerId(rs.getString("customerID"));
-			o.setCustomerName(rs.getString("customerName"));
-			o.setCustomerPhone(rs.getString("customerPhone"));
-			o.setCustomerPoint(rs.getInt("customerPoint"));
-			o.setPointKind(rs.getString("pointKind"));
-			o.setPoint(rs.getInt("point"));
-			o.setAddressCode(rs.getInt("addressCode"));
-			o.setAddress(rs.getString("address"));
-			o.setOrderQuantity(rs.getInt("orderQuantity"));
-			o.setOrderPrice(rs.getInt("orderPrice"));
-			o.setOrderState(rs.getString("orderState"));
-			o.setCreatedate(rs.getString("createdate"));
-			list.add(o);
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			
+			m.put("orderCode", rs.getInt("orderCode"));
+			m.put("goodsCode", rs.getInt("goodsCode"));
+			m.put("goodsName", rs.getString("goodsName"));
+			m.put("goodsPrice", rs.getInt("goodsPrice"));
+			m.put("soldout", rs.getString("soldout"));
+			m.put("filename", rs.getString("filename"));
+			m.put("customerID", rs.getString("customerId"));
+			m.put("customerName", rs.getString("customerName"));
+			m.put("customerPhone", rs.getString("customerPhone"));
+			m.put("customerPoint", rs.getInt("customerPoint"));
+			m.put("pointKind", rs.getString("pointKind"));
+			m.put("point", rs.getInt("point"));
+			m.put("addressCode", rs.getInt("addressCode"));
+			m.put("address", rs.getString("address"));
+			m.put("orderQuantity", rs.getInt("orderQuantity"));
+			m.put("orderPrice", rs.getInt("orderPrice"));
+			m.put("orderState", rs.getString("orderState"));
+			m.put("createdate", rs.getString("createdate"));
+			
+			list.add(m);
 		}
 		return list;
 	}
 	
 	// 주문목록 검색추가 - (goods_code로 goods_name 조인해와야 함)
-	public ArrayList<Orders> selectOrderListByPage(Connection conn, int beginRow, int endRow, String customerId, String word) throws Exception {
-		Orders o = null;
+	public ArrayList<HashMap<String, Object>> selectOrderListByPage(Connection conn, int beginRow, int endRow, String customerId, String word) throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		
-		ArrayList<Orders> list = new ArrayList<Orders>();
 		String sql = "SELECT r.order_code orderCode"
 				+ "			, g2.goods_code goodsCode, g2.goods_name goodsName, g2.goods_price goodsPrice, g2.soldout soldout"
-				+ "			, gi.filename"
-				+ "			, c.customer_id customerID, c.customer_name customerName, c.customer_phone customerPhone, c.point customerPoint"
+				+ "			, gi.filename filename"
+				+ "			, c.customer_id customerId, c.customer_name customerName, c.customer_phone customerPhone, c.point customerPoint"
 				+ "			, ca.address_code addressCode, ca.address address"
 				+ "			, r.order_quantity orderQuantity, r.order_price orderPrice, r.order_state orderState, r.createdate createdate"
 				+ "			, p.point_kind pointKind, p.point point"
@@ -99,24 +100,28 @@ public class OrderDao {
 		stmt.setString(4, customerId);
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
-			o = new Orders();
-			o.setOrderCode(rs.getInt("orderCode"));
-			o.setGoodsCode(rs.getInt("goodsCode"));
-			o.setGoodsName(rs.getString("goodsName"));
-			o.setGoodsPrice(rs.getInt("goodsPrice"));
-			o.setSoldout(rs.getString("soldout"));
-			o.setFilename(rs.getString("filename"));
-			o.setCustomerId(rs.getString("customerId"));
-			o.setCustomerName(rs.getString("customerName"));
-			o.setCustomerPhone(rs.getString("customerPhone"));
-			o.setPoint(rs.getInt("point"));
-			o.setAddressCode(rs.getInt("addressCode"));
-			o.setAddress(rs.getString("address"));
-			o.setOrderQuantity(rs.getInt("orderQuantity"));
-			o.setOrderPrice(rs.getInt("orderPrice"));
-			o.setOrderState(rs.getString("orderState"));
-			o.setCreatedate(rs.getString("createdate"));
-			list.add(o);
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			
+			m.put("orderCode", rs.getInt("orderCode"));
+			m.put("goodsCode", rs.getInt("goodsCode"));
+			m.put("goodsName", rs.getString("goodsName"));
+			m.put("goodsPrice", rs.getInt("goodsPrice"));
+			m.put("soldout", rs.getString("soldout"));
+			m.put("filename", rs.getString("filename"));
+			m.put("customerID", rs.getString("customerId"));
+			m.put("customerName", rs.getString("customerName"));
+			m.put("customerPhone", rs.getString("customerPhone"));
+			m.put("customerPoint", rs.getInt("customerPoint"));
+			m.put("pointKind", rs.getString("pointKind"));
+			m.put("point", rs.getInt("point"));
+			m.put("addressCode", rs.getInt("addressCode"));
+			m.put("address", rs.getString("address"));
+			m.put("orderQuantity", rs.getInt("orderQuantity"));
+			m.put("orderPrice", rs.getInt("orderPrice"));
+			m.put("orderState", rs.getString("orderState"));
+			m.put("createdate", rs.getString("createdate"));
+			
+			list.add(m);
 		}
 		return list;
 	}
@@ -216,13 +221,13 @@ public class OrderDao {
 	}
 	
 	// 주문상세보기
-	public Orders selectOrderOne (Connection conn, int orderCode, String customerId) throws Exception {
-		Orders o = null;		
+	public ArrayList<HashMap<String, Object>> selectOrderOne (Connection conn, int orderCode, String customerId) throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 
 		String sql = "SELECT r.order_code orderCode"
 				+ "			, g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.soldout soldout"
-				+ "			, gi.filename"
-				+ "			, c.customer_id customerID, c.customer_name customerName, c.customer_phone customerPhone, c.point customerPoint"
+				+ "			, gi.filename filename"
+				+ "			, c.customer_id customerId, c.customer_name customerName, c.customer_phone customerPhone, c.point customerPoint"
 				+ "			, ca.address_code addressCode, ca.address address"
 				+ "			, r.order_quantity orderQuantity, r.order_price orderPrice, r.order_state orderState, r.createdate createdate"
 				+ "			, p.point_kind pointKind, p.point point"
@@ -244,26 +249,30 @@ public class OrderDao {
 		
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {
-			o = new Orders();
-			o.setOrderCode(rs.getInt("orderCode"));
-			o.setGoodsCode(rs.getInt("goodsCode"));
-			o.setGoodsName(rs.getString("goodsName"));
-			o.setGoodsPrice(rs.getInt("goodsPrice"));
-			o.setSoldout(rs.getString("soldout"));
-			o.setFilename(rs.getString("filename"));
-			o.setCustomerId(rs.getString("customerId"));
-			o.setCustomerName(rs.getString("customerName"));
-			o.setCustomerPhone(rs.getString("customerPhone"));
-			o.setPointKind(rs.getString("pointKind"));
-			o.setPoint(rs.getInt("point"));
-			o.setAddressCode(rs.getInt("addressCode"));
-			o.setAddress(rs.getString("address"));
-			o.setOrderQuantity(rs.getInt("orderQuantity"));
-			o.setOrderPrice(rs.getInt("orderPrice"));
-			o.setOrderState(rs.getString("orderState"));
-			o.setCreatedate(rs.getString("createdate"));
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			
+			m.put("orderCode", rs.getInt("orderCode"));
+			m.put("goodsCode", rs.getInt("goodsCode"));
+			m.put("goodsName", rs.getString("goodsName"));
+			m.put("goodsPrice", rs.getInt("goodsPrice"));
+			m.put("soldout", rs.getString("soldout"));
+			m.put("filename", rs.getString("filename"));
+			m.put("customerID", rs.getString("customerId"));
+			m.put("customerName", rs.getString("customerName"));
+			m.put("customerPhone", rs.getString("customerPhone"));
+			m.put("customerPoint", rs.getInt("customerPoint"));
+			m.put("pointKind", rs.getString("pointKind"));
+			m.put("point", rs.getInt("point"));
+			m.put("addressCode", rs.getInt("addressCode"));
+			m.put("address", rs.getString("address"));
+			m.put("orderQuantity", rs.getInt("orderQuantity"));
+			m.put("orderPrice", rs.getInt("orderPrice"));
+			m.put("orderState", rs.getString("orderState"));
+			m.put("createdate", rs.getString("createdate"));
+			
+			list.add(m);
 		}		
-		return o;
+		return list;
 	}
 	
 	// 주문하기

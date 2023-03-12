@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,12 +35,12 @@ public class OrderOneController extends HttpServlet {
 		String customerId = loginCustomer.getCustomerId();
 		int orderCode = Integer.parseInt(request.getParameter("orderCode"));
 		
-		Orders list = null;
+		ArrayList<HashMap<String, Object>> list = null;
 		this.ordersService = new OrdersService();
 
 		list = ordersService.getOrderOne(orderCode, customerId);
 		System.out.println(list);
-		request.setAttribute("orderOne", list);
+		request.setAttribute("list", list);
 		request.getRequestDispatcher("/WEB-INF/view/order/orderOne.jsp").forward(request, response);
 	}
 

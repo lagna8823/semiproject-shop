@@ -75,33 +75,35 @@
 					<th colspan="2">주문상태</th>
 				</tr>
 				<tr>
-					<td>
-						<c:if test="${orderOne.filename ne null}">
-							<img src="${pageContext.request.contextPath}/upload/${orderOne.filename}" width="100" height="100">
-						</c:if>
-						<c:if test="${orderOne.filename eq null}">
-							<span>사진 준비중!</span>
-						</c:if>
-						<br>
-						<a type="button" href="${pageContext.request.contextPath}/goods/goodsOne?goodsCode=${orderOne.goodsCode}">${orderOne.goodsName}</a>
-					</td>
-					<td class="createdate">${orderOne.createdate}</td>
-					
-					<td>${orderOne.orderPrice}<br>${orderOne.orderQuantity}개</td>
-					<td>
-						<a type="button" href="${pageContext.request.contextPath}/order/orderConfirm?orderCode=${orderOne.orderCode}">구매확정</a>
-						<br>
-						${orderOne.orderState}
-					</td>
-											
-					<c:choose>
-						<c:when test="${orderOne.orderState eq '구매확정'}">
-							<td><a type="button" href="${pageContext.request.contextPath}/review/addReview?orderCode=${orderOne.orderCode}">리뷰작성</a></td>
-						</c:when>
-						<c:otherwise>
-							<td><a type="button" href="${pageContext.request.contextPath}/order/deleteOrder?orderCode=${orderOne.orderCode}&point=${orderOne.point}">주문취소</a></td>
-						</c:otherwise>
-					</c:choose>
+					<c:forEach var="list" items="${list}">
+						<td>
+							<c:if test="${list.filename ne null}">
+								<img src="${pageContext.request.contextPath}/upload/${list.filename}" width="100" height="100">
+							</c:if>
+							<c:if test="${list.filename eq null}">
+								<span>사진 준비중!</span>
+							</c:if>
+							<br>
+							<a type="button" href="${pageContext.request.contextPath}/goods/goodsOne?goodsCode=${list.goodsCode}">${list.goodsName}</a>
+						</td>
+						<td class="createdate">${list.createdate}</td>
+						
+						<td>${list.orderPrice}<br>${list.orderQuantity}개</td>
+						<td>
+							<a type="button" href="${pageContext.request.contextPath}/order/orderConfirm?orderCode=${list.orderCode}">구매확정</a>
+							<br>
+							${orderOne.orderState}
+						</td>
+												
+						<c:choose>
+							<c:when test="${list.orderState eq '구매확정'}">
+								<td><a type="button" href="${pageContext.request.contextPath}/review/addReview?orderCode=${list.orderCode}">리뷰작성</a></td>
+							</c:when>
+							<c:otherwise>
+								<td><a type="button" href="${pageContext.request.contextPath}/order/deleteOrder?orderCode=${list.orderCode}&point=${orderOne.point}">주문취소</a></td>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
 				</tr>
 			</table>
 		</div>
